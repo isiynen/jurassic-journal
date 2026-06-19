@@ -14,7 +14,7 @@ import kotlin.math.roundToInt
  *   Health / Attack : +2.5% of stat-at-level per tier (percentage-based)
  *   Speed           : +2 flat points per tier
  *   Max tiers/stat  : 20
- *   Max total tiers : min(30, level - 5), requires level >= 10
+ *   Max total tiers : min(30, level), requires level >= 10
  */
 object StatCalculator {
 
@@ -40,7 +40,7 @@ object StatCalculator {
     /** Maximum total boost tiers available at this creature level. */
     fun maxTotalBoosts(level: Int): Int =
         if (level < BOOST_UNLOCK_LEVEL) 0
-        else minOf(MAX_BOOST_TIERS_TOTAL, level - 5)
+        else minOf(MAX_BOOST_TIERS_TOTAL, level)
 
     /** Health after applying boost tiers (percentage-based). */
     fun applyHealthBoost(statAtLevel: Int, tiers: Int): Int =
