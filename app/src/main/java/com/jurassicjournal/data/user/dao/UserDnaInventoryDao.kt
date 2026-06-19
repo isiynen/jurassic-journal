@@ -8,11 +8,11 @@ import com.jurassicjournal.data.user.entity.UserDnaInventory
 
 @Dao
 interface UserDnaInventoryDao {
-    @Query("SELECT * FROM user_dna_inventory WHERE dinoId = :dinoId")
-    suspend fun get(dinoId: Long): UserDnaInventory?
+    @Query("SELECT * FROM user_dna_inventory WHERE profileId = :profileId AND dinoId = :dinoId")
+    suspend fun get(profileId: Long, dinoId: Long): UserDnaInventory?
 
-    @Query("SELECT * FROM user_dna_inventory WHERE dinoId IN (:dinoIds)")
-    suspend fun getForDinos(dinoIds: List<Long>): List<UserDnaInventory>
+    @Query("SELECT * FROM user_dna_inventory WHERE profileId = :profileId AND dinoId IN (:dinoIds)")
+    suspend fun getForDinos(profileId: Long, dinoIds: List<Long>): List<UserDnaInventory>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsert(entry: UserDnaInventory)

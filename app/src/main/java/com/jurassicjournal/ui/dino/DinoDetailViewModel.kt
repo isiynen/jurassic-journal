@@ -7,6 +7,7 @@ import com.jurassicjournal.data.game.repository.DinoDetailRepository
 import com.jurassicjournal.data.game.repository.DinoFullDetail
 import com.jurassicjournal.data.model.ProgressionSystem
 import com.jurassicjournal.data.model.minLevel
+import com.jurassicjournal.data.user.ActiveProfileRepository
 import com.jurassicjournal.data.user.dao.OmegaTrainingAllocationDao
 import com.jurassicjournal.data.user.dao.UserBoostDao
 import com.jurassicjournal.data.user.dao.UserDinoDao
@@ -15,6 +16,7 @@ import com.jurassicjournal.data.user.entity.OmegaTrainingAllocation
 import com.jurassicjournal.data.user.entity.UserBoost
 import com.jurassicjournal.data.user.entity.UserDino
 import com.jurassicjournal.data.user.entity.UserDnaInventory
+import kotlinx.coroutines.flow.first
 import com.jurassicjournal.util.StatCalculator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -74,6 +76,7 @@ private data class SavedInputs(
 class DinoDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val detailRepository: DinoDetailRepository,
+    private val activeProfileRepository: ActiveProfileRepository,
     private val userDinoDao: UserDinoDao,
     private val userBoostDao: UserBoostDao,
     private val omegaAllocationDao: OmegaTrainingAllocationDao,
@@ -81,6 +84,7 @@ class DinoDetailViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val dinoId: Long = checkNotNull(savedStateHandle["dinoId"])
+    private var profileId: Long = 1L
 
     private val _detail      = MutableStateFlow<DinoFullDetail?>(null)
     private val _level        = MutableStateFlow(26)
@@ -161,17 +165,19 @@ class DinoDetailViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
+            profileId = activeProfileRepository.activeProfileId.first()
+
             val detail = detailRepository.getFullDetail(dinoId)
             _detail.value = detail
 
             val minLev = detail?.dino?.rarity?.minLevel() ?: 1
-            val userDino = userDinoDao.getByDinoId(dinoId)
+            val userDino = userDinoDao.getByDinoId(profileId, dinoId)
             val level = (userDino?.currentLevel ?: maxOf(26, minLev)).coerceAtLeast(minLev)
             _savedLevel.value = level
             _level.value = level
 
             // Boosts apply to all dinos
-            val savedBoostList = userBoostDao.getForDino(dinoId)
+            val savedBoostList = userBoostDao.getForDino(profileId, dinoId)
             val boosts = BoostState(
                 health = savedBoostList.firstOrNull { it.stat == "health" }?.boostsApplied ?: 0,
                 attack = savedBoostList.firstOrNull { it.stat == "attack" }?.boostsApplied ?: 0,
@@ -182,13 +188,13 @@ class DinoDetailViewModel @Inject constructor(
 
             // Training points apply additionally for Omega dinos
             if (detail?.dino?.progressionSystem == ProgressionSystem.TRAINING_POINT) {
-                val saved = omegaAllocationDao.getForDino(dinoId)
+                val saved = omegaAllocationDao.getForDino(profileId, dinoId)
                 val pts = saved.associate { it.stat to it.pointsAllocated }
                 _savedOmega.value = pts
                 _omegaPoints.value = pts
             }
 
-            _dnaOnHand.value = userDnaInventoryDao.get(dinoId)?.dnaAmount ?: 0
+            _dnaOnHand.value = userDnaInventoryDao.get(profileId, dinoId)?.dnaAmount ?: 0
         }
     }
 
@@ -196,7 +202,7 @@ class DinoDetailViewModel @Inject constructor(
         val clamped = dna.coerceAtLeast(0)
         _dnaOnHand.value = clamped
         viewModelScope.launch {
-            userDnaInventoryDao.upsert(UserDnaInventory(dinoId = dinoId, dnaAmount = clamped))
+            userDnaInventoryDao.upsert(UserDnaInventory(profileId = profileId, dinoId = dinoId, dnaAmount = clamped))
         }
     }
 
@@ -279,17 +285,17 @@ class DinoDetailViewModel @Inject constructor(
         val omegaPoints = _omegaPoints.value
         val isOmega     = _detail.value?.dino?.progressionSystem == ProgressionSystem.TRAINING_POINT
         viewModelScope.launch {
-            userDinoDao.upsert(UserDino(dinoId = dinoId, currentLevel = level))
+            userDinoDao.upsert(UserDino(profileId = profileId, dinoId = dinoId, currentLevel = level))
             // Boosts apply to all dinos
-            userBoostDao.upsert(UserBoost(dinoId, "health", boosts.health))
-            userBoostDao.upsert(UserBoost(dinoId, "attack", boosts.attack))
-            userBoostDao.upsert(UserBoost(dinoId, "speed",  boosts.speed))
+            userBoostDao.upsert(UserBoost(profileId, dinoId, "health", boosts.health))
+            userBoostDao.upsert(UserBoost(profileId, dinoId, "attack", boosts.attack))
+            userBoostDao.upsert(UserBoost(profileId, dinoId, "speed",  boosts.speed))
             _savedBoosts.value = boosts
             // Training points additionally for Omega dinos
             if (isOmega) {
                 OMEGA_STAT_KEYS.forEach { stat ->
                     omegaAllocationDao.upsert(
-                        OmegaTrainingAllocation(dinoId, stat, omegaPoints[stat] ?: 0)
+                        OmegaTrainingAllocation(profileId, dinoId, stat, omegaPoints[stat] ?: 0)
                     )
                 }
                 _savedOmega.value = omegaPoints

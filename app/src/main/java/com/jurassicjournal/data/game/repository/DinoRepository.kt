@@ -29,6 +29,8 @@ class DinoRepository @Inject constructor(private val dinoDao: DinoDao) {
             dinoClass = dinoClass?.name ?: "",
         ).map { rows -> rows.groupIntoResults() }
 
+    suspend fun getDinosByIds(ids: List<Long>): List<Dino> = dinoDao.getByIds(ids)
+
     fun getDinos(
         nameQuery: String = "",
         rarity: Rarity? = null,

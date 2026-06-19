@@ -22,13 +22,17 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -42,6 +46,9 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -58,6 +65,7 @@ import com.jurassicjournal.data.game.entity.Dino
 import com.jurassicjournal.data.game.repository.DinoSearchResult
 import com.jurassicjournal.data.model.DinoClass
 import com.jurassicjournal.data.model.Rarity
+import com.jurassicjournal.ui.profile.ProfileBarViewModel
 import com.jurassicjournal.ui.theme.ClassCunning
 import com.jurassicjournal.ui.theme.ClassFierce
 import com.jurassicjournal.ui.theme.ClassResilient
@@ -74,15 +82,42 @@ import com.jurassicjournal.ui.theme.RarityUnique
 @Composable
 fun DinoListScreen(
     onDinoClick: (Long) -> Unit,
+    onManageProfiles: () -> Unit,
+    onManageTeams: () -> Unit,
+    onTeamClick: (Long) -> Unit,
     viewModel: DinoListViewModel = hiltViewModel(),
+    profileBarViewModel: ProfileBarViewModel = hiltViewModel(),
 ) {
     val results by viewModel.results.collectAsState()
     val filters by viewModel.filters.collectAsState()
+    val barState by profileBarViewModel.state.collectAsState()
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Jurassic Journal", style = MaterialTheme.typography.titleLarge) },
+                navigationIcon = {
+                    ProfileDropdown(
+                        activeProfileId = barState.activeProfileId,
+                        profiles = barState.profiles,
+                        onSelect = profileBarViewModel::setActiveProfile,
+                        onManage = onManageProfiles,
+                    )
+                },
+                title = {
+                    Text(
+                        "Jurassic Journal",
+                        style = MaterialTheme.typography.titleLarge,
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                    )
+                },
+                actions = {
+                    TeamDropdown(
+                        teams = barState.teams,
+                        onTeamClick = onTeamClick,
+                        onManage = onManageTeams,
+                    )
+                },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.surface,
                     titleContentColor = MaterialTheme.colorScheme.primary,
@@ -134,6 +169,90 @@ fun DinoListScreen(
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun ProfileDropdown(
+    activeProfileId: Long,
+    profiles: List<com.jurassicjournal.data.user.entity.Profile>,
+    onSelect: (Long) -> Unit,
+    onManage: () -> Unit,
+) {
+    var expanded by remember { mutableStateOf(false) }
+    val activeName = profiles.firstOrNull { it.id == activeProfileId }?.name ?: "Profile"
+    Box {
+        Row(
+            modifier = Modifier
+                .clickable { expanded = true }
+                .padding(horizontal = 8.dp, vertical = 4.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(activeName, style = MaterialTheme.typography.labelLarge,
+                color = MaterialTheme.colorScheme.primary)
+            Icon(Icons.Default.ArrowDropDown, contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary)
+        }
+        DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+            profiles.forEach { profile ->
+                DropdownMenuItem(
+                    text = {
+                        Text(profile.name,
+                            fontWeight = if (profile.id == activeProfileId)
+                                androidx.compose.ui.text.font.FontWeight.Bold else null)
+                    },
+                    onClick = { onSelect(profile.id); expanded = false },
+                )
+            }
+            HorizontalDivider()
+            DropdownMenuItem(
+                text = { Text("Manage Profiles") },
+                onClick = { onManage(); expanded = false },
+            )
+        }
+    }
+}
+
+@Composable
+private fun TeamDropdown(
+    teams: List<com.jurassicjournal.data.user.entity.Team>,
+    onTeamClick: (Long) -> Unit,
+    onManage: () -> Unit,
+) {
+    var expanded by remember { mutableStateOf(false) }
+    Box {
+        Row(
+            modifier = Modifier
+                .clickable { expanded = true }
+                .padding(horizontal = 8.dp, vertical = 4.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text("Teams", style = MaterialTheme.typography.labelLarge,
+                color = MaterialTheme.colorScheme.primary)
+            Icon(Icons.Default.ArrowDropDown, contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary)
+        }
+        DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+            if (teams.isEmpty()) {
+                DropdownMenuItem(
+                    text = { Text("No teams yet", color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)) },
+                    onClick = {},
+                    enabled = false,
+                )
+            } else {
+                teams.forEach { team ->
+                    DropdownMenuItem(
+                        text = { Text(team.name) },
+                        onClick = { onTeamClick(team.id); expanded = false },
+                    )
+                }
+            }
+            HorizontalDivider()
+            DropdownMenuItem(
+                text = { Text("Manage Teams") },
+                onClick = { onManage(); expanded = false },
+            )
         }
     }
 }
@@ -262,7 +381,7 @@ private fun DinoCard(dino: Dino, matchedMoves: List<String> = emptyList(), onCli
 }
 
 @Composable
-private fun RarityChip(rarity: Rarity) {
+fun RarityChip(rarity: Rarity) {
     val color = rarityColor(rarity)
     Surface(
         shape = CircleShape,
@@ -278,7 +397,7 @@ private fun RarityChip(rarity: Rarity) {
 }
 
 @Composable
-private fun ClassChip(dinoClass: DinoClass) {
+fun ClassChip(dinoClass: DinoClass) {
     val color = classColor(dinoClass)
     val label = dinoClass.name.lowercase().replace('_', ' ').split(" ")
         .joinToString(" ") { it.replaceFirstChar { c -> c.uppercase() } }

@@ -77,6 +77,8 @@ import com.jurassicjournal.data.model.MoveUnlockType
 import com.jurassicjournal.data.model.ProgressionSystem
 import com.jurassicjournal.data.model.ResistanceType
 import com.jurassicjournal.data.model.minLevel
+import com.jurassicjournal.data.user.entity.Team
+import com.jurassicjournal.ui.team.DinoTeamViewModel
 import com.jurassicjournal.util.StatCalculator
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
@@ -128,8 +130,10 @@ fun DinoDetailScreen(
     onCalculate: (Long) -> Unit = {},
     onSanctuaryCalculate: (Long) -> Unit = {},
     viewModel: DinoDetailViewModel = hiltViewModel(),
+    teamViewModel: DinoTeamViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val teamState by teamViewModel.state.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
 
     var showFullResetDialog by remember { mutableStateOf(false) }
@@ -374,8 +378,25 @@ fun DinoDetailScreen(
                     ) {
                         Text("Plan Sanctuary Interactions")
                     }
+                    Spacer(Modifier.height(4.dp))
+                }
+            }
+
+            if (teamState.availableTeams.isNotEmpty()) {
+                item {
+                    SectionHeader("Teams")
+                    TeamsCard(
+                        teams = teamState.availableTeams,
+                        memberTeamIds = teamState.memberTeamIds,
+                        onToggle = { teamId, isMember ->
+                            if (isMember) teamViewModel.removeFromTeam(teamId)
+                            else teamViewModel.addToTeam(teamId)
+                        },
+                    )
                     Spacer(Modifier.height(24.dp))
                 }
+            } else {
+                item { Spacer(Modifier.height(24.dp)) }
             }
         }
     }
@@ -1230,6 +1251,62 @@ private fun DnaOnHandCard(dnaOnHand: Int, onValueChange: (Int) -> Unit) {
                 fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.primary,
             )
+        }
+    }
+}
+
+// ── Teams Card ────────────────────────────────────────────────────────────────
+
+@Composable
+private fun TeamsCard(
+    teams: List<Team>,
+    memberTeamIds: Set<Long>,
+    onToggle: (teamId: Long, isMember: Boolean) -> Unit,
+) {
+    Card(
+        modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp).fillMaxWidth(),
+        shape = RoundedCornerShape(12.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        elevation = CardDefaults.cardElevation(2.dp),
+    ) {
+        Column(Modifier.padding(vertical = 4.dp)) {
+            teams.forEachIndexed { idx, team ->
+                val isMember = team.id in memberTeamIds
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { onToggle(team.id, isMember) }
+                        .padding(horizontal = 16.dp, vertical = 12.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Text(team.name, style = MaterialTheme.typography.bodyMedium, modifier = Modifier.weight(1f))
+                    if (isMember) {
+                        Surface(
+                            shape = RoundedCornerShape(4.dp),
+                            color = MaterialTheme.colorScheme.primaryContainer,
+                        ) {
+                            Text(
+                                "On team",
+                                modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
+                                style = MaterialTheme.typography.labelSmall,
+                                color = MaterialTheme.colorScheme.primary,
+                            )
+                        }
+                    } else {
+                        Text(
+                            "Add",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+                        )
+                    }
+                }
+                if (idx < teams.lastIndex) {
+                    HorizontalDivider(
+                        modifier = Modifier.padding(horizontal = 16.dp),
+                        color = MaterialTheme.colorScheme.outlineVariant,
+                    )
+                }
+            }
         }
     }
 }

@@ -44,6 +44,9 @@ interface DinoDao {
     @Query("SELECT * FROM dinos WHERE id = :id")
     suspend fun getById(id: Long): Dino?
 
+    @Query("SELECT * FROM dinos WHERE id IN (:ids)")
+    suspend fun getByIds(ids: List<Long>): List<Dino>
+
     @Query("SELECT id, slug FROM dinos")
     suspend fun getAllSlugIds(): List<DinoSlugId>
 

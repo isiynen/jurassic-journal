@@ -36,7 +36,10 @@ import com.jurassicjournal.ui.calculator.HybridCalculatorScreen
 import com.jurassicjournal.ui.dino.DinoDetailScreen
 import com.jurassicjournal.ui.dino.DinoListScreen
 import com.jurassicjournal.ui.navigation.Screen
+import com.jurassicjournal.ui.profile.ManageProfilesScreen
 import com.jurassicjournal.ui.sanctuary.SanctuaryCalculatorScreen
+import com.jurassicjournal.ui.team.ManageTeamsScreen
+import com.jurassicjournal.ui.team.TeamDetailScreen
 import com.jurassicjournal.ui.theme.JurassicJournalTheme
 import com.jurassicjournal.ui.update.UpdateCheckViewModel
 import com.jurassicjournal.ui.update.UpdateState
@@ -136,9 +139,28 @@ private fun JurassicJournalNav() {
     NavHost(navController = navController, startDestination = Screen.DinoList.route) {
         composable(Screen.DinoList.route) {
             DinoListScreen(
-                onDinoClick = { dinoId ->
-                    navController.navigate(Screen.DinoDetail(dinoId).route)
-                }
+                onDinoClick = { dinoId -> navController.navigate(Screen.DinoDetail(dinoId).route) },
+                onManageProfiles = { navController.navigate(Screen.ManageProfiles.route) },
+                onManageTeams = { navController.navigate(Screen.ManageTeams.route) },
+                onTeamClick = { teamId -> navController.navigate(Screen.TeamDetail(teamId).route) },
+            )
+        }
+        composable(Screen.ManageProfiles.route) {
+            ManageProfilesScreen(onBack = { navController.popBackStack() })
+        }
+        composable(Screen.ManageTeams.route) {
+            ManageTeamsScreen(
+                onBack = { navController.popBackStack() },
+                onTeamClick = { teamId -> navController.navigate(Screen.TeamDetail(teamId).route) },
+            )
+        }
+        composable(
+            route = Screen.TeamDetail.ROUTE,
+            arguments = listOf(navArgument("teamId") { type = NavType.LongType })
+        ) {
+            TeamDetailScreen(
+                onBack = { navController.popBackStack() },
+                onDinoClick = { dinoId -> navController.navigate(Screen.DinoDetail(dinoId).route) },
             )
         }
         composable(

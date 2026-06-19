@@ -17,4 +17,11 @@ sealed class Screen(val route: String) {
             const val ROUTE = "sanctuary_calculator/{dinoId}"
         }
     }
+    data object ManageProfiles : Screen("manage_profiles")
+    data object ManageTeams : Screen("manage_teams")
+    data class TeamDetail(val teamId: Long) : Screen("team_detail/$teamId") {
+        companion object {
+            const val ROUTE = "team_detail/{teamId}"
+        }
+    }
 }

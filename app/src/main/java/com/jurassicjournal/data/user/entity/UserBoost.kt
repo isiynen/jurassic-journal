@@ -4,10 +4,11 @@ import androidx.room.Entity
 
 @Entity(
     tableName = "user_boosts",
-    primaryKeys = ["dinoId", "stat"]
+    primaryKeys = ["profileId", "dinoId", "stat"],
 )
 data class UserBoost(
+    val profileId: Long = 1,
     val dinoId: Long,
     val stat: String,
-    val boostsApplied: Int = 0
+    val boostsApplied: Int = 0,
 )
