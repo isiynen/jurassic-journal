@@ -1,0 +1,25 @@
+.claude/
+.kotlin/
+.gradle/
+.idea/
+.obsidian/
+local.properties
+*.iml
+build/
+app/build/
+app/schemas/
+captures/
+.externalNativeBuild/
+.cxx/
+*.keystore
+*.jks
+keystore.properties
+!debug.keystore
+
+# Data pipeline scripts and working directories — local dev tools only
+*.py
+__pycache__/
+jwa_abilities/
+jwa_dinos/
+app/src/main/assets/dinosaurs/
+app/src/main/assets/ability_icons/

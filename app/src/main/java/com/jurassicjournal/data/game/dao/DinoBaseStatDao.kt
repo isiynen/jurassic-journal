@@ -1,0 +1,17 @@
+package com.jurassicjournal.data.game.dao
+
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import com.jurassicjournal.data.game.entity.DinoBaseStat
+
+@Dao
+interface DinoBaseStatDao {
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(stats: List<DinoBaseStat>)
+
+    @Query("SELECT * FROM dino_base_stats WHERE dinoId = :dinoId")
+    suspend fun getByDinoId(dinoId: Long): DinoBaseStat?
+}

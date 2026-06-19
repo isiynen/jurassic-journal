@@ -1,0 +1,1214 @@
+[
+  {
+    "name": "Titanosaurus",
+    "sp_max": 210,
+    "sp_baseline": 66,
+    "sad": 142
+  },
+  {
+    "name": "Deinosuchus",
+    "sp_max": 200,
+    "sp_baseline": 63,
+    "sad": 135.1
+  },
+  {
+    "name": "Ailurarctos",
+    "sp_max": 193,
+    "sp_baseline": 60,
+    "sad": 130.3
+  },
+  {
+    "name": "Arctodus",
+    "sp_max": 193,
+    "sp_baseline": 60,
+    "sad": 130.3
+  },
+  {
+    "name": "Beelzebufo",
+    "sp_max": 185,
+    "sp_baseline": 58,
+    "sad": 125.2
+  },
+  {
+    "name": "Pulmonoscorpius",
+    "sp_max": 185,
+    "sp_baseline": 58,
+    "sad": 125.2
+  },
+  {
+    "name": "Argentavis",
+    "sp_max": 179,
+    "sp_baseline": 56,
+    "sad": 121.1
+  },
+  {
+    "name": "Haast Eagle",
+    "sp_max": 179,
+    "sp_baseline": 56,
+    "sad": 121.1
+  },
+  {
+    "name": "Sonorasaurus",
+    "sp_max": 179,
+    "sp_baseline": 56,
+    "sad": 121.3
+  },
+  {
+    "name": "Titanoboa",
+    "sp_max": 178,
+    "sp_baseline": 56,
+    "sad": 120.4
+  },
+  {
+    "name": "Woolly Rhino",
+    "sp_max": 178,
+    "sp_baseline": 56,
+    "sad": 120.2
+  },
+  {
+    "name": "Allosaurus Gen 2",
+    "sp_max": 177,
+    "sp_baseline": 56,
+    "sad": 120
+  },
+  {
+    "name": "Beta",
+    "sp_max": 177,
+    "sp_baseline": 56,
+    "sad": 120
+  },
+  {
+    "name": "Blue",
+    "sp_max": 177,
+    "sp_baseline": 56,
+    "sad": 120
+  },
+  {
+    "name": "Fukuiraptor",
+    "sp_max": 177,
+    "sp_baseline": 56,
+    "sad": 120
+  },
+  {
+    "name": "Ghost",
+    "sp_max": 177,
+    "sp_baseline": 56,
+    "sad": 120
+  },
+  {
+    "name": "Panthera",
+    "sp_max": 177,
+    "sp_baseline": 56,
+    "sad": 120
+  },
+  {
+    "name": "Pyroraptor Gen 2",
+    "sp_max": 177,
+    "sp_baseline": 56,
+    "sad": 120
+  },
+  {
+    "name": "Red",
+    "sp_max": 177,
+    "sp_baseline": 56,
+    "sad": 120
+  },
+  {
+    "name": "Saurornitholestes",
+    "sp_max": 177,
+    "sp_baseline": 56,
+    "sad": 120
+  },
+  {
+    "name": "Tiger",
+    "sp_max": 177,
+    "sp_baseline": 56,
+    "sad": 120
+  },
+  {
+    "name": "Brachiosaurus",
+    "sp_max": 176,
+    "sp_baseline": 55,
+    "sad": 118.7
+  },
+  {
+    "name": "Diplodocus",
+    "sp_max": 176,
+    "sp_baseline": 55,
+    "sad": 119.1
+  },
+  {
+    "name": "Dsungaripterus",
+    "sp_max": 176,
+    "sp_baseline": 55,
+    "sad": 118.9
+  },
+  {
+    "name": "Therizinosaurus",
+    "sp_max": 176,
+    "sp_baseline": 55,
+    "sad": 118.7
+  },
+  {
+    "name": "Megalonyx",
+    "sp_max": 174,
+    "sp_baseline": 55,
+    "sad": 117.7
+  },
+  {
+    "name": "Arctops",
+    "sp_max": 173,
+    "sp_baseline": 54,
+    "sad": 116.7
+  },
+  {
+    "name": "Kelenken",
+    "sp_max": 171,
+    "sp_baseline": 54,
+    "sad": 115.8
+  },
+  {
+    "name": "Nasutoceratops",
+    "sp_max": 171,
+    "sp_baseline": 54,
+    "sad": 115.8
+  },
+  {
+    "name": "Scutosaurus",
+    "sp_max": 171,
+    "sp_baseline": 53,
+    "sad": 115.4
+  },
+  {
+    "name": "Geosternbergia",
+    "sp_max": 170,
+    "sp_baseline": 53,
+    "sad": 115.2
+  },
+  {
+    "name": "Quetzalcoatlus",
+    "sp_max": 170,
+    "sp_baseline": 53,
+    "sad": 114.7
+  },
+  {
+    "name": "Dracorex",
+    "sp_max": 169,
+    "sp_baseline": 53,
+    "sad": 114.3
+  },
+  {
+    "name": "Aerotitan",
+    "sp_max": 168,
+    "sp_baseline": 53,
+    "sad": 113.5
+  },
+  {
+    "name": "Alanqa",
+    "sp_max": 168,
+    "sp_baseline": 53,
+    "sad": 113.5
+  },
+  {
+    "name": "Dilophosaurus",
+    "sp_max": 168,
+    "sp_baseline": 53,
+    "sad": 113.6
+  },
+  {
+    "name": "Maiasaura",
+    "sp_max": 168,
+    "sp_baseline": 53,
+    "sad": 113.9
+  },
+  {
+    "name": "Quetzalcoatlus Gen 2",
+    "sp_max": 168,
+    "sp_baseline": 53,
+    "sad": 113.5
+  },
+  {
+    "name": "Tenontosaurus",
+    "sp_max": 168,
+    "sp_baseline": 53,
+    "sad": 113.6
+  },
+  {
+    "name": "Troodon",
+    "sp_max": 168,
+    "sp_baseline": 53,
+    "sad": 113.3
+  },
+  {
+    "name": "Wuerhosaurus",
+    "sp_max": 168,
+    "sp_baseline": 53,
+    "sad": 113.6
+  },
+  {
+    "name": "Acrocanthosaurus",
+    "sp_max": 167,
+    "sp_baseline": 52,
+    "sad": 113.1
+  },
+  {
+    "name": "Baryonyx",
+    "sp_max": 167,
+    "sp_baseline": 52,
+    "sad": 113.1
+  },
+  {
+    "name": "Edaphosaurus",
+    "sp_max": 167,
+    "sp_baseline": 52,
+    "sad": 112.8
+  },
+  {
+    "name": "Deinotherium",
+    "sp_max": 166,
+    "sp_baseline": 52,
+    "sad": 112
+  },
+  {
+    "name": "Pteranodon",
+    "sp_max": 166,
+    "sp_baseline": 52,
+    "sad": 112.4
+  },
+  {
+    "name": "Woolly Mammoth",
+    "sp_max": 166,
+    "sp_baseline": 52,
+    "sad": 112
+  },
+  {
+    "name": "Darwinopterus",
+    "sp_max": 165,
+    "sp_baseline": 52,
+    "sad": 111.5
+  },
+  {
+    "name": "Smilodon",
+    "sp_max": 165,
+    "sp_baseline": 52,
+    "sad": 111.4
+  },
+  {
+    "name": "Antarctopelta",
+    "sp_max": 164,
+    "sp_baseline": 51,
+    "sad": 110.7
+  },
+  {
+    "name": "Gryposuchus",
+    "sp_max": 164,
+    "sp_baseline": 51,
+    "sad": 110.6
+  },
+  {
+    "name": "Megistotherium",
+    "sp_max": 164,
+    "sp_baseline": 51,
+    "sad": 110.7
+  },
+  {
+    "name": "Pachycephalosaurus",
+    "sp_max": 164,
+    "sp_baseline": 52,
+    "sad": 111.2
+  },
+  {
+    "name": "Sphaerotholus",
+    "sp_max": 164,
+    "sp_baseline": 52,
+    "sad": 111.2
+  },
+  {
+    "name": "Anurognathus",
+    "sp_max": 163,
+    "sp_baseline": 51,
+    "sad": 110.2
+  },
+  {
+    "name": "Aquilops",
+    "sp_max": 163,
+    "sp_baseline": 51,
+    "sad": 110.2
+  },
+  {
+    "name": "Archaeopteryx",
+    "sp_max": 163,
+    "sp_baseline": 51,
+    "sad": 110.2
+  },
+  {
+    "name": "Blonde",
+    "sp_max": 163,
+    "sp_baseline": 51,
+    "sad": 110.2
+  },
+  {
+    "name": "Brunette",
+    "sp_max": 163,
+    "sp_baseline": 51,
+    "sad": 110.4
+  },
+  {
+    "name": "Coelophysis",
+    "sp_max": 163,
+    "sp_baseline": 51,
+    "sad": 110.2
+  },
+  {
+    "name": "Coelurosauravus",
+    "sp_max": 163,
+    "sp_baseline": 51,
+    "sad": 110.2
+  },
+  {
+    "name": "Compsognathus",
+    "sp_max": 163,
+    "sp_baseline": 51,
+    "sad": 110.2
+  },
+  {
+    "name": "Compsognathus Gen 2",
+    "sp_max": 163,
+    "sp_baseline": 51,
+    "sad": 110.2
+  },
+  {
+    "name": "Concavenator",
+    "sp_max": 163,
+    "sp_baseline": 51,
+    "sad": 110.4
+  },
+  {
+    "name": "Dakotaraptor",
+    "sp_max": 163,
+    "sp_baseline": 51,
+    "sad": 110.2
+  },
+  {
+    "name": "Dodo",
+    "sp_max": 163,
+    "sp_baseline": 51,
+    "sad": 110.2
+  },
+  {
+    "name": "Koolasuchus",
+    "sp_max": 163,
+    "sp_baseline": 51,
+    "sad": 110
+  },
+  {
+    "name": "Leucistic Baryonyx",
+    "sp_max": 163,
+    "sp_baseline": 51,
+    "sad": 110.2
+  },
+  {
+    "name": "Lystrosaurus",
+    "sp_max": 163,
+    "sp_baseline": 51,
+    "sad": 110.2
+  },
+  {
+    "name": "Marsupial Lion",
+    "sp_max": 163,
+    "sp_baseline": 51,
+    "sad": 110.1
+  },
+  {
+    "name": "Microraptor",
+    "sp_max": 163,
+    "sp_baseline": 51,
+    "sad": 110.2
+  },
+  {
+    "name": "Moros Intrepidus",
+    "sp_max": 163,
+    "sp_baseline": 51,
+    "sad": 110.2
+  },
+  {
+    "name": "Nanotyrannus",
+    "sp_max": 163,
+    "sp_baseline": 51,
+    "sad": 110.4
+  },
+  {
+    "name": "Oviraptor",
+    "sp_max": 163,
+    "sp_baseline": 51,
+    "sad": 110.2
+  },
+  {
+    "name": "Oviraptor Gen 2",
+    "sp_max": 163,
+    "sp_baseline": 51,
+    "sad": 110.2
+  },
+  {
+    "name": "Preondactylus",
+    "sp_max": 163,
+    "sp_baseline": 51,
+    "sad": 110.2
+  },
+  {
+    "name": "Rinchenia",
+    "sp_max": 163,
+    "sp_baseline": 51,
+    "sad": 110.2
+  },
+  {
+    "name": "Rodrigues Solitaire",
+    "sp_max": 163,
+    "sp_baseline": 51,
+    "sad": 110.2
+  },
+  {
+    "name": "Sinosauropteryx",
+    "sp_max": 163,
+    "sp_baseline": 51,
+    "sad": 110.2
+  },
+  {
+    "name": "Skorpiovenator",
+    "sp_max": 163,
+    "sp_baseline": 51,
+    "sad": 110.4
+  },
+  {
+    "name": "Spinosaurus Gen 2",
+    "sp_max": 163,
+    "sp_baseline": 51,
+    "sad": 110.2
+  },
+  {
+    "name": "Stegoceras",
+    "sp_max": 163,
+    "sp_baseline": 51,
+    "sad": 110.4
+  },
+  {
+    "name": "Stygimoloch",
+    "sp_max": 163,
+    "sp_baseline": 51,
+    "sad": 110.4
+  },
+  {
+    "name": "Thylacosmilus",
+    "sp_max": 163,
+    "sp_baseline": 51,
+    "sad": 110.1
+  },
+  {
+    "name": "Toro",
+    "sp_max": 163,
+    "sp_baseline": 51,
+    "sad": 110.4
+  },
+  {
+    "name": "Velociraptor",
+    "sp_max": 163,
+    "sp_baseline": 51,
+    "sad": 110.2
+  },
+  {
+    "name": "Andrewsarchus",
+    "sp_max": 162,
+    "sp_baseline": 51,
+    "sad": 109.4
+  },
+  {
+    "name": "Animantarx",
+    "sp_max": 162,
+    "sp_baseline": 51,
+    "sad": 109.8
+  },
+  {
+    "name": "Ankylosaurus",
+    "sp_max": 162,
+    "sp_baseline": 51,
+    "sad": 109.8
+  },
+  {
+    "name": "Bumpy",
+    "sp_max": 162,
+    "sp_baseline": 51,
+    "sad": 109.8
+  },
+  {
+    "name": "Cervalces",
+    "sp_max": 162,
+    "sp_baseline": 51,
+    "sad": 109.7
+  },
+  {
+    "name": "Dire Wolf",
+    "sp_max": 162,
+    "sp_baseline": 51,
+    "sad": 109.4
+  },
+  {
+    "name": "Eucladoceros",
+    "sp_max": 162,
+    "sp_baseline": 51,
+    "sad": 109.7
+  },
+  {
+    "name": "Ornithomimus",
+    "sp_max": 162,
+    "sp_baseline": 51,
+    "sad": 109.3
+  },
+  {
+    "name": "Ouranosaurus",
+    "sp_max": 162,
+    "sp_baseline": 51,
+    "sad": 109.8
+  },
+  {
+    "name": "Scaphognathus",
+    "sp_max": 162,
+    "sp_baseline": 51,
+    "sad": 109.9
+  },
+  {
+    "name": "Sinoceratops",
+    "sp_max": 162,
+    "sp_baseline": 51,
+    "sad": 109.8
+  },
+  {
+    "name": "Tyrannosaurus Rex",
+    "sp_max": 162,
+    "sp_baseline": 51,
+    "sad": 109.8
+  },
+  {
+    "name": "Carbonemys",
+    "sp_max": 161,
+    "sp_baseline": 51,
+    "sad": 109.1
+  },
+  {
+    "name": "Charlie",
+    "sp_max": 161,
+    "sp_baseline": 51,
+    "sad": 109.1
+  },
+  {
+    "name": "Doedicurus",
+    "sp_max": 161,
+    "sp_baseline": 51,
+    "sad": 109.2
+  },
+  {
+    "name": "Haast Eagle Gen 2",
+    "sp_max": 161,
+    "sp_baseline": 50,
+    "sad": 109
+  },
+  {
+    "name": "Moschops",
+    "sp_max": 161,
+    "sp_baseline": 51,
+    "sad": 108.8
+  },
+  {
+    "name": "Ampelosaurus",
+    "sp_max": 160,
+    "sp_baseline": 50,
+    "sad": 108.1
+  },
+  {
+    "name": "Bajadasaurus",
+    "sp_max": 160,
+    "sp_baseline": 50,
+    "sad": 108.1
+  },
+  {
+    "name": "Dreadnoughtus",
+    "sp_max": 160,
+    "sp_baseline": 50,
+    "sad": 108.1
+  },
+  {
+    "name": "Entelodon",
+    "sp_max": 160,
+    "sp_baseline": 50,
+    "sad": 107.9
+  },
+  {
+    "name": "Megaloceros",
+    "sp_max": 160,
+    "sp_baseline": 50,
+    "sad": 108.1
+  },
+  {
+    "name": "Titanoboa Gen 2",
+    "sp_max": 160,
+    "sp_baseline": 50,
+    "sad": 108.3
+  },
+  {
+    "name": "Erlikosaurus",
+    "sp_max": 159,
+    "sp_baseline": 50,
+    "sad": 107.3
+  },
+  {
+    "name": "Postosuchus",
+    "sp_max": 159,
+    "sp_baseline": 50,
+    "sad": 107.4
+  },
+  {
+    "name": "Arambourgiania",
+    "sp_max": 158,
+    "sp_baseline": 50,
+    "sad": 106.9
+  },
+  {
+    "name": "Brontotherium",
+    "sp_max": 158,
+    "sp_baseline": 50,
+    "sad": 106.9
+  },
+  {
+    "name": "Gigantspinosaurus",
+    "sp_max": 158,
+    "sp_baseline": 50,
+    "sad": 107.1
+  },
+  {
+    "name": "Giraffatitan",
+    "sp_max": 158,
+    "sp_baseline": 49,
+    "sad": 106.7
+  },
+  {
+    "name": "Kentrosaurus",
+    "sp_max": 158,
+    "sp_baseline": 50,
+    "sad": 107.1
+  },
+  {
+    "name": "Monolophosaurus",
+    "sp_max": 158,
+    "sp_baseline": 50,
+    "sad": 107.1
+  },
+  {
+    "name": "Pyroraptor",
+    "sp_max": 158,
+    "sp_baseline": 50,
+    "sad": 107.1
+  },
+  {
+    "name": "Rajasaurus",
+    "sp_max": 158,
+    "sp_baseline": 50,
+    "sad": 107.1
+  },
+  {
+    "name": "Secodontosaurus",
+    "sp_max": 158,
+    "sp_baseline": 50,
+    "sad": 107.1
+  },
+  {
+    "name": "Tapejara",
+    "sp_max": 158,
+    "sp_baseline": 50,
+    "sad": 106.9
+  },
+  {
+    "name": "Tupandactylus",
+    "sp_max": 158,
+    "sp_baseline": 50,
+    "sad": 106.9
+  },
+  {
+    "name": "Albertosaurus",
+    "sp_max": 157,
+    "sp_baseline": 49,
+    "sad": 105.9
+  },
+  {
+    "name": "Amargasaurus",
+    "sp_max": 157,
+    "sp_baseline": 49,
+    "sad": 105.9
+  },
+  {
+    "name": "Argentinosaurus",
+    "sp_max": 157,
+    "sp_baseline": 49,
+    "sad": 105.9
+  },
+  {
+    "name": "Carnotaurus",
+    "sp_max": 157,
+    "sp_baseline": 49,
+    "sad": 106.5
+  },
+  {
+    "name": "Ceratosaurus Gen 2",
+    "sp_max": 157,
+    "sp_baseline": 49,
+    "sad": 105.9
+  },
+  {
+    "name": "Crichtonsaurus",
+    "sp_max": 157,
+    "sp_baseline": 49,
+    "sad": 105.9
+  },
+  {
+    "name": "Delta",
+    "sp_max": 157,
+    "sp_baseline": 49,
+    "sad": 106.5
+  },
+  {
+    "name": "Dimorphodon",
+    "sp_max": 157,
+    "sp_baseline": 49,
+    "sad": 106.5
+  },
+  {
+    "name": "Diplocaulus Gen 2",
+    "sp_max": 157,
+    "sp_baseline": 49,
+    "sad": 106.1
+  },
+  {
+    "name": "Echo",
+    "sp_max": 157,
+    "sp_baseline": 49,
+    "sad": 106.5
+  },
+  {
+    "name": "Edmontosaurus",
+    "sp_max": 157,
+    "sp_baseline": 49,
+    "sad": 105.9
+  },
+  {
+    "name": "Erlikosaurus Gen 2",
+    "sp_max": 157,
+    "sp_baseline": 49,
+    "sad": 106.1
+  },
+  {
+    "name": "Giganotosaurus",
+    "sp_max": 157,
+    "sp_baseline": 49,
+    "sad": 105.9
+  },
+  {
+    "name": "Glyptodon",
+    "sp_max": 157,
+    "sp_baseline": 49,
+    "sad": 106.2
+  },
+  {
+    "name": "Gorgosaurus",
+    "sp_max": 157,
+    "sp_baseline": 49,
+    "sad": 105.9
+  },
+  {
+    "name": "Irritator",
+    "sp_max": 157,
+    "sp_baseline": 49,
+    "sad": 106.3
+  },
+  {
+    "name": "Koolasuchus Gen 2",
+    "sp_max": 157,
+    "sp_baseline": 49,
+    "sad": 106.1
+  },
+  {
+    "name": "Megalosaurus",
+    "sp_max": 157,
+    "sp_baseline": 49,
+    "sad": 105.9
+  },
+  {
+    "name": "Meiolania",
+    "sp_max": 157,
+    "sp_baseline": 49,
+    "sad": 105.9
+  },
+  {
+    "name": "Nodosaurus",
+    "sp_max": 157,
+    "sp_baseline": 49,
+    "sad": 105.9
+  },
+  {
+    "name": "Purussaurus",
+    "sp_max": 157,
+    "sp_baseline": 49,
+    "sad": 106.3
+  },
+  {
+    "name": "Sinraptor",
+    "sp_max": 157,
+    "sp_baseline": 49,
+    "sad": 105.9
+  },
+  {
+    "name": "Triceratops",
+    "sp_max": 157,
+    "sp_baseline": 49,
+    "sad": 105.9
+  },
+  {
+    "name": "Archaeotherium",
+    "sp_max": 156,
+    "sp_baseline": 49,
+    "sad": 105.4
+  },
+  {
+    "name": "Deinonychus",
+    "sp_max": 156,
+    "sp_baseline": 49,
+    "sad": 105.8
+  },
+  {
+    "name": "Gorgonops",
+    "sp_max": 156,
+    "sp_baseline": 49,
+    "sad": 105.6
+  },
+  {
+    "name": "Inostrancevia",
+    "sp_max": 156,
+    "sp_baseline": 49,
+    "sad": 105.6
+  },
+  {
+    "name": "Protoceratops",
+    "sp_max": 156,
+    "sp_baseline": 49,
+    "sad": 105.6
+  },
+  {
+    "name": "Sarcosuchus",
+    "sp_max": 156,
+    "sp_baseline": 49,
+    "sad": 105.6
+  },
+  {
+    "name": "Suchomimus",
+    "sp_max": 156,
+    "sp_baseline": 49,
+    "sad": 105.2
+  },
+  {
+    "name": "Tanycolagreus",
+    "sp_max": 156,
+    "sp_baseline": 49,
+    "sad": 105.2
+  },
+  {
+    "name": "Elasmotherium",
+    "sp_max": 155,
+    "sp_baseline": 49,
+    "sad": 104.9
+  },
+  {
+    "name": "Baryonyx Gen 2",
+    "sp_max": 154,
+    "sp_baseline": 48,
+    "sad": 103.9
+  },
+  {
+    "name": "Miragaia",
+    "sp_max": 154,
+    "sp_baseline": 48,
+    "sad": 103.9
+  },
+  {
+    "name": "Nundasuchus",
+    "sp_max": 154,
+    "sp_baseline": 48,
+    "sad": 104.2
+  },
+  {
+    "name": "Ophiacodon",
+    "sp_max": 154,
+    "sp_baseline": 48,
+    "sad": 104.2
+  },
+  {
+    "name": "Phorusrhacos",
+    "sp_max": 154,
+    "sp_baseline": 48,
+    "sad": 104.3
+  },
+  {
+    "name": "Scolosaurus",
+    "sp_max": 154,
+    "sp_baseline": 48,
+    "sad": 104.1
+  },
+  {
+    "name": "Amphicyon",
+    "sp_max": 153,
+    "sp_baseline": 48,
+    "sad": 103.8
+  },
+  {
+    "name": "Apatosaurus",
+    "sp_max": 153,
+    "sp_baseline": 48,
+    "sad": 103.2
+  },
+  {
+    "name": "Dimetrodon",
+    "sp_max": 153,
+    "sp_baseline": 48,
+    "sad": 103.3
+  },
+  {
+    "name": "Dracorex Gen 2",
+    "sp_max": 153,
+    "sp_baseline": 48,
+    "sad": 103.3
+  },
+  {
+    "name": "Eremotherium",
+    "sp_max": 153,
+    "sp_baseline": 48,
+    "sad": 103.4
+  },
+  {
+    "name": "Gallimimus",
+    "sp_max": 153,
+    "sp_baseline": 48,
+    "sad": 103.5
+  },
+  {
+    "name": "Hatzegopteryx",
+    "sp_max": 153,
+    "sp_baseline": 48,
+    "sad": 103.7
+  },
+  {
+    "name": "Kaprosuchus",
+    "sp_max": 153,
+    "sp_baseline": 48,
+    "sad": 103.3
+  },
+  {
+    "name": "Plateosaurus",
+    "sp_max": 153,
+    "sp_baseline": 48,
+    "sad": 103.4
+  },
+  {
+    "name": "Proceratosaurus",
+    "sp_max": 153,
+    "sp_baseline": 48,
+    "sad": 103.3
+  },
+  {
+    "name": "Rativates",
+    "sp_max": 153,
+    "sp_baseline": 48,
+    "sad": 103.5
+  },
+  {
+    "name": "Spinosaurus",
+    "sp_max": 153,
+    "sp_baseline": 48,
+    "sad": 103.3
+  },
+  {
+    "name": "Struthiomimus",
+    "sp_max": 153,
+    "sp_baseline": 48,
+    "sad": 103.5
+  },
+  {
+    "name": "Tuojiangosaurus",
+    "sp_max": 153,
+    "sp_baseline": 48,
+    "sad": 103.3
+  },
+  {
+    "name": "Tyrannosaurus Rex Gen 2",
+    "sp_max": 153,
+    "sp_baseline": 48,
+    "sad": 103.3
+  },
+  {
+    "name": "Utahraptor",
+    "sp_max": 153,
+    "sp_baseline": 48,
+    "sad": 103.3
+  },
+  {
+    "name": "Allosaurus",
+    "sp_max": 152,
+    "sp_baseline": 48,
+    "sad": 102.7
+  },
+  {
+    "name": "Centrosaurus",
+    "sp_max": 152,
+    "sp_baseline": 48,
+    "sad": 102.7
+  },
+  {
+    "name": "Dimetrodon Gen 2",
+    "sp_max": 152,
+    "sp_baseline": 48,
+    "sad": 102.7
+  },
+  {
+    "name": "Diplocaulus",
+    "sp_max": 152,
+    "sp_baseline": 48,
+    "sad": 102.9
+  },
+  {
+    "name": "Einiosaurus",
+    "sp_max": 152,
+    "sp_baseline": 48,
+    "sad": 102.7
+  },
+  {
+    "name": "Euoplocephalus",
+    "sp_max": 152,
+    "sp_baseline": 48,
+    "sad": 102.7
+  },
+  {
+    "name": "Fukuisaurus",
+    "sp_max": 152,
+    "sp_baseline": 48,
+    "sad": 102.7
+  },
+  {
+    "name": "Herrerasaurus",
+    "sp_max": 152,
+    "sp_baseline": 48,
+    "sad": 102.7
+  },
+  {
+    "name": "Iguanodon",
+    "sp_max": 152,
+    "sp_baseline": 48,
+    "sad": 102.7
+  },
+  {
+    "name": "Koreanosaurus",
+    "sp_max": 152,
+    "sp_baseline": 48,
+    "sad": 102.7
+  },
+  {
+    "name": "Lythronax",
+    "sp_max": 152,
+    "sp_baseline": 48,
+    "sad": 102.7
+  },
+  {
+    "name": "Majungasaurus",
+    "sp_max": 152,
+    "sp_baseline": 48,
+    "sad": 102.7
+  },
+  {
+    "name": "Megaraptor",
+    "sp_max": 152,
+    "sp_baseline": 48,
+    "sad": 102.7
+  },
+  {
+    "name": "Monolophosaurus Gen 2",
+    "sp_max": 152,
+    "sp_baseline": 48,
+    "sad": 102.7
+  },
+  {
+    "name": "Shantungosaurus",
+    "sp_max": 152,
+    "sp_baseline": 48,
+    "sad": 102.7
+  },
+  {
+    "name": "Triceratops Gen 2",
+    "sp_max": 152,
+    "sp_baseline": 48,
+    "sad": 102.7
+  },
+  {
+    "name": "Tsintaosaurus",
+    "sp_max": 152,
+    "sp_baseline": 48,
+    "sad": 102.7
+  },
+  {
+    "name": "Irritator Gen 2",
+    "sp_max": 149,
+    "sp_baseline": 47,
+    "sad": 100.6
+  },
+  {
+    "name": "Purussaurus Gen 2",
+    "sp_max": 149,
+    "sp_baseline": 47,
+    "sad": 100.6
+  },
+  {
+    "name": "Stygimoloch Gen 2",
+    "sp_max": 149,
+    "sp_baseline": 47,
+    "sad": 100.8
+  },
+  {
+    "name": "Ankylosaurus Gen 2",
+    "sp_max": 148,
+    "sp_baseline": 46,
+    "sad": 100.2
+  },
+  {
+    "name": "Deinocheirus",
+    "sp_max": 148,
+    "sp_baseline": 46,
+    "sad": 100.4
+  },
+  {
+    "name": "Dilophosaurus Gen 2",
+    "sp_max": 148,
+    "sp_baseline": 46,
+    "sad": 100.2
+  },
+  {
+    "name": "Parasaurolophus",
+    "sp_max": 148,
+    "sp_baseline": 46,
+    "sad": 100.2
+  },
+  {
+    "name": "Stegosaurus",
+    "sp_max": 148,
+    "sp_baseline": 46,
+    "sad": 100.2
+  },
+  {
+    "name": "Tarbosaurus",
+    "sp_max": 148,
+    "sp_baseline": 46,
+    "sad": 100.2
+  }
+]
