@@ -11,6 +11,12 @@ interface OmegaTrainingAllocationDao {
     @Query("SELECT * FROM omega_training_allocations WHERE profileId = :profileId AND dinoId = :dinoId")
     suspend fun getForDino(profileId: Long, dinoId: Long): List<OmegaTrainingAllocation>
 
+    @Query("SELECT * FROM omega_training_allocations WHERE profileId = :profileId")
+    suspend fun getForProfile(profileId: Long): List<OmegaTrainingAllocation>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsert(allocation: OmegaTrainingAllocation)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(items: List<OmegaTrainingAllocation>)
 }

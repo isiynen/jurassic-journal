@@ -30,16 +30,11 @@ interface DinoDao {
         FROM dinos d
         LEFT JOIN dino_moves dm ON dm.dinoId = d.id
         LEFT JOIN moves m ON m.slug = dm.moveSlug
-            AND LOWER(m.name) LIKE '%' || LOWER(:query) || '%'
-        WHERE (:query = ''
-            OR LOWER(d.name) LIKE '%' || LOWER(:query) || '%'
-            OR LOWER(m.name) LIKE '%' || LOWER(:query) || '%')
-        AND (:rarity = '' OR d.rarity = :rarity)
+        WHERE (:rarity = '' OR d.rarity = :rarity)
         AND (:dinoClass = '' OR d.dinoClass = :dinoClass)
-        GROUP BY d.id, m.name
         ORDER BY d.name ASC, m.name ASC
     """)
-    fun observeDinoMoveSearch(query: String, rarity: String, dinoClass: String): Flow<List<DinoMoveRow>>
+    fun observeDinoMovePairs(rarity: String, dinoClass: String): Flow<List<DinoMoveRow>>
 
     @Query("SELECT * FROM dinos WHERE id = :id")
     suspend fun getById(id: Long): Dino?

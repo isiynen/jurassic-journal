@@ -14,6 +14,9 @@ interface TeamDao {
     @Query("SELECT * FROM teams WHERE profileId = :profileId ORDER BY sortOrder ASC, id ASC")
     fun observeForProfile(profileId: Long): Flow<List<Team>>
 
+    @Query("SELECT * FROM teams WHERE profileId = :profileId ORDER BY sortOrder ASC, id ASC")
+    suspend fun getForProfile(profileId: Long): List<Team>
+
     @Query("SELECT * FROM teams WHERE id = :id")
     suspend fun getById(id: Long): Team?
 

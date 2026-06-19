@@ -11,6 +11,12 @@ interface UserBoostDao {
     @Query("SELECT * FROM user_boosts WHERE profileId = :profileId AND dinoId = :dinoId")
     suspend fun getForDino(profileId: Long, dinoId: Long): List<UserBoost>
 
+    @Query("SELECT * FROM user_boosts WHERE profileId = :profileId")
+    suspend fun getForProfile(profileId: Long): List<UserBoost>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsert(boost: UserBoost)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(items: List<UserBoost>)
 }

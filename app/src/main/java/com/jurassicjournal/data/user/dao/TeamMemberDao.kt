@@ -15,11 +15,17 @@ interface TeamMemberDao {
     @Query("SELECT * FROM team_members WHERE teamId = :teamId ORDER BY slotOrder ASC")
     suspend fun getForTeam(teamId: Long): List<TeamMember>
 
+    @Query("SELECT * FROM team_members WHERE teamId IN (SELECT id FROM teams WHERE profileId = :profileId) ORDER BY teamId ASC, slotOrder ASC")
+    suspend fun getForProfile(profileId: Long): List<TeamMember>
+
     @Query("SELECT teamId FROM team_members WHERE dinoId = :dinoId")
     fun observeTeamIdsForDino(dinoId: Long): Flow<List<Long>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(member: TeamMember)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(items: List<TeamMember>)
 
     @Query("DELETE FROM team_members WHERE teamId = :teamId AND dinoId = :dinoId")
     suspend fun remove(teamId: Long, dinoId: Long)
