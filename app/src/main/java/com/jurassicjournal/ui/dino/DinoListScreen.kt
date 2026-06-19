@@ -55,6 +55,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.jurassicjournal.data.game.entity.Dino
+import com.jurassicjournal.data.game.repository.DinoSearchResult
 import com.jurassicjournal.data.model.DinoClass
 import com.jurassicjournal.data.model.Rarity
 import com.jurassicjournal.ui.theme.ClassCunning
@@ -75,7 +76,7 @@ fun DinoListScreen(
     onDinoClick: (Long) -> Unit,
     viewModel: DinoListViewModel = hiltViewModel(),
 ) {
-    val dinos by viewModel.dinos.collectAsState()
+    val results by viewModel.results.collectAsState()
     val filters by viewModel.filters.collectAsState()
 
     Scaffold(
@@ -95,8 +96,8 @@ fun DinoListScreen(
                 .padding(innerPadding)
         ) {
             SearchBar(
-                query = filters.nameQuery,
-                onQueryChange = viewModel::onNameQueryChange,
+                query = filters.query,
+                onQueryChange = viewModel::onQueryChange,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 8.dp),
@@ -114,7 +115,7 @@ fun DinoListScreen(
 
             Spacer(Modifier.height(4.dp))
 
-            if (dinos.isEmpty()) {
+            if (results.isEmpty()) {
                 Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     Text("No dinosaurs found", style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f))
@@ -124,8 +125,12 @@ fun DinoListScreen(
                     contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
-                    items(dinos, key = { it.id }) { dino ->
-                        DinoCard(dino = dino, onClick = { onDinoClick(dino.id) })
+                    items(results, key = { it.dino.id }) { result ->
+                        DinoCard(
+                            dino = result.dino,
+                            matchedMoves = result.matchedMoves,
+                            onClick = { onDinoClick(result.dino.id) },
+                        )
                     }
                 }
             }
@@ -140,7 +145,7 @@ private fun SearchBar(query: String, onQueryChange: (String) -> Unit, modifier: 
         value = query,
         onValueChange = onQueryChange,
         modifier = modifier,
-        placeholder = { Text("Search dinosaurs…") },
+        placeholder = { Text("Search dinos or moves…") },
         leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
         trailingIcon = {
             if (query.isNotEmpty()) {
@@ -208,7 +213,7 @@ private fun ClassFilterRow(selected: DinoClass?, onSelect: (DinoClass?) -> Unit)
 }
 
 @Composable
-private fun DinoCard(dino: Dino, onClick: () -> Unit) {
+private fun DinoCard(dino: Dino, matchedMoves: List<String> = emptyList(), onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -242,6 +247,14 @@ private fun DinoCard(dino: Dino, onClick: () -> Unit) {
                 Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                     RarityChip(dino.rarity)
                     ClassChip(dino.dinoClass)
+                }
+                if (matchedMoves.isNotEmpty()) {
+                    Spacer(Modifier.height(4.dp))
+                    Text(
+                        text = matchedMoves.joinToString(" · "),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.tertiary,
+                    )
                 }
             }
         }

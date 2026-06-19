@@ -2,8 +2,8 @@ package com.jurassicjournal.ui.dino
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.jurassicjournal.data.game.entity.Dino
 import com.jurassicjournal.data.game.repository.DinoRepository
+import com.jurassicjournal.data.game.repository.DinoSearchResult
 import com.jurassicjournal.data.model.DinoClass
 import com.jurassicjournal.data.model.Rarity
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 data class FilterState(
-    val nameQuery: String = "",
+    val query: String = "",
     val rarity: Rarity? = null,
     val dinoClass: DinoClass? = null,
 )
@@ -32,13 +32,13 @@ class DinoListViewModel @Inject constructor(
     val filters: StateFlow<FilterState> = _filters.asStateFlow()
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val dinos: StateFlow<List<Dino>> = _filters
+    val results: StateFlow<List<DinoSearchResult>> = _filters
         .flatMapLatest { f ->
-            repository.getDinos(f.nameQuery, f.rarity, f.dinoClass)
+            repository.search(f.query, f.rarity, f.dinoClass)
         }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
 
-    fun onNameQueryChange(query: String) = _filters.update { it.copy(nameQuery = query) }
+    fun onQueryChange(query: String) = _filters.update { it.copy(query = query) }
     fun onRarityFilter(rarity: Rarity?) = _filters.update { it.copy(rarity = rarity) }
     fun onClassFilter(dinoClass: DinoClass?) = _filters.update { it.copy(dinoClass = dinoClass) }
 }

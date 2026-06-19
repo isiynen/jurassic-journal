@@ -123,7 +123,7 @@ class DinoDetailViewModel @Inject constructor(
                         StatCalculator.scaleStat(stats.baseAttack, level), boosts.attack
                     ) + trainingBonus("attack"),
                     speed = StatCalculator.applySpeedBoost(
-                        StatCalculator.scaleStat(stats.speed, level), boosts.speed
+                        stats.speed, boosts.speed
                     ) + trainingBonus("speed"),
                     armor          = stats.armor + trainingBonus("armor"),
                     critChance     = stats.critChance + trainingBonus("crit_chance"),
@@ -138,7 +138,7 @@ class DinoDetailViewModel @Inject constructor(
                         StatCalculator.scaleStat(stats.baseAttack, level), boosts.attack
                     ),
                     speed = StatCalculator.applySpeedBoost(
-                        StatCalculator.scaleStat(stats.speed, level), boosts.speed
+                        stats.speed, boosts.speed
                     ),
                     armor          = stats.armor,
                     critChance     = stats.critChance,

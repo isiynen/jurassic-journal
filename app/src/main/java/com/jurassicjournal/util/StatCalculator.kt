@@ -8,7 +8,8 @@ import kotlin.math.roundToInt
  * Level scaling (confirmed from official update notes and community sources):
  *   Levels 1–30 : stat_L26 * 1.05^(level - 26), compounding 5% per level
  *   Levels 31–35: stat_L26 * fixed multiplier (1.270 / 1.320 / 1.370 / 1.425 / 1.500)
- *   Armor and crit chance are flat — they do not scale with level.
+ *   Speed, armor and crit chance are flat — they do not scale with level.
+ *   (Speed only changes via boosts or Omega training points.)
  *
  * Boosts (Stat Boosts 2.0):
  *   Health / Attack : +2.5% of stat-at-level per tier (percentage-based)
