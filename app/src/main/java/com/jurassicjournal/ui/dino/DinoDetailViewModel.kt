@@ -8,6 +8,7 @@ import com.jurassicjournal.data.game.repository.DinoFullDetail
 import com.jurassicjournal.data.model.ProgressionSystem
 import com.jurassicjournal.data.model.minLevel
 import com.jurassicjournal.data.user.ActiveProfileRepository
+import com.jurassicjournal.data.user.dao.NewDinoDao
 import com.jurassicjournal.data.user.dao.OmegaTrainingAllocationDao
 import com.jurassicjournal.data.user.dao.UserBoostDao
 import com.jurassicjournal.data.user.dao.UserDinoDao
@@ -58,6 +59,7 @@ data class DinoDetailUiState(
     val hasUnsavedChanges: Boolean = false,
     val isLoading: Boolean = true,
     val dnaOnHand: Int = 0,
+    val isNew: Boolean = false,
 )
 
 private data class MutableInputs(
@@ -81,6 +83,7 @@ class DinoDetailViewModel @Inject constructor(
     private val userBoostDao: UserBoostDao,
     private val omegaAllocationDao: OmegaTrainingAllocationDao,
     private val userDnaInventoryDao: UserDnaInventoryDao,
+    private val newDinoDao: NewDinoDao,
 ) : ViewModel() {
 
     private val dinoId: Long = checkNotNull(savedStateHandle["dinoId"])
@@ -95,6 +98,7 @@ class DinoDetailViewModel @Inject constructor(
     private val _savedOmega   = MutableStateFlow<Map<String, Int>>(emptyMap())
 
     private val _dnaOnHand = MutableStateFlow(0)
+    private val _isNew = MutableStateFlow(false)
 
     private val _saveEvents = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
     val saveEvents: SharedFlow<Unit> = _saveEvents.asSharedFlow()
@@ -107,7 +111,8 @@ class DinoDetailViewModel @Inject constructor(
             SavedInputs(sl, sb, so)
         },
         _dnaOnHand,
-    ) { (mutable, detail), saved, dnaOnHand ->
+        _isNew,
+    ) { (mutable, detail), saved, dnaOnHand, isNew ->
         val (level, boosts, omegaPoints) = mutable
         val isOmega = detail?.dino?.progressionSystem == ProgressionSystem.TRAINING_POINT
         val hasUnsavedChanges = level != saved.level ||
@@ -160,6 +165,7 @@ class DinoDetailViewModel @Inject constructor(
             hasUnsavedChanges = hasUnsavedChanges,
             isLoading        = detail == null,
             dnaOnHand        = dnaOnHand,
+            isNew            = isNew,
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), DinoDetailUiState())
 
@@ -195,6 +201,23 @@ class DinoDetailViewModel @Inject constructor(
             }
 
             _dnaOnHand.value = userDnaInventoryDao.get(profileId, dinoId)?.dnaAmount ?: 0
+
+            // Observe new status reactively for this dino + profile
+            val slug = detail?.dino?.slug
+            if (slug != null) {
+                viewModelScope.launch {
+                    newDinoDao.observeNewSlugs(profileId).collect { newSlugs ->
+                        _isNew.value = slug in newSlugs
+                    }
+                }
+            }
+        }
+    }
+
+    fun clearNewStatus() {
+        val slug = _detail.value?.dino?.slug ?: return
+        viewModelScope.launch {
+            newDinoDao.delete(profileId, slug)
         }
     }
 

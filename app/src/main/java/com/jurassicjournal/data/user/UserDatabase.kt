@@ -6,11 +6,13 @@ import androidx.room.TypeConverters
 import com.jurassicjournal.data.user.dao.OmegaTrainingAllocationDao
 import com.jurassicjournal.data.user.dao.ProfileDao
 import com.jurassicjournal.data.user.dao.TeamDao
+import com.jurassicjournal.data.user.dao.NewDinoDao
 import com.jurassicjournal.data.user.dao.TeamMemberDao
 import com.jurassicjournal.data.user.dao.UserBoostDao
 import com.jurassicjournal.data.user.dao.UserDinoDao
 import com.jurassicjournal.data.user.dao.UserDnaInventoryDao
 import com.jurassicjournal.data.user.dao.UserWalletDao
+import com.jurassicjournal.data.user.entity.NewDino
 import com.jurassicjournal.data.user.entity.OmegaTrainingAllocation
 import com.jurassicjournal.data.user.entity.Profile
 import com.jurassicjournal.data.user.entity.Team
@@ -36,8 +38,9 @@ import com.jurassicjournal.data.user.entity.UserWallet
         UserPreference::class,
         Team::class,
         TeamMember::class,
+        NewDino::class,
     ],
-    version = 3,
+    version = 4,
     exportSchema = true,
 )
 @TypeConverters(UserConverters::class)
@@ -50,4 +53,5 @@ abstract class UserDatabase : RoomDatabase() {
     abstract fun userDnaInventoryDao(): UserDnaInventoryDao
     abstract fun teamDao(): TeamDao
     abstract fun teamMemberDao(): TeamMemberDao
+    abstract fun newDinoDao(): NewDinoDao
 }

@@ -148,5 +148,19 @@ object UserDatabaseMigrations {
         }
     }
 
-    val ALL: Array<Migration> = arrayOf(MIGRATION_1_2, MIGRATION_2_3)
+    val MIGRATION_3_4 = object : Migration(3, 4) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL("""
+                CREATE TABLE IF NOT EXISTS new_dinos (
+                    profileId INTEGER NOT NULL,
+                    dinoSlug TEXT NOT NULL,
+                    PRIMARY KEY(profileId, dinoSlug),
+                    FOREIGN KEY(profileId) REFERENCES profiles(id) ON DELETE CASCADE
+                )
+            """.trimIndent())
+            db.execSQL("CREATE INDEX IF NOT EXISTS index_new_dinos_profileId ON new_dinos(profileId)")
+        }
+    }
+
+    val ALL: Array<Migration> = arrayOf(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
 }

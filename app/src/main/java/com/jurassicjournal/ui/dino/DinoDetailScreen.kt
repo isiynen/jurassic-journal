@@ -129,6 +129,7 @@ fun DinoDetailScreen(
     onDinoClick: (Long) -> Unit = {},
     onCalculate: (Long) -> Unit = {},
     onSanctuaryCalculate: (Long) -> Unit = {},
+    showTeamSelector: Boolean = true,
     viewModel: DinoDetailViewModel = hiltViewModel(),
     teamViewModel: DinoTeamViewModel = hiltViewModel(),
 ) {
@@ -138,6 +139,7 @@ fun DinoDetailScreen(
 
     var showFullResetDialog by remember { mutableStateOf(false) }
     var showExitDialog by remember { mutableStateOf(false) }
+    var showCatalogueDialog by remember { mutableStateOf(false) }
 
     // Intercept hardware/gesture back when there are unsaved changes
     BackHandler(enabled = uiState.hasUnsavedChanges) {
@@ -158,6 +160,31 @@ fun DinoDetailScreen(
             },
             dismissButton = {
                 TextButton(onClick = { showFullResetDialog = false }) { Text("Cancel") }
+            },
+        )
+    }
+
+    // Mark Catalogued confirmation
+    if (showCatalogueDialog) {
+        val dinoName = uiState.detail?.dino?.name ?: "This dino"
+        AlertDialog(
+            onDismissRequest = { showCatalogueDialog = false },
+            title = { Text("Mark as Catalogued?") },
+            text = {
+                Text(
+                    "\"$dinoName\" will lose its NEW badge, drop out of the New filter, " +
+                    "and return to its normal place in the list. " +
+                    "You can't undo this for the current profile."
+                )
+            },
+            confirmButton = {
+                TextButton(onClick = {
+                    showCatalogueDialog = false
+                    viewModel.clearNewStatus()
+                }) { Text("Confirm") }
+            },
+            dismissButton = {
+                TextButton(onClick = { showCatalogueDialog = false }) { Text("Cancel") }
             },
         )
     }
@@ -290,6 +317,20 @@ fun DinoDetailScreen(
                 }
             }
 
+            if (uiState.isNew) {
+                item {
+                    OutlinedButton(
+                        onClick = { showCatalogueDialog = true },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp),
+                    ) {
+                        Text("Mark Catalogued")
+                    }
+                    Spacer(Modifier.height(4.dp))
+                }
+            }
+
             if (detail.dino.isHybrid || detail.hybridsUsing.isNotEmpty()) {
                 item {
                     DnaOnHandCard(
@@ -382,7 +423,7 @@ fun DinoDetailScreen(
                 }
             }
 
-            if (teamState.availableTeams.isNotEmpty()) {
+            if (showTeamSelector && teamState.availableTeams.isNotEmpty()) {
                 item {
                     SectionHeader("Teams")
                     TeamsCard(

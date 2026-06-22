@@ -17,11 +17,13 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -49,6 +51,7 @@ import com.jurassicjournal.ui.dino.RarityChip
 fun TeamDetailScreen(
     onBack: () -> Unit,
     onDinoClick: (Long) -> Unit,
+    onEditMembers: () -> Unit = {},
     viewModel: TeamDetailViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -63,6 +66,11 @@ fun TeamDetailScreen(
                     }
                 },
             )
+        },
+        floatingActionButton = {
+            FloatingActionButton(onClick = onEditMembers) {
+                Icon(Icons.Default.Add, contentDescription = "Edit members")
+            }
         },
     ) { innerPadding ->
         when {
@@ -82,7 +90,7 @@ fun TeamDetailScreen(
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f))
                     Spacer(Modifier.height(8.dp))
-                    Text("Add dinos from the dino detail page",
+                    Text("Tap the members button to add dinos",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f))
                 }

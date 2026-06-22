@@ -5,7 +5,12 @@ import com.jurassicjournal.data.game.dao.DinoMoveRow
 import com.jurassicjournal.data.game.entity.Dino
 import com.jurassicjournal.data.model.DinoClass
 import com.jurassicjournal.data.model.Rarity
+import com.jurassicjournal.data.user.ActiveProfileRepository
+import com.jurassicjournal.data.user.dao.NewDinoDao
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -13,26 +18,47 @@ import javax.inject.Singleton
 data class DinoSearchResult(
     val dino: Dino,
     val matchedMoves: List<String>,
+    val isNew: Boolean = false,
 )
 
 @Singleton
-class DinoRepository @Inject constructor(private val dinoDao: DinoDao) {
+class DinoRepository @Inject constructor(
+    private val dinoDao: DinoDao,
+    private val newDinoDao: NewDinoDao,
+    private val activeProfileRepository: ActiveProfileRepository,
+) {
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     fun search(
         query: String = "",
         rarity: Rarity? = null,
         dinoClass: DinoClass? = null,
     ): Flow<List<DinoSearchResult>> =
-        dinoDao.observeDinoMovePairs(
-            rarity = rarity?.name ?: "",
-            dinoClass = dinoClass?.name ?: "",
-        ).map { rows ->
-            val all = rows.groupIntoResults()
-            when {
-                query.isBlank() -> all.map { it.copy(matchedMoves = emptyList()) }
-                isStrictQuery(query) -> filterStrict(query.drop(1).dropLast(1), all)
-                else -> filterMultiWord(query, all)
+        activeProfileRepository.activeProfileId.flatMapLatest { profileId ->
+            combine(
+                dinoDao.observeDinoMovePairs(
+                    rarity = rarity?.name ?: "",
+                    dinoClass = dinoClass?.name ?: "",
+                ),
+                newDinoDao.observeNewSlugs(profileId),
+            ) { rows, newSlugs ->
+                val newSlugSet = newSlugs.toSet()
+                val all = rows.groupIntoResults(newSlugSet)
+                val filtered = when {
+                    query.isBlank() -> all.map { it.copy(matchedMoves = emptyList()) }
+                    isStrictQuery(query) -> filterStrict(query.drop(1).dropLast(1), all)
+                    else -> filterMultiWord(query, all)
+                }
+                // New dinos float to top (alphabetical), rest follow in their existing order
+                val (newOnes, rest) = filtered.partition { it.isNew }
+                newOnes.sortedBy { it.dino.name } + rest
             }
+        }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    fun observeNewCount(): Flow<Int> =
+        activeProfileRepository.activeProfileId.flatMapLatest { profileId ->
+            newDinoDao.observeNewCount(profileId)
         }
 
     suspend fun getDinosByIds(ids: List<Long>): List<Dino> = dinoDao.getByIds(ids)
@@ -90,7 +116,6 @@ private fun filterMultiWord(query: String, all: List<DinoSearchResult>): List<Di
         }
         if (!allMatch) return@mapNotNull null
 
-        // Only highlight moves that contribute a word not already in the dino name
         val wordsNotInName = words.filter { !nameLower.contains(it) }
         val relevant = if (wordsNotInName.isEmpty()) {
             emptyList()
@@ -107,7 +132,7 @@ private fun filterMultiWord(query: String, all: List<DinoSearchResult>): List<Di
 
 // ── Row grouping ──────────────────────────────────────────────────────────────
 
-private fun List<DinoMoveRow>.groupIntoResults(): List<DinoSearchResult> {
+private fun List<DinoMoveRow>.groupIntoResults(newSlugs: Set<String> = emptySet()): List<DinoSearchResult> {
     val seen = LinkedHashMap<Long, DinoSearchResult>()
     for (row in this) {
         val existing = seen[row.id]
@@ -125,6 +150,7 @@ private fun List<DinoMoveRow>.groupIntoResults(): List<DinoSearchResult> {
                 progressionSystem = row.progressionSystem,
             ),
             matchedMoves = moves,
+            isNew = row.slug in newSlugs,
         )
     }
     return seen.values.toList()

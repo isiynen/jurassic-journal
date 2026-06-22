@@ -13,7 +13,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
@@ -25,7 +24,10 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -47,6 +49,7 @@ import com.jurassicjournal.data.user.entity.Team
 fun ManageTeamsScreen(
     onBack: () -> Unit,
     onTeamClick: (Long) -> Unit,
+    onEditMembers: (Long) -> Unit = {},
     viewModel: ManageTeamsViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -95,6 +98,7 @@ fun ManageTeamsScreen(
                     TeamRow(
                         team = team,
                         onClick = { onTeamClick(team.id) },
+                        onEditMembers = { onEditMembers(team.id) },
                         onRename = { renameTarget = team },
                         onDelete = { deleteTarget = team },
                     )
@@ -151,6 +155,7 @@ fun ManageTeamsScreen(
 private fun TeamRow(
     team: Team,
     onClick: () -> Unit,
+    onEditMembers: () -> Unit,
     onRename: () -> Unit,
     onDelete: () -> Unit,
 ) {
@@ -163,6 +168,13 @@ private fun TeamRow(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(team.name, style = MaterialTheme.typography.titleMedium, modifier = Modifier.weight(1f))
+            OutlinedButton(
+                onClick = onEditMembers,
+                contentPadding = PaddingValues(horizontal = 10.dp, vertical = 0.dp),
+                modifier = Modifier.height(36.dp),
+            ) {
+                Text("+/-", style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.Bold)
+            }
             IconButton(onClick = onRename) {
                 Icon(Icons.Default.Edit, contentDescription = "Rename")
             }
@@ -170,8 +182,6 @@ private fun TeamRow(
                 Icon(Icons.Default.Delete, contentDescription = "Delete",
                     tint = MaterialTheme.colorScheme.error)
             }
-            Icon(Icons.AutoMirrored.Filled.ArrowForward, contentDescription = null,
-                tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f))
         }
     }
 }
