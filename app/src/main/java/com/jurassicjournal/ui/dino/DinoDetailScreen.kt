@@ -65,6 +65,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.jurassicjournal.data.update.abilityIconModel
 import com.jurassicjournal.data.update.dinoImageModel
 import com.jurassicjournal.data.game.entity.DinoSanctuaryPoint
 import com.jurassicjournal.data.game.entity.OmegaTrainingConfig
@@ -100,7 +101,7 @@ private val ATTACK_MULT_REGEX = Regex("""(?i)attack\s+([\d.]+)x""")
 // ── Icon overlay model ────────────────────────────────────────────────────────
 
 private enum class OverlayPosition { TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT }
-private data class IconOverlay(val assetPath: String, val position: OverlayPosition)
+private data class IconOverlay(val rawPath: String, val position: OverlayPosition)
 
 private fun parseOverlays(json: String?): List<IconOverlay> {
     if (json.isNullOrEmpty()) return emptyList()
@@ -116,7 +117,7 @@ private fun parseOverlays(json: String?): List<IconOverlay> {
                 "bottom_right" -> OverlayPosition.BOTTOM_RIGHT
                 else           -> return@mapNotNull null
             }
-            IconOverlay("file:///android_asset/ability_icons/${rawPath.removePrefix("icons/")}", pos)
+            IconOverlay(rawPath, pos)
         }
     } catch (_: Exception) { emptyList() }
 }
@@ -877,9 +878,10 @@ private fun MoveCard(detail: DinoMoveDetail, computedAttack: Int) {
 private fun AbilityIcon(mainPath: String?, overlays: List<IconOverlay>) {
     Box(modifier = Modifier.size(48.dp)) {
         if (mainPath != null) {
+            val ctx = LocalContext.current
             AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data("file:///android_asset/ability_icons/${mainPath.removePrefix("icons/")}")
+                model = ImageRequest.Builder(ctx)
+                    .data(abilityIconModel(ctx, mainPath))
                     .crossfade(false)
                     .build(),
                 contentDescription = null,
@@ -889,10 +891,11 @@ private fun AbilityIcon(mainPath: String?, overlays: List<IconOverlay>) {
                     .background(MaterialTheme.colorScheme.surface),
             )
         }
+        val ctx = LocalContext.current
         overlays.forEach { overlay ->
             AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(overlay.assetPath)
+                model = ImageRequest.Builder(ctx)
+                    .data(abilityIconModel(ctx, overlay.rawPath))
                     .crossfade(false)
                     .build(),
                 contentDescription = null,
