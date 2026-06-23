@@ -56,6 +56,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.jurassicjournal.data.update.dinoImageModel
 import com.jurassicjournal.data.game.entity.Dino
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.waitForUpOrCancellation
@@ -209,7 +210,7 @@ private fun HybridHeaderCard(hybrid: Dino, onClick: () -> Unit) {
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data("file:///android_asset/dinosaurs/${hybrid.imagePath}")
+                    .data(dinoImageModel(LocalContext.current, hybrid.imagePath))
                     .crossfade(false)
                     .build(),
                 contentDescription = hybrid.name,
@@ -445,7 +446,7 @@ private fun IngredientDnaRow(
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data("file:///android_asset/dinosaurs/${input.dino.imagePath}")
+                    .data(dinoImageModel(LocalContext.current, input.dino.imagePath))
                     .crossfade(false)
                     .build(),
                 contentDescription = input.dino.name,
@@ -573,7 +574,7 @@ private fun IngredientCostCard(cost: IngredientCost) {
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data("file:///android_asset/dinosaurs/${cost.dino.imagePath}")
+                    .data(dinoImageModel(LocalContext.current, cost.dino.imagePath))
                     .crossfade(false)
                     .build(),
                 contentDescription = cost.dino.name,

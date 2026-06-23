@@ -65,6 +65,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.jurassicjournal.data.update.dinoImageModel
 import com.jurassicjournal.data.game.entity.DinoSanctuaryPoint
 import com.jurassicjournal.data.game.entity.OmegaTrainingConfig
 import com.jurassicjournal.data.game.repository.DinoMoveDetail
@@ -279,7 +280,7 @@ fun DinoDetailScreen(
             item {
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
-                        .data("file:///android_asset/dinosaurs/${detail.dino.imagePath}")
+                        .data(dinoImageModel(LocalContext.current, detail.dino.imagePath))
                         .crossfade(false).build(),
                     contentDescription = detail.dino.name,
                     contentScale = ContentScale.Fit,
@@ -1141,7 +1142,7 @@ private fun IngredientNodeRow(
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data("file:///android_asset/dinosaurs/${node.dino.imagePath}")
+                    .data(dinoImageModel(LocalContext.current, node.dino.imagePath))
                     .crossfade(false)
                     .build(),
                 contentDescription = node.dino.name,
@@ -1376,7 +1377,7 @@ private fun HybridsUsingSection(
                 ) {
                     AsyncImage(
                         model = coil.request.ImageRequest.Builder(LocalContext.current)
-                            .data("file:///android_asset/dinosaurs/${hybrid.imagePath}")
+                            .data(dinoImageModel(LocalContext.current, hybrid.imagePath))
                             .crossfade(false)
                             .build(),
                         contentDescription = hybrid.name,

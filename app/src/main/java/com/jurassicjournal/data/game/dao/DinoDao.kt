@@ -47,6 +47,9 @@ interface DinoDao {
 
     @Query("SELECT id, name FROM dinos")
     suspend fun getAllNameIds(): List<DinoNameId>
+
+    @Query("SELECT imagePath FROM dinos")
+    suspend fun getAllImagePaths(): List<String>
 }
 
 data class DinoMoveRow(

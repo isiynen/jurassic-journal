@@ -63,6 +63,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.jurassicjournal.data.update.dinoImageModel
 import com.jurassicjournal.data.model.Rarity
 import com.jurassicjournal.data.model.minLevel
 
@@ -160,7 +161,7 @@ private fun DinoBadgeCard(dino: com.jurassicjournal.data.game.entity.Dino) {
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data("file:///android_asset/dinosaurs/${dino.imagePath}")
+                    .data(dinoImageModel(LocalContext.current, dino.imagePath))
                     .crossfade(false)
                     .build(),
                 contentDescription = dino.name,

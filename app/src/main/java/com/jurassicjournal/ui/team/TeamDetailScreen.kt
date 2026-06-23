@@ -42,6 +42,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.jurassicjournal.data.update.dinoImageModel
 import com.jurassicjournal.data.game.entity.Dino
 import com.jurassicjournal.ui.dino.ClassChip
 import com.jurassicjournal.ui.dino.RarityChip
@@ -131,7 +132,7 @@ private fun TeamMemberCard(dino: Dino, onClick: () -> Unit, onRemove: () -> Unit
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data("file:///android_asset/dinosaurs/${dino.imagePath}")
+                    .data(dinoImageModel(LocalContext.current, dino.imagePath))
                     .crossfade(false)
                     .build(),
                 contentDescription = dino.name,

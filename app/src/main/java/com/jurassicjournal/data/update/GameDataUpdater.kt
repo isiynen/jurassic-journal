@@ -4,7 +4,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.util.Log
-import org.json.JSONObject
+import org.json.JSONArray
 import java.io.File
 import java.io.FileOutputStream
 import java.net.HttpURLConnection
@@ -39,44 +39,49 @@ class GameDataUpdater(private val context: Context) {
             val responseCode = apiConn.responseCode
             if (responseCode != 200) {
                 apiConn.disconnect()
-                Log.d(TAG, "GitHub API returned HTTP $responseCode — no release found")
+                Log.d(TAG, "GitHub API returned HTTP $responseCode — no releases found")
                 return null
             }
 
             val body = apiConn.inputStream.bufferedReader().readText()
             apiConn.disconnect()
 
-            val json = JSONObject(body)
-            val tagName = json.optString("tag_name").ifEmpty {
-                Log.d(TAG, "Release has no tag_name — skipping")
-                return null
-            }
-            Log.d(TAG, "Latest release: $tagName")
+            // Enumerate all releases and pick the highest data tag matching our bundled SCHEMA.
+            // /releases/latest is unreliable here: APK release tags (v1.x) can outrank data tags.
+            val releases = JSONArray(body)
+            var bestTag: String? = null
+            var bestUrl: String? = null
+            for (i in 0 until releases.length()) {
+                val release = releases.optJSONObject(i) ?: continue
+                if (release.optBoolean("draft") || release.optBoolean("prerelease")) continue
+                val tag = release.optString("tag_name")
+                if (tag.isEmpty()) continue
+                // isNewer enforces the SCHEMA guard: same major, higher patch than current.
+                if (!isNewer(tag, currentVersion)) continue
+                if (bestTag != null && !isNewer(tag, bestTag)) continue
 
-            if (!isNewer(tagName, currentVersion)) {
-                Log.d(TAG, "Already up to date ($currentVersion)")
-                return null
-            }
-
-            Log.d(TAG, "New version available: $tagName — looking for $DB_ASSET_NAME")
-            val assets = json.optJSONArray("assets") ?: run {
-                Log.d(TAG, "No assets in release")
-                return null
-            }
-            var downloadUrl: String? = null
-            for (i in 0 until assets.length()) {
-                val asset = assets.getJSONObject(i)
-                if (asset.optString("name") == DB_ASSET_NAME) {
-                    downloadUrl = asset.optString("browser_download_url").ifEmpty { null }
-                    break
+                val assets = release.optJSONArray("assets") ?: continue
+                var url: String? = null
+                for (j in 0 until assets.length()) {
+                    val asset = assets.getJSONObject(j)
+                    if (asset.optString("name") == DB_ASSET_NAME) {
+                        url = asset.optString("browser_download_url").ifEmpty { null }
+                        break
+                    }
                 }
+                if (url == null) continue
+
+                bestTag = tag
+                bestUrl = url
             }
-            if (downloadUrl == null) {
-                Log.d(TAG, "$DB_ASSET_NAME not found in release assets")
+
+            if (bestTag == null || bestUrl == null) {
+                Log.d(TAG, "Already up to date ($currentVersion) — no newer same-schema data release")
                 return null
             }
 
-            UpdateInfo(tag = tagName, downloadUrl = downloadUrl)
+            Log.d(TAG, "New data version available: $bestTag")
+            UpdateInfo(tag = bestTag, downloadUrl = bestUrl)
         } catch (e: Exception) {
             Log.w(TAG, "Update check failed: ${e::class.simpleName}: ${e.message}")
             null
@@ -138,15 +143,24 @@ class GameDataUpdater(private val context: Context) {
         // Format: data-vSCHEMA.DATA  e.g. "data-v7.00"
         // SCHEMA matches the Room GameDatabase version — only bumps with schema changes + new APK.
         // DATA is the OTA patch counter within that schema; auto-incremented by the pipeline.
-        const val BUNDLED_VERSION = "data-v8.00"
+        // Format: data-vSCHEMA.PATCH  e.g. "data-v9.00"
+        // SCHEMA is a compatibility marker: only OTA releases with the same SCHEMA as this APK
+        // are accepted. A higher SCHEMA means the data requires a newer APK (new image format,
+        // schema-breaking change, etc). Bump SCHEMA here AND in release_data.py when introducing
+        // incompatible data changes; reset PATCH to 00.
+        const val BUNDLED_VERSION = "data-v9.00"
 
+        // List endpoint (not /releases/latest): we enumerate and pick the highest data tag
+        // matching our bundled SCHEMA. /latest is unreliable when APK and data tags coexist.
         const val RELEASES_API_URL =
-            "https://api.github.com/repos/isiynen/jurassic-journal/releases/latest"
+            "https://api.github.com/repos/isiynen/jurassic-journal/releases?per_page=50"
 
         fun isNewer(candidate: String, current: String): Boolean {
             val (cMajor, cMinor) = parseVersion(candidate) ?: return false
             val (kMajor, kMinor) = parseVersion(current)   ?: return false
-            return cMajor > kMajor || (cMajor == kMajor && cMinor > kMinor)
+            // Only accept patches within the same SCHEMA. A higher SCHEMA requires a new APK.
+            if (cMajor != kMajor) return false
+            return cMinor > kMinor
         }
 
         private fun parseVersion(tag: String): Pair<Int, Int>? {

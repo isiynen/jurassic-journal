@@ -2,6 +2,7 @@ package com.jurassicjournal
 
 import android.app.Application
 import android.util.Log
+import com.jurassicjournal.data.update.BundledDinoImages
 import com.jurassicjournal.data.update.GameDataUpdater
 import dagger.hilt.android.HiltAndroidApp
 import java.io.File
@@ -12,6 +13,7 @@ class JurassicJournalApp : Application() {
     override fun onCreate() {
         super.onCreate()
         applyPendingDbUpdate()
+        BundledDinoImages.init(this)
     }
 
     /**
