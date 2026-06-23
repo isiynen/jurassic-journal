@@ -6,6 +6,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.compose")
     id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
+    id("org.jetbrains.kotlin.plugin.serialization")
 }
 
 val keystoreProps = Properties().apply {
@@ -97,4 +98,7 @@ dependencies {
 
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0")
+
+    // Serialization (profile/team import-export)
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
 }

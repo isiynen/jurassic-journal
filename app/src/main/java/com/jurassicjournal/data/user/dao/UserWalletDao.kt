@@ -8,8 +8,8 @@ import com.jurassicjournal.data.user.entity.UserWallet
 
 @Dao
 interface UserWalletDao {
-    @Query("SELECT * FROM user_wallet WHERE id = 1")
-    suspend fun get(): UserWallet?
+    @Query("SELECT * FROM user_wallet WHERE profileId = :profileId")
+    suspend fun get(profileId: Long): UserWallet?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsert(wallet: UserWallet)

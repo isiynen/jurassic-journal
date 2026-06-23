@@ -138,7 +138,7 @@ class GameDataUpdater(private val context: Context) {
         // Format: data-vSCHEMA.DATA  e.g. "data-v7.00"
         // SCHEMA matches the Room GameDatabase version — only bumps with schema changes + new APK.
         // DATA is the OTA patch counter within that schema; auto-incremented by the pipeline.
-        const val BUNDLED_VERSION = "data-v7.00"
+        const val BUNDLED_VERSION = "data-v8.00"
 
         const val RELEASES_API_URL =
             "https://api.github.com/repos/isiynen/jurassic-journal/releases/latest"

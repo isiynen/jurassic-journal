@@ -4,8 +4,12 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.jurassicjournal.data.model.CatalystType
 
-@Entity(tableName = "user_catalysts")
+@Entity(
+    tableName = "user_catalysts",
+    primaryKeys = ["profileId", "catalystType"],
+)
 data class UserCatalyst(
-    @PrimaryKey val catalystType: CatalystType,
-    val quantityOwned: Int = 0
+    val profileId: Long = 1,
+    val catalystType: CatalystType,
+    val quantityOwned: Int = 0,
 )
