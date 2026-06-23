@@ -2,6 +2,7 @@ package com.jurassicjournal
 
 import android.app.Application
 import android.util.Log
+import com.jurassicjournal.data.update.BundledAbilityIcons
 import com.jurassicjournal.data.update.BundledDinoImages
 import com.jurassicjournal.data.update.GameDataUpdater
 import dagger.hilt.android.HiltAndroidApp
@@ -14,6 +15,7 @@ class JurassicJournalApp : Application() {
         super.onCreate()
         applyPendingDbUpdate()
         BundledDinoImages.init(this)
+        BundledAbilityIcons.init(this)
     }
 
     /**

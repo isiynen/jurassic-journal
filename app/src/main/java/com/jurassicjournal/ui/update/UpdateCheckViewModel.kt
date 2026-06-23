@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jurassicjournal.data.update.GameDataUpdater
+import com.jurassicjournal.data.update.SyncProgressTracker
 import com.jurassicjournal.data.update.UpdateInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -24,6 +25,7 @@ sealed class UpdateState {
 @HiltViewModel
 class UpdateCheckViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
+    private val progressTracker: SyncProgressTracker,
 ) : ViewModel() {
 
     private val updater = GameDataUpdater(context)
@@ -47,7 +49,7 @@ class UpdateCheckViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             _state.value = UpdateState.Downloading
             try {
-                updater.downloadAndStage(info)
+                updater.downloadAndStage(info, progressTracker)
                 _state.value = UpdateState.RestartReady
             } catch (e: Exception) {
                 android.util.Log.e("UpdateCheckViewModel", "Download failed: ${e::class.simpleName}: ${e.message}")

@@ -8,13 +8,9 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -32,9 +28,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.jurassicjournal.data.update.AbilityIconSync
 import com.jurassicjournal.data.update.DinoImageSync
 import com.jurassicjournal.data.update.NewDinoDetector
+import com.jurassicjournal.data.update.SyncProgressTracker
 import com.jurassicjournal.data.update.UpdateInfo
+import com.jurassicjournal.ui.update.UpdateProgressStrip
 import com.jurassicjournal.ui.calculator.HybridCalculatorScreen
 import com.jurassicjournal.ui.dino.DinoDetailScreen
 import com.jurassicjournal.ui.dino.DinoListScreen
@@ -59,11 +58,14 @@ class MainActivity : ComponentActivity() {
 
     @Inject lateinit var newDinoDetector: NewDinoDetector
     @Inject lateinit var dinoImageSync: DinoImageSync
+    @Inject lateinit var abilityIconSync: AbilityIconSync
+    @Inject lateinit var syncProgressTracker: SyncProgressTracker
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         lifecycleScope.launch(Dispatchers.IO) { newDinoDetector.detect() }
         lifecycleScope.launch(Dispatchers.IO) { dinoImageSync.syncMissingImages() }
+        lifecycleScope.launch(Dispatchers.IO) { abilityIconSync.syncMissingIcons() }
         enableEdgeToEdge()
         setContent {
             JurassicJournalTheme {
@@ -71,7 +73,15 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background,
                 ) {
-                    JurassicJournalNav()
+                    Box(modifier = Modifier.fillMaxSize()) {
+                        JurassicJournalNav()
+
+                        val syncProgress by syncProgressTracker.progress.collectAsState()
+                        UpdateProgressStrip(
+                            progress = syncProgress,
+                            modifier = Modifier.align(Alignment.BottomCenter),
+                        )
+                    }
 
                     val updateInfo by updateVm.updateInfo.collectAsState()
                     val updateState by updateVm.state.collectAsState()
@@ -99,21 +109,6 @@ private fun UpdatePromptOverlay(
         updateState == UpdateState.RestartReady -> {
             val context = LocalContext.current
             LaunchedEffect(Unit) { restartApp(context) }
-        }
-
-        updateState == UpdateState.Downloading -> {
-            AlertDialog(
-                onDismissRequest = {},
-                title = { Text("Updating Database") },
-                text = {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        CircularProgressIndicator(modifier = Modifier.size(24.dp))
-                        Spacer(Modifier.width(16.dp))
-                        Text("Downloading new data…")
-                    }
-                },
-                confirmButton = {},
-            )
         }
 
         updateInfo != null && updateState == UpdateState.Idle -> {

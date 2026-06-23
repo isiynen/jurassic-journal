@@ -23,5 +23,4 @@ keystore.properties
 __pycache__/
 jwa_abilities/
 jwa_dinos/
-app/src/main/assets/ability_icons/
 *.md

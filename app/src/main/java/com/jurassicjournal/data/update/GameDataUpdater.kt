@@ -9,6 +9,8 @@ import java.io.File
 import java.io.FileOutputStream
 import java.net.HttpURLConnection
 import java.net.URL
+import com.jurassicjournal.data.update.SyncPhase
+import com.jurassicjournal.data.update.SyncProgressTracker
 
 data class UpdateInfo(val tag: String, val downloadUrl: String)
 
@@ -93,15 +95,22 @@ class GameDataUpdater(private val context: Context) {
      * Only writes the pending-version key after a complete, successful download.
      * Throws on any failure so the caller can surface an error.
      */
-    suspend fun downloadAndStage(info: UpdateInfo) {
+    suspend fun downloadAndStage(info: UpdateInfo, tracker: SyncProgressTracker? = null) {
         Log.d(TAG, "Downloading ${info.tag} …")
+        tracker?.beginPhase(SyncPhase.DB_DOWNLOAD, total = 1)
         val staged = File(context.filesDir, STAGED_DB_FILE)
-        downloadFile(info.downloadUrl, staged)
+        try {
+            downloadFile(info.downloadUrl, staged, tracker)
+        } catch (e: Exception) {
+            tracker?.finish()
+            throw e
+        }
 
         // commit() is synchronous — must be flushed to disk before restartApp() kills the process
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         prefs.edit().putString(KEY_PENDING_VERSION, info.tag).commit()
         Log.d(TAG, "Download complete — staged for next launch")
+        tracker?.finish()
     }
 
     private fun isInternetAvailable(): Boolean {
@@ -116,7 +125,7 @@ class GameDataUpdater(private val context: Context) {
         }
     }
 
-    private fun downloadFile(url: String, dest: File) {
+    private suspend fun downloadFile(url: String, dest: File, tracker: SyncProgressTracker?) {
         val conn = URL(url).openConnection() as HttpURLConnection
         conn.connectTimeout = 15_000
         conn.readTimeout    = 120_000
@@ -125,8 +134,15 @@ class GameDataUpdater(private val context: Context) {
             conn.disconnect()
             throw Exception("HTTP ${conn.responseCode}")
         }
+        val buffer = ByteArray(8_192)
         conn.inputStream.use { input ->
-            FileOutputStream(dest).use { output -> input.copyTo(output) }
+            FileOutputStream(dest).use { output ->
+                var n: Int
+                while (input.read(buffer).also { n = it } != -1) {
+                    output.write(buffer, 0, n)
+                    tracker?.advance(bytes = n.toLong())
+                }
+            }
         }
         conn.disconnect()
     }

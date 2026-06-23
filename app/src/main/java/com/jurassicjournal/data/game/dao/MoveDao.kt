@@ -16,4 +16,9 @@ interface MoveDao {
 
     @Query("SELECT * FROM moves WHERE slug IN (:slugs)")
     suspend fun getBySlugList(slugs: List<String>): List<Move>
+
+    @Query("SELECT mainIconPath, overlayIconsJson FROM moves")
+    suspend fun getAllIconData(): List<MoveIconData>
 }
+
+data class MoveIconData(val mainIconPath: String?, val overlayIconsJson: String?)
