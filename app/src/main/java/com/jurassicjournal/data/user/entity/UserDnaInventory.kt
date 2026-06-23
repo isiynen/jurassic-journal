@@ -1,11 +1,14 @@
 package com.jurassicjournal.data.user.entity
 
 import androidx.room.Entity
-import androidx.room.PrimaryKey
 
-@Entity(tableName = "user_dna_inventory")
+@Entity(
+    tableName = "user_dna_inventory",
+    primaryKeys = ["profileId", "dinoId"],
+)
 data class UserDnaInventory(
-    @PrimaryKey val dinoId: Long,
+    val profileId: Long = 1,
+    val dinoId: Long,
     val dnaAmount: Int = 0,
-    val lastUpdated: Long = System.currentTimeMillis()
+    val lastUpdated: Long = System.currentTimeMillis(),
 )

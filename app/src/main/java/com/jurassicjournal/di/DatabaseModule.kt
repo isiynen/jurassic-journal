@@ -15,7 +15,11 @@ import com.jurassicjournal.data.game.dao.MoveDao
 import com.jurassicjournal.data.game.dao.OmegaTrainingConfigDao
 import com.jurassicjournal.data.user.UserDatabase
 import com.jurassicjournal.data.user.UserDatabaseMigrations
+import com.jurassicjournal.data.user.dao.NewDinoDao
 import com.jurassicjournal.data.user.dao.OmegaTrainingAllocationDao
+import com.jurassicjournal.data.user.dao.ProfileDao
+import com.jurassicjournal.data.user.dao.TeamDao
+import com.jurassicjournal.data.user.dao.TeamMemberDao
 import com.jurassicjournal.data.user.dao.UserBoostDao
 import com.jurassicjournal.data.user.dao.UserDinoDao
 import com.jurassicjournal.data.user.dao.UserDnaInventoryDao
@@ -57,9 +61,13 @@ object DatabaseModule {
     @Provides fun provideDinoSanctuaryPointDao(db: GameDatabase): DinoSanctuaryPointDao = db.dinoSanctuaryPointDao()
     @Provides fun provideLevelUpCostDao(db: GameDatabase): LevelUpCostDao = db.levelUpCostDao()
 
+    @Provides fun provideProfileDao(db: UserDatabase): ProfileDao = db.profileDao()
     @Provides fun provideUserWalletDao(db: UserDatabase): UserWalletDao = db.userWalletDao()
     @Provides fun provideUserDinoDao(db: UserDatabase): UserDinoDao = db.userDinoDao()
     @Provides fun provideUserBoostDao(db: UserDatabase): UserBoostDao = db.userBoostDao()
     @Provides fun provideOmegaTrainingAllocationDao(db: UserDatabase): OmegaTrainingAllocationDao = db.omegaTrainingAllocationDao()
     @Provides fun provideUserDnaInventoryDao(db: UserDatabase): UserDnaInventoryDao = db.userDnaInventoryDao()
+    @Provides fun provideTeamDao(db: UserDatabase): TeamDao = db.teamDao()
+    @Provides fun provideTeamMemberDao(db: UserDatabase): TeamMemberDao = db.teamMemberDao()
+    @Provides fun provideNewDinoDao(db: UserDatabase): NewDinoDao = db.newDinoDao()
 }

@@ -7,6 +7,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -31,24 +32,35 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.jurassicjournal.data.update.NewDinoDetector
 import com.jurassicjournal.data.update.UpdateInfo
 import com.jurassicjournal.ui.calculator.HybridCalculatorScreen
 import com.jurassicjournal.ui.dino.DinoDetailScreen
 import com.jurassicjournal.ui.dino.DinoListScreen
 import com.jurassicjournal.ui.navigation.Screen
+import com.jurassicjournal.ui.profile.ManageProfilesScreen
 import com.jurassicjournal.ui.sanctuary.SanctuaryCalculatorScreen
+import com.jurassicjournal.ui.team.ManageTeamsScreen
+import com.jurassicjournal.ui.team.TeamDetailScreen
+import com.jurassicjournal.ui.team.TeamDinoPickerScreen
 import com.jurassicjournal.ui.theme.JurassicJournalTheme
 import com.jurassicjournal.ui.update.UpdateCheckViewModel
 import com.jurassicjournal.ui.update.UpdateState
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private val updateVm: UpdateCheckViewModel by viewModels()
 
+    @Inject lateinit var newDinoDetector: NewDinoDetector
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        lifecycleScope.launch(Dispatchers.IO) { newDinoDetector.detect() }
         enableEdgeToEdge()
         setContent {
             JurassicJournalTheme {
@@ -136,20 +148,56 @@ private fun JurassicJournalNav() {
     NavHost(navController = navController, startDestination = Screen.DinoList.route) {
         composable(Screen.DinoList.route) {
             DinoListScreen(
-                onDinoClick = { dinoId ->
-                    navController.navigate(Screen.DinoDetail(dinoId).route)
-                }
+                onDinoClick = { dinoId -> navController.navigate(Screen.DinoDetail(dinoId).route) },
+                onManageProfiles = { navController.navigate(Screen.ManageProfiles.route) },
+                onManageTeams = { navController.navigate(Screen.ManageTeams.route) },
+                onTeamClick = { teamId -> navController.navigate(Screen.TeamDetail(teamId).route) },
+            )
+        }
+        composable(Screen.ManageProfiles.route) {
+            ManageProfilesScreen(onBack = { navController.popBackStack() })
+        }
+        composable(Screen.ManageTeams.route) {
+            ManageTeamsScreen(
+                onBack = { navController.popBackStack() },
+                onTeamClick = { teamId -> navController.navigate(Screen.TeamDetail(teamId).route) },
+                onEditMembers = { teamId -> navController.navigate(Screen.TeamDinoPicker(teamId).route) },
+            )
+        }
+        composable(
+            route = Screen.TeamDetail.ROUTE,
+            arguments = listOf(navArgument("teamId") { type = NavType.LongType })
+        ) { entry ->
+            val teamId = entry.arguments?.getLong("teamId") ?: 0L
+            TeamDetailScreen(
+                onBack = { navController.popBackStack() },
+                onDinoClick = { dinoId -> navController.navigate(Screen.DinoDetail(dinoId).route) },
+                onEditMembers = { navController.navigate(Screen.TeamDinoPicker(teamId).route) },
+            )
+        }
+        composable(
+            route = Screen.TeamDinoPicker.ROUTE,
+            arguments = listOf(navArgument("teamId") { type = NavType.LongType })
+        ) {
+            TeamDinoPickerScreen(
+                onBack = { navController.popBackStack() },
+                onDinoClick = { dinoId -> navController.navigate(Screen.DinoDetail(dinoId, hideTeams = true).route) },
             )
         }
         composable(
             route = Screen.DinoDetail.ROUTE,
-            arguments = listOf(navArgument("dinoId") { type = NavType.LongType })
-        ) {
+            arguments = listOf(
+                navArgument("dinoId") { type = NavType.LongType },
+                navArgument("hideTeams") { type = NavType.BoolType; defaultValue = false },
+            )
+        ) { entry ->
+            val hideTeams = entry.arguments?.getBoolean("hideTeams") ?: false
             DinoDetailScreen(
                 onBack = { navController.popBackStack() },
                 onDinoClick = { dinoId -> navController.navigate(Screen.DinoDetail(dinoId).route) },
                 onCalculate = { dinoId -> navController.navigate(Screen.HybridCalculator(dinoId).route) },
                 onSanctuaryCalculate = { dinoId -> navController.navigate(Screen.SanctuaryCalculator(dinoId).route) },
+                showTeamSelector = !hideTeams,
             )
         }
         composable(

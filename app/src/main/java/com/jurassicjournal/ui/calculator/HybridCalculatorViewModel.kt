@@ -9,12 +9,14 @@ import com.jurassicjournal.data.game.entity.LevelUpCost
 import com.jurassicjournal.data.game.repository.DinoDetailRepository
 import com.jurassicjournal.data.model.Rarity
 import com.jurassicjournal.data.model.minLevel
+import com.jurassicjournal.data.user.ActiveProfileRepository
 import com.jurassicjournal.data.user.dao.UserDinoDao
 import com.jurassicjournal.data.user.dao.UserDnaInventoryDao
 import com.jurassicjournal.data.user.dao.UserWalletDao
 import com.jurassicjournal.data.user.entity.UserDnaInventory
 import com.jurassicjournal.data.user.entity.UserWallet
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -70,12 +72,14 @@ class HybridCalculatorViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val detailRepository: DinoDetailRepository,
     private val levelUpCostDao: LevelUpCostDao,
+    private val activeProfileRepository: ActiveProfileRepository,
     private val userDinoDao: UserDinoDao,
     private val userDnaInventoryDao: UserDnaInventoryDao,
     private val userWalletDao: UserWalletDao,
 ) : ViewModel() {
 
     private val dinoId: Long = checkNotNull(savedStateHandle["dinoId"])
+    private var profileId: Long = 1L
 
     private val _hybridData    = MutableStateFlow<Pair<Dino, List<LevelUpCost>>?>(null)
     private val _currentLevel  = MutableStateFlow(0)
@@ -116,20 +120,22 @@ class HybridCalculatorViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
+            profileId = activeProfileRepository.activeProfileId.first()
+
             val detail = detailRepository.getFullDetail(dinoId) ?: return@launch
             val costs  = levelUpCostDao.getForRarity(detail.dino.rarity)
             _hybridData.value = detail.dino to costs
 
             val minLev = detail.dino.rarity.minLevel()
-            val savedLevel = (userDinoDao.getByDinoId(dinoId)?.currentLevel ?: minLev)
+            val savedLevel = (userDinoDao.getByDinoId(profileId, dinoId)?.currentLevel ?: minLev)
                 .coerceAtLeast(minLev)
             _currentLevel.value = savedLevel
             _targetLevel.value  = (savedLevel + 1).coerceAtMost(35)
 
-            _currentHybridDna.value = userDnaInventoryDao.get(dinoId)?.dnaAmount ?: 0
+            _currentHybridDna.value = userDnaInventoryDao.get(profileId, dinoId)?.dnaAmount ?: 0
 
             val ingredientIds  = detail.ingredientTree.map { it.dino.id }
-            val savedDnaMap    = userDnaInventoryDao.getForDinos(ingredientIds).associateBy { it.dinoId }
+            val savedDnaMap    = userDnaInventoryDao.getForDinos(profileId, ingredientIds).associateBy { it.dinoId }
             _ingredients.value = detail.ingredientTree.map { node ->
                 IngredientInput(
                     dino      = node.dino,
@@ -137,7 +143,7 @@ class HybridCalculatorViewModel @Inject constructor(
                 )
             }
 
-            _coinsOnHand.value = userWalletDao.get()?.coins ?: 0L
+            _coinsOnHand.value = userWalletDao.get(profileId)?.coins ?: 0L
         }
     }
 
@@ -161,7 +167,7 @@ class HybridCalculatorViewModel @Inject constructor(
         val clamped = dna.coerceAtLeast(0)
         _currentHybridDna.value = clamped
         viewModelScope.launch {
-            userDnaInventoryDao.upsert(UserDnaInventory(dinoId = dinoId, dnaAmount = clamped))
+            userDnaInventoryDao.upsert(UserDnaInventory(profileId = profileId, dinoId = dinoId, dnaAmount = clamped))
         }
     }
 
@@ -173,7 +179,7 @@ class HybridCalculatorViewModel @Inject constructor(
             list[index] = list[index].copy(dnaOnHand = clamped)
             _ingredients.value = list
             viewModelScope.launch {
-                userDnaInventoryDao.upsert(UserDnaInventory(dinoId = ingredientDinoId, dnaAmount = clamped))
+                userDnaInventoryDao.upsert(UserDnaInventory(profileId = profileId, dinoId = ingredientDinoId, dnaAmount = clamped))
             }
         }
     }
@@ -182,7 +188,7 @@ class HybridCalculatorViewModel @Inject constructor(
         val clamped = coins.coerceAtLeast(0L)
         _coinsOnHand.value = clamped
         viewModelScope.launch {
-            userWalletDao.upsert(UserWallet(coins = clamped))
+            userWalletDao.upsert(UserWallet(profileId = profileId, coins = clamped))
         }
     }
 

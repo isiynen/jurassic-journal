@@ -17,9 +17,12 @@ keystore.properties
 !debug.keystore
 
 # Data pipeline scripts and working directories — local dev tools only
+*.txt
 *.py
+*.sh
 __pycache__/
 jwa_abilities/
 jwa_dinos/
 app/src/main/assets/dinosaurs/
 app/src/main/assets/ability_icons/
+*.md
