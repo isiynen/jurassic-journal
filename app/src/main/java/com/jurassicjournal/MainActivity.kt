@@ -32,6 +32,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.jurassicjournal.data.update.DinoImageSync
 import com.jurassicjournal.data.update.NewDinoDetector
 import com.jurassicjournal.data.update.UpdateInfo
 import com.jurassicjournal.ui.calculator.HybridCalculatorScreen
@@ -57,10 +58,12 @@ class MainActivity : ComponentActivity() {
     private val updateVm: UpdateCheckViewModel by viewModels()
 
     @Inject lateinit var newDinoDetector: NewDinoDetector
+    @Inject lateinit var dinoImageSync: DinoImageSync
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         lifecycleScope.launch(Dispatchers.IO) { newDinoDetector.detect() }
+        lifecycleScope.launch(Dispatchers.IO) { dinoImageSync.syncMissingImages() }
         enableEdgeToEdge()
         setContent {
             JurassicJournalTheme {
