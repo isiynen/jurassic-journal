@@ -1,27 +1,1012 @@
 [
   {
-    "name": "S ≥ Titanosaurus Deinosuchus Ailurarctos Arctodus",
-    "sp_max": 193,
-    "sp_baseline": 60
+    "name": "Acrocanthosaurus",
+    "slug": "acrocanthosaurus",
+    "sad": 113.1
   },
   {
-    "name": "S ≥",
-    "sp_max": 190,
-    "sp_baseline": 60
+    "name": "Aerotitan",
+    "slug": "aerotitan",
+    "sad": 113.5
   },
   {
-    "name": "A ≥",
-    "sp_max": 175,
-    "sp_baseline": 55
+    "name": "Ailurarctos",
+    "slug": "ailurarctos",
+    "sad": 130.3
   },
   {
-    "name": "B ≥",
-    "sp_max": 160,
-    "sp_baseline": 50
+    "name": "Alanqa",
+    "slug": "alanqa",
+    "sad": 113.5
   },
   {
-    "name": "C ≥",
-    "sp_max": 145,
-    "sp_baseline": 45
+    "name": "Albertosaurus",
+    "slug": "albertosaurus",
+    "sad": 105.9
+  },
+  {
+    "name": "Allosaurus",
+    "slug": "allosaurus",
+    "sad": 102.7
+  },
+  {
+    "name": "Allosaurus Gen 2",
+    "slug": "allosaurus_gen2",
+    "sad": 120.0
+  },
+  {
+    "name": "Amargasaurus",
+    "slug": "amargasaurus",
+    "sad": 105.9
+  },
+  {
+    "name": "Ampelosaurus",
+    "slug": "ampelosaurus",
+    "sad": 108.1
+  },
+  {
+    "name": "Amphicyon",
+    "slug": "amphicyon",
+    "sad": 103.8
+  },
+  {
+    "name": "Andrewsarchus",
+    "slug": "andrewsarchus",
+    "sad": 109.4
+  },
+  {
+    "name": "Animantarx",
+    "slug": "animantarx",
+    "sad": 109.8
+  },
+  {
+    "name": "Ankylosaurus",
+    "slug": "ankylosaurus",
+    "sad": 109.8
+  },
+  {
+    "name": "Ankylosaurus Gen 2",
+    "slug": "ankylosaurus_gen_2",
+    "sad": 100.2
+  },
+  {
+    "name": "Antarctopelta",
+    "slug": "antarctopelta",
+    "sad": 110.7
+  },
+  {
+    "name": "Anurognathus",
+    "slug": "anurognathus",
+    "sad": 110.2
+  },
+  {
+    "name": "Apatosaurus",
+    "slug": "apatosaurus",
+    "sad": 103.2
+  },
+  {
+    "name": "Aquilops",
+    "slug": "aquilops",
+    "sad": 110.2
+  },
+  {
+    "name": "Arambourgiania",
+    "slug": "arambourgiania",
+    "sad": 106.9
+  },
+  {
+    "name": "Archaeopteryx",
+    "slug": "archaeopteryx",
+    "sad": 110.2
+  },
+  {
+    "name": "Archaeotherium",
+    "slug": "archaeotherium",
+    "sad": 105.4
+  },
+  {
+    "name": "Arctodus",
+    "slug": "arctodus",
+    "sad": 130.3
+  },
+  {
+    "name": "Arctops",
+    "slug": "arctops",
+    "sad": 116.7
+  },
+  {
+    "name": "Argentavis",
+    "slug": "argentavis",
+    "sad": 121.1
+  },
+  {
+    "name": "Argentinosaurus",
+    "slug": "argentinosaurus",
+    "sad": 105.9
+  },
+  {
+    "name": "Bajadasaurus",
+    "slug": "bajadasaurus",
+    "sad": 108.1
+  },
+  {
+    "name": "Baryonyx",
+    "slug": "baryonyx",
+    "sad": 113.1
+  },
+  {
+    "name": "Baryonyx Gen 2",
+    "slug": "baryonyx_gen_2",
+    "sad": 103.9
+  },
+  {
+    "name": "Beelzebufo",
+    "slug": "beelzebufo",
+    "sad": 125.2
+  },
+  {
+    "name": "Beta",
+    "slug": "beta",
+    "sad": 120.0
+  },
+  {
+    "name": "Blonde",
+    "slug": "blonde",
+    "sad": 110.2
+  },
+  {
+    "name": "Blue",
+    "slug": "blue",
+    "sad": 120.0
+  },
+  {
+    "name": "Brachiosaurus",
+    "slug": "brachiosaurus",
+    "sad": 118.7
+  },
+  {
+    "name": "Brontotherium",
+    "slug": "brontotherium",
+    "sad": 106.9
+  },
+  {
+    "name": "Brunette",
+    "slug": "brunette",
+    "sad": 110.4
+  },
+  {
+    "name": "Bumpy",
+    "slug": "bumpy",
+    "sad": 109.8
+  },
+  {
+    "name": "Carbonemys",
+    "slug": "carbonemys",
+    "sad": 109.1
+  },
+  {
+    "name": "Carnotaurus",
+    "slug": "carnotaurus",
+    "sad": 106.5
+  },
+  {
+    "name": "Centrosaurus",
+    "slug": "centrosaurus",
+    "sad": 102.7
+  },
+  {
+    "name": "Ceratosaurus Gen 2",
+    "slug": "ceratosaurus_gen_2",
+    "sad": 105.9
+  },
+  {
+    "name": "Cervalces",
+    "slug": "cervalces",
+    "sad": 109.7
+  },
+  {
+    "name": "Charlie",
+    "slug": "charlie",
+    "sad": 109.1
+  },
+  {
+    "name": "Coelophysis",
+    "slug": "coelophysis",
+    "sad": 110.2
+  },
+  {
+    "name": "Coelurosauravus",
+    "slug": "coelurosauravus",
+    "sad": 110.2
+  },
+  {
+    "name": "Compsognathus",
+    "slug": "compsognathus",
+    "sad": 110.2
+  },
+  {
+    "name": "Compsognathus Gen 2",
+    "slug": "compsognathus_gen_2",
+    "sad": 110.2
+  },
+  {
+    "name": "Concavenator",
+    "slug": "concavenator",
+    "sad": 110.4
+  },
+  {
+    "name": "Crichtonsaurus",
+    "slug": "crichtonsaurus",
+    "sad": 105.9
+  },
+  {
+    "name": "Dakotaraptor",
+    "slug": "dakotaraptor",
+    "sad": 110.2
+  },
+  {
+    "name": "Darwinopterus",
+    "slug": "darwinopterus",
+    "sad": 111.5
+  },
+  {
+    "name": "Deinocheirus",
+    "slug": "deinocheirus",
+    "sad": 100.4
+  },
+  {
+    "name": "Deinonychus",
+    "slug": "deinonychus",
+    "sad": 105.8
+  },
+  {
+    "name": "Deinosuchus",
+    "slug": "deinosuchus",
+    "sad": 135.1
+  },
+  {
+    "name": "Deinotherium",
+    "slug": "deinotherium",
+    "sad": 112.0
+  },
+  {
+    "name": "Delta",
+    "slug": "delta",
+    "sad": 106.5
+  },
+  {
+    "name": "Dilophosaurus",
+    "slug": "dilophosaurus",
+    "sad": 113.6
+  },
+  {
+    "name": "Dilophosaurus Gen 2",
+    "slug": "dilophosaurus_gen_2",
+    "sad": 100.2
+  },
+  {
+    "name": "Dimetrodon",
+    "slug": "dimetrodon",
+    "sad": 103.3
+  },
+  {
+    "name": "Dimetrodon Gen 2",
+    "slug": "dimetrodon_gen_2",
+    "sad": 102.7
+  },
+  {
+    "name": "Dimorphodon",
+    "slug": "dimorphodon",
+    "sad": 106.5
+  },
+  {
+    "name": "Diplocaulus",
+    "slug": "diplocaulus",
+    "sad": 102.9
+  },
+  {
+    "name": "Diplocaulus Gen 2",
+    "slug": "diplocaulus_gen_2",
+    "sad": 106.1
+  },
+  {
+    "name": "Diplodocus",
+    "slug": "diplodocus",
+    "sad": 119.1
+  },
+  {
+    "name": "Dire Wolf",
+    "slug": "dire_wolf",
+    "sad": 109.4
+  },
+  {
+    "name": "Dodo",
+    "slug": "dodo",
+    "sad": 110.2
+  },
+  {
+    "name": "Doedicurus",
+    "slug": "doedicurus",
+    "sad": 109.2
+  },
+  {
+    "name": "Dracorex",
+    "slug": "dracorex",
+    "sad": 114.3
+  },
+  {
+    "name": "Dracorex Gen 2",
+    "slug": "dracorex_gen_2",
+    "sad": 103.3
+  },
+  {
+    "name": "Dreadnoughtus",
+    "slug": "dreadnoughtus",
+    "sad": 108.1
+  },
+  {
+    "name": "Dsungaripterus",
+    "slug": "dsungaripterus",
+    "sad": 118.9
+  },
+  {
+    "name": "Echo",
+    "slug": "echo",
+    "sad": 106.5
+  },
+  {
+    "name": "Edaphosaurus",
+    "slug": "edaphosaurus",
+    "sad": 112.8
+  },
+  {
+    "name": "Edmontosaurus",
+    "slug": "edmontosaurus",
+    "sad": 105.9
+  },
+  {
+    "name": "Einiosaurus",
+    "slug": "einiosaurus",
+    "sad": 102.7
+  },
+  {
+    "name": "Elasmotherium",
+    "slug": "elasmotherium",
+    "sad": 104.9
+  },
+  {
+    "name": "Entelodon",
+    "slug": "entelodon",
+    "sad": 107.9
+  },
+  {
+    "name": "Eremotherium",
+    "slug": "eremotherium",
+    "sad": 103.4
+  },
+  {
+    "name": "Erlikosaurus",
+    "slug": "erlikosaurus",
+    "sad": 107.3
+  },
+  {
+    "name": "Erlikosaurus Gen 2",
+    "slug": "erlikosaurus_gen_2",
+    "sad": 106.1
+  },
+  {
+    "name": "Eucladoceros",
+    "slug": "eucladoceros",
+    "sad": 109.7
+  },
+  {
+    "name": "Euoplocephalus",
+    "slug": "euoplocephalus",
+    "sad": 102.7
+  },
+  {
+    "name": "Fukuiraptor",
+    "slug": "fukuiraptor",
+    "sad": 120.0
+  },
+  {
+    "name": "Fukuisaurus",
+    "slug": "fukuisaurus",
+    "sad": 102.7
+  },
+  {
+    "name": "Gallimimus",
+    "slug": "gallimimus",
+    "sad": 103.5
+  },
+  {
+    "name": "Geosternbergia",
+    "slug": "geosternbergia",
+    "sad": 115.2
+  },
+  {
+    "name": "Ghost",
+    "slug": "ghost",
+    "sad": 120.0
+  },
+  {
+    "name": "Giganotosaurus",
+    "slug": "giganotosaurus",
+    "sad": 105.9
+  },
+  {
+    "name": "Gigantspinosaurus",
+    "slug": "gigantspinosaurus",
+    "sad": 107.1
+  },
+  {
+    "name": "Giraffatitan",
+    "slug": "giraffatitan",
+    "sad": 106.7
+  },
+  {
+    "name": "Glyptodon",
+    "slug": "glyptodon",
+    "sad": 106.2
+  },
+  {
+    "name": "Gorgonops",
+    "slug": "gorgonops",
+    "sad": 105.6
+  },
+  {
+    "name": "Gorgosaurus",
+    "slug": "gorgosaurus",
+    "sad": 105.9
+  },
+  {
+    "name": "Gryposuchus",
+    "slug": "gryposuchus",
+    "sad": 110.6
+  },
+  {
+    "name": "Haast Eagle",
+    "slug": "haast_eagle",
+    "sad": 121.1
+  },
+  {
+    "name": "Haast Eagle Gen 2",
+    "slug": "haast_eagle_gen_2",
+    "sad": 109.0
+  },
+  {
+    "name": "Hatzegopteryx",
+    "slug": "hatzegopteryx",
+    "sad": 103.7
+  },
+  {
+    "name": "Herrerasaurus",
+    "slug": "herrerasaurus",
+    "sad": 102.7
+  },
+  {
+    "name": "Iguanodon",
+    "slug": "iguanodon",
+    "sad": 102.7
+  },
+  {
+    "name": "Inostrancevia",
+    "slug": "inostrancevia",
+    "sad": 105.6
+  },
+  {
+    "name": "Irritator",
+    "slug": "irritator",
+    "sad": 106.3
+  },
+  {
+    "name": "Irritator Gen 2",
+    "slug": "irritator_gen_2",
+    "sad": 100.6
+  },
+  {
+    "name": "Kaprosuchus",
+    "slug": "kaprosuchus",
+    "sad": 103.3
+  },
+  {
+    "name": "Kelenken",
+    "slug": "kelenken",
+    "sad": 115.8
+  },
+  {
+    "name": "Kentrosaurus",
+    "slug": "kentrosaurus",
+    "sad": 107.1
+  },
+  {
+    "name": "Koolasuchus",
+    "slug": "koolasuchus",
+    "sad": 110.0
+  },
+  {
+    "name": "Koolasuchus Gen 2",
+    "slug": "koolasuchus_gen_2",
+    "sad": 106.1
+  },
+  {
+    "name": "Koreanosaurus",
+    "slug": "koreanosaurus",
+    "sad": 102.7
+  },
+  {
+    "name": "Leucistic Baryonyx",
+    "slug": "leucistic_baryonyx",
+    "sad": 110.2
+  },
+  {
+    "name": "Lystrosaurus",
+    "slug": "lystrosaurus",
+    "sad": 110.2
+  },
+  {
+    "name": "Lythronax",
+    "slug": "lythronax",
+    "sad": 102.7
+  },
+  {
+    "name": "Maiasaura",
+    "slug": "maiasaura",
+    "sad": 113.9
+  },
+  {
+    "name": "Majungasaurus",
+    "slug": "majungasaurus",
+    "sad": 102.7
+  },
+  {
+    "name": "Marsupial Lion",
+    "slug": "marsupial_lion",
+    "sad": 110.1
+  },
+  {
+    "name": "Megaloceros",
+    "slug": "megaloceros",
+    "sad": 108.1
+  },
+  {
+    "name": "Megalonyx",
+    "slug": "megalonyx",
+    "sad": 117.7
+  },
+  {
+    "name": "Megalosaurus",
+    "slug": "megalosaurus",
+    "sad": 105.9
+  },
+  {
+    "name": "Megaraptor",
+    "slug": "megaraptor",
+    "sad": 102.7
+  },
+  {
+    "name": "Megistotherium",
+    "slug": "megistotherium",
+    "sad": 110.7
+  },
+  {
+    "name": "Meiolania",
+    "slug": "meiolania",
+    "sad": 105.9
+  },
+  {
+    "name": "Microraptor",
+    "slug": "microraptor",
+    "sad": 110.2
+  },
+  {
+    "name": "Miragaia",
+    "slug": "miragaia",
+    "sad": 103.9
+  },
+  {
+    "name": "Monolophosaurus",
+    "slug": "monolophosaurus",
+    "sad": 107.1
+  },
+  {
+    "name": "Monolophosaurus Gen 2",
+    "slug": "monolophosaurus_gen_2",
+    "sad": 102.7
+  },
+  {
+    "name": "Moros Intrepidus",
+    "slug": "moros_intrepidus",
+    "sad": 110.2
+  },
+  {
+    "name": "Moschops",
+    "slug": "moschops",
+    "sad": 108.8
+  },
+  {
+    "name": "Nanotyrannus",
+    "slug": "nanotyrannus",
+    "sad": 110.4
+  },
+  {
+    "name": "Nasutoceratops",
+    "slug": "nasutoceratops",
+    "sad": 115.8
+  },
+  {
+    "name": "Nodosaurus",
+    "slug": "nodosaurus",
+    "sad": 105.9
+  },
+  {
+    "name": "Nundasuchus",
+    "slug": "nundasuchus",
+    "sad": 104.2
+  },
+  {
+    "name": "Ophiacodon",
+    "slug": "ophiacodon",
+    "sad": 104.2
+  },
+  {
+    "name": "Ornithomimus",
+    "slug": "ornithomimus",
+    "sad": 109.3
+  },
+  {
+    "name": "Ouranosaurus",
+    "slug": "ouranosaurus",
+    "sad": 109.8
+  },
+  {
+    "name": "Oviraptor",
+    "slug": "oviraptor",
+    "sad": 110.2
+  },
+  {
+    "name": "Oviraptor Gen 2",
+    "slug": "oviraptor_gen_2",
+    "sad": 110.2
+  },
+  {
+    "name": "Pachycephalosaurus",
+    "slug": "pachycephalosaurus",
+    "sad": 111.2
+  },
+  {
+    "name": "Panthera",
+    "slug": "panthera",
+    "sad": 120.0
+  },
+  {
+    "name": "Parasaurolophus",
+    "slug": "parasaurolophus",
+    "sad": 100.2
+  },
+  {
+    "name": "Phorusrhacos",
+    "slug": "phorusrhacos",
+    "sad": 104.3
+  },
+  {
+    "name": "Plateosaurus",
+    "slug": "plateosaurus",
+    "sad": 103.4
+  },
+  {
+    "name": "Postosuchus",
+    "slug": "postosuchus",
+    "sad": 107.4
+  },
+  {
+    "name": "Preondactylus",
+    "slug": "preondactylus",
+    "sad": 110.2
+  },
+  {
+    "name": "Proceratosaurus",
+    "slug": "proceratosaurus",
+    "sad": 103.3
+  },
+  {
+    "name": "Protoceratops",
+    "slug": "protoceratops",
+    "sad": 105.6
+  },
+  {
+    "name": "Pteranodon",
+    "slug": "pteranodon",
+    "sad": 112.4
+  },
+  {
+    "name": "Pulmonoscorpius",
+    "slug": "pulmonoscorpius",
+    "sad": 125.2
+  },
+  {
+    "name": "Purussaurus",
+    "slug": "purussaurus",
+    "sad": 106.3
+  },
+  {
+    "name": "Purussaurus Gen 2",
+    "slug": "purussaurus_gen_2",
+    "sad": 100.6
+  },
+  {
+    "name": "Pyroraptor",
+    "slug": "pyroraptor",
+    "sad": 107.1
+  },
+  {
+    "name": "Pyroraptor Gen 2",
+    "slug": "pyroraptor_gen_2",
+    "sad": 120.0
+  },
+  {
+    "name": "Quetzalcoatlus",
+    "slug": "quetzalcoatlus",
+    "sad": 114.7
+  },
+  {
+    "name": "Quetzalcoatlus Gen 2",
+    "slug": "quetzalcoatlus_gen_2",
+    "sad": 113.5
+  },
+  {
+    "name": "Rajasaurus",
+    "slug": "rajasaurus",
+    "sad": 107.1
+  },
+  {
+    "name": "Rativates",
+    "slug": "rativates",
+    "sad": 103.5
+  },
+  {
+    "name": "Red",
+    "slug": "red",
+    "sad": 120.0
+  },
+  {
+    "name": "Rinchenia",
+    "slug": "rinchenia",
+    "sad": 110.2
+  },
+  {
+    "name": "Rodrigues Solitaire",
+    "slug": "rodrigues_solitaire",
+    "sad": 110.2
+  },
+  {
+    "name": "Sarcosuchus",
+    "slug": "sarcosuchus",
+    "sad": 105.6
+  },
+  {
+    "name": "Saurornitholestes",
+    "slug": "saurornitholestes",
+    "sad": 120.0
+  },
+  {
+    "name": "Scaphognathus",
+    "slug": "scaphognathus",
+    "sad": 109.9
+  },
+  {
+    "name": "Scolosaurus",
+    "slug": "scolosaurus",
+    "sad": 104.1
+  },
+  {
+    "name": "Scutosaurus",
+    "slug": "scutosaurus",
+    "sad": 115.4
+  },
+  {
+    "name": "Secodontosaurus",
+    "slug": "secodontosaurus",
+    "sad": 107.1
+  },
+  {
+    "name": "Shantungosaurus",
+    "slug": "shantungosaurus",
+    "sad": 102.7
+  },
+  {
+    "name": "Sinoceratops",
+    "slug": "sinoceratops",
+    "sad": 109.8
+  },
+  {
+    "name": "Sinosauropteryx",
+    "slug": "sinosauropteryx",
+    "sad": 110.2
+  },
+  {
+    "name": "Sinraptor",
+    "slug": "sinraptor",
+    "sad": 105.9
+  },
+  {
+    "name": "Skorpiovenator",
+    "slug": "skorpiovenator",
+    "sad": 110.4
+  },
+  {
+    "name": "Smilodon",
+    "slug": "smilodon",
+    "sad": 111.4
+  },
+  {
+    "name": "Sonorasaurus",
+    "slug": "sonorasaurus",
+    "sad": 121.3
+  },
+  {
+    "name": "Sphaerotholus",
+    "slug": "sphaerotholus",
+    "sad": 111.2
+  },
+  {
+    "name": "Spinosaurus",
+    "slug": "spinosaurus",
+    "sad": 103.3
+  },
+  {
+    "name": "Spinosaurus Gen 2",
+    "slug": "spinosaurus_gen_2",
+    "sad": 110.2
+  },
+  {
+    "name": "Stegoceras",
+    "slug": "stegoceras",
+    "sad": 110.4
+  },
+  {
+    "name": "Stegosaurus",
+    "slug": "stegosaurus",
+    "sad": 100.2
+  },
+  {
+    "name": "Struthiomimus",
+    "slug": "struthiomimus",
+    "sad": 103.5
+  },
+  {
+    "name": "Stygimoloch",
+    "slug": "stygimoloch",
+    "sad": 110.4
+  },
+  {
+    "name": "Stygimoloch Gen 2",
+    "slug": "stygimoloch_gen_2",
+    "sad": 100.8
+  },
+  {
+    "name": "Suchomimus",
+    "slug": "suchomimus",
+    "sad": 105.2
+  },
+  {
+    "name": "Tanycolagreus",
+    "slug": "tanycolagreus",
+    "sad": 105.2
+  },
+  {
+    "name": "Tapejara",
+    "slug": "tapejara",
+    "sad": 106.9
+  },
+  {
+    "name": "Tarbosaurus",
+    "slug": "tarbosaurus",
+    "sad": 100.2
+  },
+  {
+    "name": "Tenontosaurus",
+    "slug": "tenontosaurus",
+    "sad": 113.6
+  },
+  {
+    "name": "Therizinosaurus",
+    "slug": "therizinosaurus",
+    "sad": 118.7
+  },
+  {
+    "name": "Thylacosmilus",
+    "slug": "thylacosmilus",
+    "sad": 110.1
+  },
+  {
+    "name": "Tiger",
+    "slug": "tiger",
+    "sad": 120.0
+  },
+  {
+    "name": "Titanoboa",
+    "slug": "titanoboa",
+    "sad": 120.4
+  },
+  {
+    "name": "Titanoboa Gen 2",
+    "slug": "titanoboa_gen_2",
+    "sad": 108.3
+  },
+  {
+    "name": "Titanosaurus",
+    "slug": "titanosaurus",
+    "sad": 142.0
+  },
+  {
+    "name": "Toro",
+    "slug": "toro",
+    "sad": 110.4
+  },
+  {
+    "name": "Triceratops",
+    "slug": "triceratops",
+    "sad": 105.9
+  },
+  {
+    "name": "Triceratops Gen 2",
+    "slug": "triceratops_gen_2",
+    "sad": 102.7
+  },
+  {
+    "name": "Troodon",
+    "slug": "troodon",
+    "sad": 113.3
+  },
+  {
+    "name": "Tsintaosaurus",
+    "slug": "tsintaosaurus",
+    "sad": 102.7
+  },
+  {
+    "name": "Tuojiangosaurus",
+    "slug": "tuojiangosaurus",
+    "sad": 103.3
+  },
+  {
+    "name": "Tupandactylus",
+    "slug": "tupandactylus",
+    "sad": 106.9
+  },
+  {
+    "name": "Tyrannosaurus Rex",
+    "slug": "tyrannosaurus_rex",
+    "sad": 109.8
+  },
+  {
+    "name": "Tyrannosaurus Rex Gen 2",
+    "slug": "tyrannosaurus_rex_gen_2",
+    "sad": 103.3
+  },
+  {
+    "name": "Utahraptor",
+    "slug": "utahraptor",
+    "sad": 103.3
+  },
+  {
+    "name": "Velociraptor",
+    "slug": "velociraptor",
+    "sad": 110.2
+  },
+  {
+    "name": "Woolly Mammoth",
+    "slug": "woolly_mammoth",
+    "sad": 112.0
+  },
+  {
+    "name": "Woolly Rhino",
+    "slug": "woolly_rhino",
+    "sad": 120.2
+  },
+  {
+    "name": "Wuerhosaurus",
+    "slug": "wuerhosaurus",
+    "sad": 113.6
   }
 ]

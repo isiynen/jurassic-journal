@@ -2,6 +2,8 @@ package com.jurassicjournal.di
 
 import android.content.Context
 import androidx.room.Room
+import androidx.room.RoomDatabase
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.jurassicjournal.data.game.GameDatabase
 import com.jurassicjournal.data.game.dao.DinoBaseStatDao
 import com.jurassicjournal.data.game.dao.DinoDao
@@ -48,7 +50,25 @@ object DatabaseModule {
     fun provideUserDatabase(@ApplicationContext context: Context): UserDatabase =
         Room.databaseBuilder(context, UserDatabase::class.java, "user_database")
             .addMigrations(*UserDatabaseMigrations.ALL)
+            .addCallback(SEED_DEFAULT_PROFILE)
             .build()
+
+    /**
+     * Seeds the default profile on a FRESH install. The 1→2 migration already
+     * inserts this row for upgraders, but a clean install builds straight at the
+     * latest version and never runs migrations — leaving `profiles` empty. Any
+     * subsequent insert into a profile-scoped table (e.g. teams) would then fail
+     * its foreign key. onCreate runs once, only for a newly created database.
+     */
+    private val SEED_DEFAULT_PROFILE = object : RoomDatabase.Callback() {
+        override fun onCreate(db: SupportSQLiteDatabase) {
+            super.onCreate(db)
+            db.execSQL(
+                "INSERT INTO profiles (id, name, createdAt, sortOrder) " +
+                    "VALUES (1, 'Default', ${System.currentTimeMillis()}, 0)"
+            )
+        }
+    }
 
     @Provides fun provideDinoDao(db: GameDatabase): DinoDao = db.dinoDao()
     @Provides fun provideDinoBaseStatDao(db: GameDatabase): DinoBaseStatDao = db.dinoBaseStatDao()
