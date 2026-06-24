@@ -39,7 +39,7 @@ class ManageTeamsViewModel @Inject constructor(
         val trimmed = name.trim()
         if (trimmed.isBlank()) return
         viewModelScope.launch {
-            val profileId = uiState.value.profileId
+            val profileId = activeProfileRepository.requireActiveProfileId()
             teamDao.insert(Team(profileId = profileId, name = trimmed))
         }
     }
