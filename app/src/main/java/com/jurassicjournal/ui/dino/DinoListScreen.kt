@@ -1,35 +1,47 @@
 package com.jurassicjournal.ui.dino
 
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Checkbox
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyGridState
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -39,10 +51,10 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
@@ -50,33 +62,45 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
-import com.jurassicjournal.R
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.Hyphens
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.jurassicjournal.data.update.dinoImageModel
+import com.jurassicjournal.R
 import com.jurassicjournal.data.game.entity.Dino
 import com.jurassicjournal.data.game.repository.DinoSearchResult
 import com.jurassicjournal.data.model.DinoClass
 import com.jurassicjournal.data.model.Rarity
+import com.jurassicjournal.data.update.dinoImageModel
 import com.jurassicjournal.ui.profile.ProfileBarViewModel
 import com.jurassicjournal.ui.theme.ClassCunning
 import com.jurassicjournal.ui.theme.ClassFierce
@@ -89,6 +113,10 @@ import com.jurassicjournal.ui.theme.RarityLegendary
 import com.jurassicjournal.ui.theme.RarityOmega
 import com.jurassicjournal.ui.theme.RarityRare
 import com.jurassicjournal.ui.theme.RarityUnique
+import kotlin.math.ceil
+import kotlin.math.roundToInt
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -104,7 +132,7 @@ fun DinoListScreen(
     val filters by viewModel.filters.collectAsState()
     val newCount by viewModel.newCount.collectAsState()
     val barState by profileBarViewModel.state.collectAsState()
-    val listState = rememberLazyListState()
+    val gridState = rememberLazyGridState()
     val currentProfileId by rememberUpdatedState(barState.activeProfileId)
     var scrolledForProfileId by remember { mutableLongStateOf(-1L) }
     var showSupportDialog by remember { mutableStateOf(false) }
@@ -112,7 +140,7 @@ fun DinoListScreen(
     LaunchedEffect(results) {
         if (currentProfileId != scrolledForProfileId) {
             scrolledForProfileId = currentProfileId
-            listState.scrollToItem(0)
+            gridState.scrollToItem(0)
         }
     }
 
@@ -132,7 +160,7 @@ fun DinoListScreen(
                         "Jurassic Journal",
                         style = MaterialTheme.typography.titleLarge,
                         modifier = Modifier.fillMaxWidth(),
-                        textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                        textAlign = TextAlign.Center,
                     )
                 },
                 actions = {
@@ -190,23 +218,42 @@ fun DinoListScreen(
 
             if (results.isEmpty()) {
                 Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    Text("No dinosaurs found", style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f))
+                    Text(
+                        "No dinosaurs found",
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+                    )
                 }
             } else {
-                LazyColumn(
-                    state = listState,
-                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                ) {
-                    items(results, key = { it.dino.id }) { result ->
-                        DinoCard(
-                            dino = result.dino,
-                            matchedMoves = result.matchedMoves,
-                            isNew = result.isNew,
-                            onClick = { onDinoClick(result.dino.id) },
-                        )
+                Box(modifier = Modifier.fillMaxSize()) {
+                    LazyVerticalGrid(
+                        state = gridState,
+                        columns = GridCells.Fixed(4),
+                        contentPadding = PaddingValues(
+                            start = 8.dp, end = 20.dp, top = 8.dp, bottom = 8.dp,
+                        ),
+                        horizontalArrangement = Arrangement.spacedBy(4.dp),
+                        verticalArrangement = Arrangement.spacedBy(4.dp),
+                        modifier = Modifier.fillMaxSize(),
+                    ) {
+                        items(results, key = { it.dino.id }) { result ->
+                            DinoGridCell(
+                                dino = result.dino,
+                                matchedMoves = result.matchedMoves,
+                                isNew = result.isNew,
+                                onClick = { onDinoClick(result.dino.id) },
+                            )
+                        }
                     }
+                    DinoFastScrollbar(
+                        gridState = gridState,
+                        columns = 4,
+                        modifier = Modifier
+                            .align(Alignment.TopEnd)
+                            .fillMaxHeight()
+                            .width(14.dp)
+                            .padding(vertical = 8.dp),
+                    )
                 }
             }
         }
@@ -216,6 +263,279 @@ fun DinoListScreen(
         SupportDialog(onDismiss = { showSupportDialog = false })
     }
 }
+
+// ── Grid name formatter (display only — does not touch DB values) ─────────────
+
+private fun formatGridName(name: String): String = name
+    .replace(" Gen 2", " Gen 2")
+    .replace(" Gen 3", " Gen 3")
+    .replace("Gigantspinosaurus", "Gigantspino­saurus")
+    .replace("Monolophosaurus", "Monolopho­saurus")
+
+// ── Grid cell ─────────────────────────────────────────────────────────────────
+
+@Composable
+fun DinoGridCell(
+    dino: Dino,
+    matchedMoves: List<String> = emptyList(),
+    isNew: Boolean = false,
+    isSelected: Boolean? = null,
+    showDeleteButton: Boolean = false,
+    onDelete: (() -> Unit)? = null,
+    onClick: () -> Unit,
+) {
+    val context = LocalContext.current
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .clickable(onClick = onClick)
+            .padding(2.dp),
+    ) {
+        Box {
+            AsyncImage(
+                model = ImageRequest.Builder(context)
+                    .data(dinoImageModel(context, dino.imagePath))
+                    .crossfade(false)
+                    .build(),
+                contentDescription = dino.name,
+                contentScale = ContentScale.Fit,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(1f)
+                    .clip(RoundedCornerShape(6.dp))
+                    .background(MaterialTheme.colorScheme.surfaceVariant),
+            )
+
+            // NEW badge — top-left
+            if (isNew) {
+                Surface(
+                    modifier = Modifier
+                        .align(Alignment.TopStart)
+                        .padding(2.dp),
+                    shape = RoundedCornerShape(3.dp),
+                    color = MaterialTheme.colorScheme.tertiary,
+                ) {
+                    Text(
+                        "NEW",
+                        modifier = Modifier.padding(horizontal = 3.dp, vertical = 1.dp),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onTertiary,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 7.sp,
+                    )
+                }
+            }
+
+            // Selection indicator — bottom-right
+            if (isSelected != null) {
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .padding(3.dp)
+                        .size(18.dp)
+                        .background(
+                            color = if (isSelected) MaterialTheme.colorScheme.primary
+                                    else MaterialTheme.colorScheme.surface.copy(alpha = 0.80f),
+                            shape = CircleShape,
+                        ),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    if (isSelected) {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = null,
+                            modifier = Modifier.size(12.dp),
+                            tint = MaterialTheme.colorScheme.onPrimary,
+                        )
+                    }
+                }
+            }
+
+            // Delete button — top-right (team detail)
+            if (showDeleteButton && onDelete != null) {
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .padding(2.dp)
+                        .size(20.dp)
+                        .background(Color.Black.copy(alpha = 0.55f), CircleShape)
+                        .clickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = null,
+                            onClick = onDelete,
+                        ),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Delete,
+                        contentDescription = "Remove from team",
+                        modifier = Modifier.size(13.dp),
+                        tint = Color.White,
+                    )
+                }
+            }
+        }
+
+        Text(
+            text = formatGridName(dino.name),
+            style = MaterialTheme.typography.labelSmall.copy(hyphens = Hyphens.Auto),
+            textAlign = TextAlign.Center,
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 2.dp, start = 1.dp, end = 1.dp),
+        )
+
+        if (matchedMoves.isNotEmpty()) {
+            Text(
+                text = matchedMoves.joinToString(" · "),
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.tertiary,
+                textAlign = TextAlign.Center,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+                fontSize = 9.sp,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 1.dp, start = 1.dp, end = 1.dp),
+            )
+        }
+    }
+}
+
+// ── Fast scrollbar ────────────────────────────────────────────────────────────
+
+@Composable
+fun DinoFastScrollbar(
+    gridState: LazyGridState,
+    columns: Int = 4,
+    modifier: Modifier = Modifier,
+) {
+    val coroutineScope = rememberCoroutineScope()
+
+    val thumbFraction by remember(gridState) {
+        derivedStateOf {
+            val info = gridState.layoutInfo
+            val totalItems = info.totalItemsCount
+            if (totalItems == 0) return@derivedStateOf 1f
+            val totalRows = ceil(totalItems / columns.toFloat()).toInt()
+            val visibleRows = info.visibleItemsInfo.map { it.row }.distinct().size
+            (visibleRows.toFloat() / totalRows.coerceAtLeast(1)).coerceIn(0.08f, 1f)
+        }
+    }
+
+    val scrollFraction by remember(gridState) {
+        derivedStateOf {
+            val info = gridState.layoutInfo
+            val totalItems = info.totalItemsCount
+            if (totalItems == 0) return@derivedStateOf 0f
+            val totalRows = ceil(totalItems / columns.toFloat()).toInt()
+            val visibleRows = info.visibleItemsInfo.map { it.row }.distinct().size
+            val maxScrollRows = (totalRows - visibleRows).coerceAtLeast(1)
+            val firstRow = gridState.firstVisibleItemIndex / columns
+            (firstRow.toFloat() / maxScrollRows).coerceIn(0f, 1f)
+        }
+    }
+
+    var showScrollbar by remember { mutableStateOf(false) }
+
+    LaunchedEffect(gridState.isScrollInProgress) {
+        if (gridState.isScrollInProgress) {
+            showScrollbar = true
+        } else {
+            delay(1500L)
+            showScrollbar = false
+        }
+    }
+
+    val alpha by animateFloatAsState(
+        targetValue = if (showScrollbar && thumbFraction < 1f) 1f else 0f,
+        animationSpec = tween(300),
+        label = "scrollbar_alpha",
+    )
+
+    // rememberUpdatedState keeps gesture handler current without restarting pointerInput
+    val thumbFractionRef = rememberUpdatedState(thumbFraction)
+    val scrollFractionRef = rememberUpdatedState(scrollFraction)
+
+    var isDragging by remember { mutableStateOf(false) }
+    var dragStartY by remember { mutableFloatStateOf(0f) }
+    var dragStartFraction by remember { mutableFloatStateOf(0f) }
+
+    // Read in composition scope so Canvas lambda captures fresh values on recomposition
+    val tf = thumbFraction
+    val sf = scrollFraction
+    val dragging = isDragging
+    val primaryColor = MaterialTheme.colorScheme.primary
+    val onSurfaceColor = MaterialTheme.colorScheme.onSurface
+
+    Box(modifier = modifier.alpha(alpha)) {
+        Canvas(
+            modifier = Modifier
+                .fillMaxSize()
+                .pointerInput(Unit) {
+                    detectDragGestures(
+                        onDragStart = { offset ->
+                            val curTf = thumbFractionRef.value
+                            val curSf = scrollFractionRef.value
+                            val trackH = size.height.toFloat()
+                            val thumbH = trackH * curTf
+                            val thumbTop = (trackH - thumbH) * curSf
+                            isDragging = offset.y >= (thumbTop - 24f) &&
+                                         offset.y <= (thumbTop + thumbH + 24f)
+                            if (isDragging) {
+                                dragStartY = offset.y
+                                dragStartFraction = curSf
+                            }
+                        },
+                        onDrag = { change, _ ->
+                            if (isDragging) {
+                                change.consume()
+                                val curTf = thumbFractionRef.value
+                                val trackH = size.height.toFloat()
+                                val thumbH = trackH * curTf
+                                val available = (trackH - thumbH).coerceAtLeast(1f)
+                                val delta = change.position.y - dragStartY
+                                val newFraction = (dragStartFraction + delta / available).coerceIn(0f, 1f)
+                                val totalItems = gridState.layoutInfo.totalItemsCount
+                                if (totalItems == 0) return@detectDragGestures
+                                val totalRows = ceil(totalItems / columns.toFloat()).toInt()
+                                val visibleRowsApprox = (curTf * totalRows).roundToInt().coerceAtLeast(1)
+                                val maxScrollRows = (totalRows - visibleRowsApprox).coerceAtLeast(1)
+                                val targetRow = (newFraction * maxScrollRows).roundToInt()
+                                val targetItem = (targetRow * columns).coerceIn(0, totalItems - 1)
+                                coroutineScope.launch { gridState.scrollToItem(targetItem) }
+                            }
+                        },
+                        onDragEnd = { isDragging = false },
+                        onDragCancel = { isDragging = false },
+                    )
+                },
+        ) {
+            val trackW = 6.dp.toPx()
+            val x = (size.width - trackW) / 2f
+
+            drawRoundRect(
+                color = onSurfaceColor.copy(alpha = 0.15f),
+                topLeft = Offset(x, 0f),
+                size = Size(trackW, size.height),
+                cornerRadius = CornerRadius(trackW / 2f),
+            )
+
+            val thumbH = (size.height * tf).coerceAtLeast(trackW * 2f)
+            val thumbTop = (size.height - thumbH) * sf
+            drawRoundRect(
+                color = primaryColor.copy(alpha = if (dragging) 0.90f else 0.55f),
+                topLeft = Offset(x, thumbTop),
+                size = Size(trackW, thumbH),
+                cornerRadius = CornerRadius(trackW / 2f),
+            )
+        }
+    }
+}
+
+// ── Dialogs / dropdowns (unchanged) ──────────────────────────────────────────
 
 @Composable
 private fun SupportDialog(onDismiss: () -> Unit) {
@@ -282,7 +602,7 @@ private fun ProfileDropdown(
                     text = {
                         Text(profile.name,
                             fontWeight = if (profile.id == activeProfileId)
-                                androidx.compose.ui.text.font.FontWeight.Bold else null)
+                                FontWeight.Bold else null)
                     },
                     onClick = { onSelect(profile.id); expanded = false },
                 )
@@ -338,6 +658,8 @@ private fun TeamDropdown(
         }
     }
 }
+
+// ── Filter rows (unchanged) ───────────────────────────────────────────────────
 
 @Composable
 fun SearchBar(query: String, onQueryChange: (String) -> Unit, modifier: Modifier = Modifier) {
@@ -433,6 +755,8 @@ fun NewFilterRow(newCount: Int, selected: Boolean, onToggle: () -> Unit) {
     }
 }
 
+// ── Legacy DinoCard (kept for any external callers) ───────────────────────────
+
 @Composable
 fun DinoCard(
     dino: Dino,
@@ -479,7 +803,8 @@ fun DinoCard(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(6.dp),
                     ) {
-                        Text(dino.name, style = MaterialTheme.typography.titleMedium, modifier = Modifier.weight(1f, fill = false))
+                        Text(dino.name, style = MaterialTheme.typography.titleMedium,
+                            modifier = Modifier.weight(1f, fill = false))
                         if (isNew) {
                             Surface(
                                 shape = RoundedCornerShape(4.dp),
@@ -490,7 +815,7 @@ fun DinoCard(
                                     modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp),
                                     style = MaterialTheme.typography.labelSmall,
                                     color = MaterialTheme.colorScheme.onTertiary,
-                                    fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
+                                    fontWeight = FontWeight.Bold,
                                 )
                             }
                         }
@@ -521,13 +846,12 @@ fun DinoCard(
     }
 }
 
+// ── Chips and color helpers (unchanged) ───────────────────────────────────────
+
 @Composable
 fun RarityChip(rarity: Rarity) {
     val color = rarityColor(rarity)
-    Surface(
-        shape = CircleShape,
-        color = color.copy(alpha = 0.15f),
-    ) {
+    Surface(shape = CircleShape, color = color.copy(alpha = 0.15f)) {
         Text(
             text = rarity.name.lowercase().replaceFirstChar { it.uppercase() },
             modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
@@ -542,10 +866,7 @@ fun ClassChip(dinoClass: DinoClass) {
     val color = classColor(dinoClass)
     val label = dinoClass.name.lowercase().replace('_', ' ').split(" ")
         .joinToString(" ") { it.replaceFirstChar { c -> c.uppercase() } }
-    Surface(
-        shape = CircleShape,
-        color = color.copy(alpha = 0.15f),
-    ) {
+    Surface(shape = CircleShape, color = color.copy(alpha = 0.15f)) {
         Text(
             text = label,
             modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
