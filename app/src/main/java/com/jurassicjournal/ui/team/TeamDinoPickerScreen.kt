@@ -6,13 +6,16 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
@@ -39,7 +42,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.jurassicjournal.ui.dino.ClassFilterRow
-import com.jurassicjournal.ui.dino.DinoCard
+import com.jurassicjournal.ui.dino.DinoFastScrollbar
+import com.jurassicjournal.ui.dino.DinoGridCell
 import com.jurassicjournal.ui.dino.NewFilterRow
 import com.jurassicjournal.ui.dino.RarityFilterRow
 import com.jurassicjournal.ui.dino.SearchBar
@@ -60,7 +64,7 @@ fun TeamDinoPickerScreen(
     val hasChanges by viewModel.hasChanges.collectAsState()
     val teamName by viewModel.teamName.collectAsState()
     val barState by profileBarViewModel.state.collectAsState()
-    val listState = rememberLazyListState()
+    val gridState = rememberLazyGridState()
 
     var showDiscardDialog by remember { mutableStateOf(false) }
 
@@ -112,9 +116,12 @@ fun TeamDinoPickerScreen(
                 },
                 actions = {
                     IconButton(onClick = { viewModel.save() }) {
-                        Icon(Icons.Default.Check, contentDescription = "Save",
+                        Icon(
+                            Icons.Default.Check,
+                            contentDescription = "Save",
                             tint = if (hasChanges) MaterialTheme.colorScheme.primary
-                                   else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f))
+                                   else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f),
+                        )
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -155,25 +162,42 @@ fun TeamDinoPickerScreen(
 
             if (results.isEmpty()) {
                 Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    Text("No dinosaurs found", style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f))
+                    Text(
+                        "No dinosaurs found",
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+                    )
                 }
             } else {
-                LazyColumn(
-                    state = listState,
-                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                ) {
-                    items(results, key = { it.dino.id }) { result ->
-                        DinoCard(
-                            dino = result.dino,
-                            matchedMoves = result.matchedMoves,
-                            isNew = result.isNew,
-                            isSelected = result.dino.id in stagedIds,
-                            onSelectedChange = { viewModel.toggle(result.dino.id) },
-                            onClick = { onDinoClick(result.dino.id) },
-                        )
+                Box(modifier = Modifier.fillMaxSize()) {
+                    LazyVerticalGrid(
+                        state = gridState,
+                        columns = GridCells.Fixed(4),
+                        contentPadding = PaddingValues(
+                            start = 8.dp, end = 20.dp, top = 8.dp, bottom = 8.dp,
+                        ),
+                        horizontalArrangement = Arrangement.spacedBy(4.dp),
+                        verticalArrangement = Arrangement.spacedBy(4.dp),
+                        modifier = Modifier.fillMaxSize(),
+                    ) {
+                        items(results, key = { it.dino.id }) { result ->
+                            DinoGridCell(
+                                dino = result.dino,
+                                matchedMoves = result.matchedMoves,
+                                isNew = result.isNew,
+                                isSelected = result.dino.id in stagedIds,
+                                onClick = { viewModel.toggle(result.dino.id) },
+                            )
+                        }
                     }
+                    DinoFastScrollbar(
+                        gridState = gridState,
+                        modifier = Modifier
+                            .align(Alignment.TopEnd)
+                            .fillMaxHeight()
+                            .width(14.dp)
+                            .padding(vertical = 8.dp),
+                    )
                 }
             }
         }
