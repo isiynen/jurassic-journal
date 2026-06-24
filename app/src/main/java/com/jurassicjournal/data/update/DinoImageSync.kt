@@ -19,25 +19,27 @@ class DinoImageSync @Inject constructor(
 ) {
     /**
      * Downloads any dino images referenced by the DB that are not yet available locally.
-     * Skips bundled APK images and already-downloaded files.
-     * As skipped files are counted, the progress counter advances quickly before slowing
-     * to actual download speed for genuinely missing images.
+     * Images that repeatedly fail are recorded per DB version and skipped on subsequent
+     * launches. The skip list clears when the DB version changes so they retry automatically.
      */
     suspend fun syncMissingImages() {
         val dir = File(context.filesDir, DOWNLOADED_DIR).also { it.mkdirs() }
         val allPaths = dinoDao.getAllImagePaths()
-        val pending = allPaths.filter { !BundledDinoImages.contains(it) }
+        val knownFailed = loadFailedPaths()
+        val pending = allPaths
+            .filter { !BundledDinoImages.contains(it) }
+            .filterNot { it in knownFailed }
 
         if (pending.isEmpty()) return
+        if (pending.none { !File(dir, it).exists() }) return
 
         tracker.beginPhase(SyncPhase.IMAGE_SYNC, total = pending.size)
 
+        val newlyFailed = mutableSetOf<String>()
         var downloaded = 0
-        var failed = 0
         for (path in pending) {
             val dest = File(dir, path)
             if (dest.exists()) {
-                // Already downloaded in a previous session — advance counter without bytes
                 tracker.advance(filesDelta = 1)
                 continue
             }
@@ -46,15 +48,41 @@ class DinoImageSync @Inject constructor(
                 downloaded++
             } catch (e: Exception) {
                 Log.w(TAG, "Failed to fetch $path: ${e.message}")
-                failed++
+                newlyFailed += path
             }
             tracker.advance(filesDelta = 1)
         }
 
         tracker.finish()
-        if (downloaded > 0 || failed > 0) {
-            Log.i(TAG, "Image sync: +$downloaded downloaded, $failed failed")
+
+        if (newlyFailed.isNotEmpty()) {
+            saveFailedPaths(knownFailed + newlyFailed)
+            Log.i(TAG, "Marked ${newlyFailed.size} images as unavailable (will retry after next DB update)")
         }
+        if (downloaded > 0) {
+            Log.i(TAG, "Image sync: +$downloaded downloaded")
+        }
+    }
+
+    private fun loadFailedPaths(): Set<String> {
+        val prefs = context.getSharedPreferences(GameDataUpdater.PREFS_NAME, Context.MODE_PRIVATE)
+        val currentDbVersion = prefs.getString(GameDataUpdater.KEY_DATA_VERSION, "") ?: ""
+        val savedVersion = prefs.getString(KEY_FAILED_VERSION, "") ?: ""
+        if (currentDbVersion != savedVersion) {
+            prefs.edit().putString(KEY_FAILED_VERSION, currentDbVersion)
+                .remove(KEY_FAILED_PATHS).apply()
+            return emptySet()
+        }
+        return prefs.getStringSet(KEY_FAILED_PATHS, emptySet()) ?: emptySet()
+    }
+
+    private fun saveFailedPaths(paths: Set<String>) {
+        val prefs = context.getSharedPreferences(GameDataUpdater.PREFS_NAME, Context.MODE_PRIVATE)
+        val currentDbVersion = prefs.getString(GameDataUpdater.KEY_DATA_VERSION, "") ?: ""
+        prefs.edit()
+            .putString(KEY_FAILED_VERSION, currentDbVersion)
+            .putStringSet(KEY_FAILED_PATHS, paths)
+            .apply()
     }
 
     private suspend fun downloadImage(imagePath: String, dest: File) {
@@ -87,5 +115,7 @@ class DinoImageSync @Inject constructor(
 
     companion object {
         private const val TAG = "DinoImageSync"
+        private const val KEY_FAILED_PATHS   = "dino_image_failed_paths"
+        private const val KEY_FAILED_VERSION = "dino_image_failed_version"
     }
 }
