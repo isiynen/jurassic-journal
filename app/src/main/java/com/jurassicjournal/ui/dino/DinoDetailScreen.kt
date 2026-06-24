@@ -567,8 +567,8 @@ private fun OmegaTrainingCard(
                 "attack"          to "ATK",
                 "speed"           to "SPD",
                 "armor"           to "ARM",
-                "crit_chance"     to "CRIT",
-                "crit_multiplier" to "CRITM",
+                "crit_chance"     to "CRIT %",
+                "crit_multiplier" to "CRIT DMG",
             )
 
             omegaConfigs.forEach { cfg ->
