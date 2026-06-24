@@ -20,20 +20,22 @@ class AbilityIconSync @Inject constructor(
 ) {
     /**
      * Downloads any ability icons referenced by the DB that are not yet available locally.
-     * Covers both main icons and overlay/badge icons (shared/).
-     * Skips bundled APK icons and already-downloaded files; counter still advances for skips
-     * so resume progress is visible.
+     * Icons that repeatedly fail (not yet on server) are recorded per DB version and skipped
+     * on subsequent launches to avoid a persistent strip. The skip list is cleared whenever
+     * the DB version changes so new pushes are retried automatically.
      */
     suspend fun syncMissingIcons() {
         val dir = File(context.filesDir, ABILITY_DOWNLOADED_DIR).also { it.mkdirs() }
-        val pending = collectPendingIcons()
+        val knownFailed = loadFailedPaths()
+        val pending = collectPendingIcons().filterNot { it in knownFailed }
 
         if (pending.isEmpty()) return
+        if (pending.none { !File(dir, it).exists() }) return
 
         tracker.beginPhase(SyncPhase.ABILITY_SYNC, total = pending.size)
 
+        val newlyFailed = mutableSetOf<String>()
         var downloaded = 0
-        var failed = 0
         for (rel in pending) {
             val dest = File(dir, rel)
             if (dest.exists()) {
@@ -45,18 +47,43 @@ class AbilityIconSync @Inject constructor(
                 downloaded++
             } catch (e: Exception) {
                 Log.w(TAG, "Failed to fetch ability icon $rel: ${e.message}")
-                failed++
+                newlyFailed += rel
             }
             tracker.advance(filesDelta = 1)
         }
 
         tracker.finish()
-        if (downloaded > 0 || failed > 0) {
-            Log.i(TAG, "Ability icon sync: +$downloaded downloaded, $failed failed")
+
+        if (newlyFailed.isNotEmpty()) {
+            saveFailedPaths(knownFailed + newlyFailed)
+            Log.i(TAG, "Marked ${newlyFailed.size} icons as unavailable (will retry after next DB update)")
+        }
+        if (downloaded > 0) {
+            Log.i(TAG, "Ability icon sync: +$downloaded downloaded")
         }
     }
 
-    /** Collect distinct icon relative paths (e.g. "shared/priority.png") not in the bundled APK. */
+    private fun loadFailedPaths(): Set<String> {
+        val prefs = context.getSharedPreferences(GameDataUpdater.PREFS_NAME, Context.MODE_PRIVATE)
+        val currentDbVersion = prefs.getString(GameDataUpdater.KEY_DATA_VERSION, "") ?: ""
+        val savedVersion = prefs.getString(KEY_FAILED_VERSION, "") ?: ""
+        if (currentDbVersion != savedVersion) {
+            prefs.edit().putString(KEY_FAILED_VERSION, currentDbVersion)
+                .remove(KEY_FAILED_PATHS).apply()
+            return emptySet()
+        }
+        return prefs.getStringSet(KEY_FAILED_PATHS, emptySet()) ?: emptySet()
+    }
+
+    private fun saveFailedPaths(paths: Set<String>) {
+        val prefs = context.getSharedPreferences(GameDataUpdater.PREFS_NAME, Context.MODE_PRIVATE)
+        val currentDbVersion = prefs.getString(GameDataUpdater.KEY_DATA_VERSION, "") ?: ""
+        prefs.edit()
+            .putString(KEY_FAILED_VERSION, currentDbVersion)
+            .putStringSet(KEY_FAILED_PATHS, paths)
+            .apply()
+    }
+
     private suspend fun collectPendingIcons(): List<String> {
         val iconData = moveDao.getAllIconData()
         val allRel = mutableSetOf<String>()
@@ -110,5 +137,7 @@ class AbilityIconSync @Inject constructor(
 
     companion object {
         private const val TAG = "AbilityIconSync"
+        private const val KEY_FAILED_PATHS   = "ability_icon_failed_paths"
+        private const val KEY_FAILED_VERSION = "ability_icon_failed_version"
     }
 }
