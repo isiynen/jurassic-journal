@@ -24,3 +24,4 @@ __pycache__/
 jwa_abilities/
 jwa_dinos/
 *.md
+game_scraper_config.json
