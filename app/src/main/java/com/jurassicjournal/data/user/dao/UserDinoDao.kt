@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.jurassicjournal.data.user.entity.UserDino
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface UserDinoDao {
@@ -13,6 +14,9 @@ interface UserDinoDao {
 
     @Query("SELECT * FROM user_dinos WHERE profileId = :profileId")
     suspend fun getForProfile(profileId: Long): List<UserDino>
+
+    @Query("SELECT * FROM user_dinos WHERE profileId = :profileId")
+    fun observeForProfile(profileId: Long): Flow<List<UserDino>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsert(userDino: UserDino)

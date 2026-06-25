@@ -2,9 +2,11 @@ package com.jurassicjournal.data.game.repository
 
 import com.jurassicjournal.data.game.dao.DinoDao
 import com.jurassicjournal.data.game.dao.DinoMoveRow
+import com.jurassicjournal.data.game.dao.DinoSpawnLocationDao
 import com.jurassicjournal.data.game.entity.Dino
 import com.jurassicjournal.data.model.DinoClass
 import com.jurassicjournal.data.model.Rarity
+import com.jurassicjournal.data.model.SpawnLocation
 import com.jurassicjournal.data.user.ActiveProfileRepository
 import com.jurassicjournal.data.user.dao.NewDinoDao
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -26,6 +28,7 @@ class DinoRepository @Inject constructor(
     private val dinoDao: DinoDao,
     private val newDinoDao: NewDinoDao,
     private val activeProfileRepository: ActiveProfileRepository,
+    private val dinoSpawnLocationDao: DinoSpawnLocationDao,
 ) {
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -33,6 +36,7 @@ class DinoRepository @Inject constructor(
         query: String = "",
         rarity: Rarity? = null,
         dinoClass: DinoClass? = null,
+        locations: Set<SpawnLocation> = emptySet(),
     ): Flow<List<DinoSearchResult>> =
         activeProfileRepository.activeProfileId.flatMapLatest { profileId ->
             combine(
@@ -41,13 +45,22 @@ class DinoRepository @Inject constructor(
                     dinoClass = dinoClass?.name ?: "",
                 ),
                 newDinoDao.observeNewSlugs(profileId),
-            ) { rows, newSlugs ->
+                dinoSpawnLocationDao.observeAll(),
+            ) { rows, newSlugs, allSpawnLocs ->
+                val spawnMap: Map<Long, Set<SpawnLocation>> = allSpawnLocs
+                    .groupBy({ it.dinoId }, { it.location })
+                    .mapValues { (_, locs) -> locs.toSet() }
                 val newSlugSet = newSlugs.toSet()
                 val all = rows.groupIntoResults(newSlugSet)
+                val locationFiltered = if (locations.isEmpty()) all
+                else all.filter { result ->
+                    val dinoLocs = spawnMap[result.dino.id] ?: emptySet()
+                    locations.all { it in dinoLocs }
+                }
                 val filtered = when {
-                    query.isBlank() -> all.map { it.copy(matchedMoves = emptyList()) }
-                    isStrictQuery(query) -> filterStrict(query.drop(1).dropLast(1), all)
-                    else -> filterMultiWord(query, all)
+                    query.isBlank() -> locationFiltered.map { it.copy(matchedMoves = emptyList()) }
+                    isStrictQuery(query) -> filterStrict(query.drop(1).dropLast(1), locationFiltered)
+                    else -> filterMultiWord(query, locationFiltered)
                 }
                 // New dinos float to top (alphabetical), rest follow in their existing order
                 val (newOnes, rest) = filtered.partition { it.isNew }

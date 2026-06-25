@@ -73,11 +73,13 @@ import com.jurassicjournal.data.game.repository.DinoMoveDetail
 import com.jurassicjournal.data.game.repository.IngredientNode
 import com.jurassicjournal.data.game.repository.MoveVariant
 import com.jurassicjournal.data.game.repository.ParsedTarget
+import com.jurassicjournal.data.game.repository.displayName
 import com.jurassicjournal.data.model.MovePriorityType
 import com.jurassicjournal.data.model.MoveTriggerType
 import com.jurassicjournal.data.model.MoveUnlockType
 import com.jurassicjournal.data.model.ProgressionSystem
 import com.jurassicjournal.data.model.ResistanceType
+import com.jurassicjournal.data.model.SpawnLocation
 import com.jurassicjournal.data.model.minLevel
 import com.jurassicjournal.data.user.entity.Team
 import com.jurassicjournal.ui.team.DinoTeamViewModel
@@ -436,11 +438,19 @@ fun DinoDetailScreen(
                             else teamViewModel.addToTeam(teamId)
                         },
                     )
-                    Spacer(Modifier.height(24.dp))
+                    Spacer(Modifier.height(8.dp))
                 }
-            } else {
-                item { Spacer(Modifier.height(24.dp)) }
             }
+
+            if (detail.spawnLocations.isNotEmpty()) {
+                item {
+                    SectionHeader("Location Found")
+                    LocationFoundSection(detail.spawnLocations)
+                    Spacer(Modifier.height(8.dp))
+                }
+            }
+
+            item { Spacer(Modifier.height(24.dp)) }
         }
     }
 }
@@ -491,7 +501,7 @@ private fun StatsPanel(
             Spacer(Modifier.height(12.dp))
 
             StatRow("❤ Health", computed.health.toString())
-            StatRow("⚔ Attack", computed.attack.toString())
+            StatRow("⚔ Damage", computed.attack.toString())
             StatRow("⚡ Speed",  computed.speed.toString())
             StatRow("🛡 Armor",  "${computed.armor.toInt()}%")
             StatRow("🎯 Crit",   "${computed.critChance.toInt()}%")
@@ -1403,6 +1413,42 @@ private fun HybridsUsingSection(
                         modifier = Modifier.size(16.dp),
                         tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f),
                     )
+                }
+            }
+        }
+    }
+}
+
+// ── Location Found Section ────────────────────────────────────────────────────
+
+@Composable
+private fun LocationFoundSection(locations: List<SpawnLocation>) {
+    val labels = locations.map { it.displayName() }
+    val rows = labels.chunked(2)
+    Column(
+        modifier = Modifier.padding(horizontal = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(6.dp),
+    ) {
+        rows.forEach { pair ->
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(6.dp),
+            ) {
+                pair.forEachIndexed { idx, label ->
+                    Surface(
+                        modifier = Modifier.weight(1f),
+                        shape = RoundedCornerShape(8.dp),
+                        color = MaterialTheme.colorScheme.surfaceVariant,
+                    ) {
+                        Text(
+                            label,
+                            style = MaterialTheme.typography.bodySmall,
+                            modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
+                        )
+                    }
+                }
+                if (pair.size == 1) {
+                    Spacer(Modifier.weight(1f))
                 }
             }
         }

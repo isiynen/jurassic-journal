@@ -64,6 +64,22 @@ enum class ResistanceType {
     RESISTANCE_DECREASE, HEAL_DECREASE, DAZE
 }
 
+fun ResistanceType.displayName(): String = when (this) {
+    ResistanceType.CRIT_REDUCTION      -> "Crit Reduction"
+    ResistanceType.DOT                 -> "DoT"
+    ResistanceType.DAMAGE_DECREASE     -> "Damage Decrease"
+    ResistanceType.REND                -> "Rend"
+    ResistanceType.REDUCED_ARMOR       -> "Armor Decrease"
+    ResistanceType.SPEED_DECREASE      -> "Speed Decrease"
+    ResistanceType.STUN                -> "Stun"
+    ResistanceType.SWAP_PREVENTION     -> "Swap Prevention"
+    ResistanceType.TAUNT               -> "Taunt"
+    ResistanceType.VULNERABLE          -> "Vulnerability"
+    ResistanceType.RESISTANCE_DECREASE -> "Resistance Decrease"
+    ResistanceType.HEAL_DECREASE       -> "Heal Decrease"
+    ResistanceType.DAZE                -> "Daze"
+}
+
 enum class ResearchStatus {
     COMPLETE, PARTIAL, UNRESEARCHED
 }
