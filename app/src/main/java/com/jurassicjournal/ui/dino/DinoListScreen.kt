@@ -24,6 +24,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
@@ -98,8 +99,12 @@ import coil.request.ImageRequest
 import com.jurassicjournal.R
 import com.jurassicjournal.data.game.entity.Dino
 import com.jurassicjournal.data.game.repository.DinoSearchResult
+import com.jurassicjournal.data.game.repository.displayName
 import com.jurassicjournal.data.model.DinoClass
 import com.jurassicjournal.data.model.Rarity
+import com.jurassicjournal.data.model.ResistanceType
+import com.jurassicjournal.data.model.SpawnLocation
+import com.jurassicjournal.data.model.displayName
 import com.jurassicjournal.data.update.dinoImageModel
 import com.jurassicjournal.ui.profile.ProfileBarViewModel
 import com.jurassicjournal.ui.theme.ClassCunning
@@ -128,16 +133,17 @@ fun DinoListScreen(
     viewModel: DinoListViewModel = hiltViewModel(),
     profileBarViewModel: ProfileBarViewModel = hiltViewModel(),
 ) {
-    val results by viewModel.results.collectAsState()
+    val listItems by viewModel.listItems.collectAsState()
     val filters by viewModel.filters.collectAsState()
     val newCount by viewModel.newCount.collectAsState()
     val barState by profileBarViewModel.state.collectAsState()
     val gridState = rememberLazyGridState()
+    val coroutineScope = rememberCoroutineScope()
     val currentProfileId by rememberUpdatedState(barState.activeProfileId)
     var scrolledForProfileId by remember { mutableLongStateOf(-1L) }
     var showSupportDialog by remember { mutableStateOf(false) }
 
-    LaunchedEffect(results) {
+    LaunchedEffect(listItems) {
         if (currentProfileId != scrolledForProfileId) {
             scrolledForProfileId = currentProfileId
             gridState.scrollToItem(0)
@@ -188,73 +194,122 @@ fun DinoListScreen(
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            SearchBar(
-                query = filters.query,
-                onQueryChange = viewModel::onQueryChange,
+            // Fixed: search bar + reset button
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 8.dp),
-            )
-
-            RarityFilterRow(
-                selected = filters.rarity,
-                onSelect = viewModel::onRarityFilter,
-            )
-
-            ClassFilterRow(
-                selected = filters.dinoClass,
-                onSelect = viewModel::onClassFilter,
-            )
-
-            if (newCount > 0) {
-                NewFilterRow(
-                    newCount = newCount,
-                    selected = filters.newOnly,
-                    onToggle = { viewModel.onNewOnlyFilter(!filters.newOnly) },
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                SearchBar(
+                    query = filters.query,
+                    onQueryChange = viewModel::onQueryChange,
+                    modifier = Modifier.weight(1f),
                 )
+                Spacer(Modifier.width(8.dp))
+                androidx.compose.material3.TextButton(
+                    onClick = {
+                        viewModel.resetFilters()
+                        coroutineScope.launch { gridState.scrollToItem(0) }
+                    },
+                ) {
+                    Text("Reset")
+                }
             }
 
-            Spacer(Modifier.height(4.dp))
-
-            if (results.isEmpty()) {
-                Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    Text(
-                        "No dinosaurs found",
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
-                    )
-                }
-            } else {
-                Box(modifier = Modifier.fillMaxSize()) {
-                    LazyVerticalGrid(
-                        state = gridState,
-                        columns = GridCells.Fixed(4),
-                        contentPadding = PaddingValues(
-                            start = 8.dp, end = 20.dp, top = 8.dp, bottom = 8.dp,
-                        ),
-                        horizontalArrangement = Arrangement.spacedBy(4.dp),
-                        verticalArrangement = Arrangement.spacedBy(4.dp),
-                        modifier = Modifier.fillMaxSize(),
-                    ) {
-                        items(results, key = { it.dino.id }) { result ->
-                            DinoGridCell(
-                                dino = result.dino,
-                                matchedMoves = result.matchedMoves,
-                                isNew = result.isNew,
-                                onClick = { onDinoClick(result.dino.id) },
+            // Scrollable: chips + dino grid together
+            Box(modifier = Modifier.fillMaxSize()) {
+                LazyVerticalGrid(
+                    state = gridState,
+                    columns = GridCells.Fixed(4),
+                    contentPadding = PaddingValues(start = 8.dp, end = 20.dp, bottom = 8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    verticalArrangement = Arrangement.spacedBy(4.dp),
+                    modifier = Modifier.fillMaxSize(),
+                ) {
+                    // Chip filter rows scroll with the list
+                    item(span = { GridItemSpan(maxLineSpan) }) {
+                        Column {
+                            RarityFilterRow(
+                                selected = filters.rarity,
+                                onSelect = viewModel::onRarityFilter,
                             )
+                            ClassFilterRow(
+                                selected = filters.dinoClass,
+                                onSelect = viewModel::onClassFilter,
+                            )
+                            LocationFilterRow(
+                                selected = filters.locations,
+                                onToggle = viewModel::onLocationToggle,
+                                onClear = viewModel::onLocationClear,
+                            )
+                            StatSortRow(
+                                selected = filters.sortMode,
+                                onSelect = viewModel::onSortMode,
+                            )
+                            ResistanceSortRow(
+                                selected = filters.resistanceSort,
+                                onSelect = viewModel::onResistanceSort,
+                            )
+                            if (newCount > 0) {
+                                NewFilterRow(
+                                    newCount = newCount,
+                                    selected = filters.newOnly,
+                                    onToggle = { viewModel.onNewOnlyFilter(!filters.newOnly) },
+                                )
+                            }
+                            Spacer(Modifier.height(4.dp))
                         }
                     }
-                    DinoFastScrollbar(
-                        gridState = gridState,
-                        columns = 4,
-                        modifier = Modifier
-                            .align(Alignment.TopEnd)
-                            .fillMaxHeight()
-                            .width(14.dp)
-                            .padding(vertical = 8.dp),
-                    )
+
+                    if (listItems.isEmpty()) {
+                        item(span = { GridItemSpan(maxLineSpan) }) {
+                            Box(
+                                modifier = Modifier.fillMaxWidth().padding(top = 64.dp),
+                                contentAlignment = Alignment.TopCenter,
+                            ) {
+                                Text(
+                                    "No dinosaurs found",
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+                                )
+                            }
+                        }
+                    } else {
+                        items(
+                            items = listItems,
+                            key = { item ->
+                                when (item) {
+                                    is DinoListItem.Header -> "header_${item.label}"
+                                    is DinoListItem.Item   -> item.result.dino.id
+                                }
+                            },
+                            span = { item ->
+                                if (item is DinoListItem.Header) GridItemSpan(maxLineSpan)
+                                else GridItemSpan(1)
+                            },
+                        ) { item ->
+                            when (item) {
+                                is DinoListItem.Header -> SortGroupHeader(item.label)
+                                is DinoListItem.Item   -> DinoGridCell(
+                                    dino = item.result.dino,
+                                    matchedMoves = item.result.matchedMoves,
+                                    isNew = item.result.isNew,
+                                    onClick = { onDinoClick(item.result.dino.id) },
+                                )
+                            }
+                        }
+                    }
                 }
+                DinoFastScrollbar(
+                    gridState = gridState,
+                    columns = 4,
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .fillMaxHeight()
+                        .width(14.dp)
+                        .padding(vertical = 8.dp),
+                )
             }
         }
     }
@@ -439,12 +494,13 @@ fun DinoFastScrollbar(
     }
 
     var showScrollbar by remember { mutableStateOf(false) }
+    var isDragging by remember { mutableStateOf(false) }
 
-    LaunchedEffect(gridState.isScrollInProgress) {
-        if (gridState.isScrollInProgress) {
+    LaunchedEffect(gridState.isScrollInProgress, isDragging) {
+        if (gridState.isScrollInProgress || isDragging) {
             showScrollbar = true
         } else {
-            delay(1500L)
+            delay(3000L)
             showScrollbar = false
         }
     }
@@ -459,7 +515,6 @@ fun DinoFastScrollbar(
     val thumbFractionRef = rememberUpdatedState(thumbFraction)
     val scrollFractionRef = rememberUpdatedState(scrollFraction)
 
-    var isDragging by remember { mutableStateOf(false) }
     var dragStartY by remember { mutableFloatStateOf(0f) }
     var dragStartFraction by remember { mutableFloatStateOf(0f) }
 
@@ -691,7 +746,7 @@ fun SearchBar(query: String, onQueryChange: (String) -> Unit, modifier: Modifier
 @Composable
 fun RarityFilterRow(selected: Rarity?, onSelect: (Rarity?) -> Unit) {
     LazyRow(
-        contentPadding = PaddingValues(horizontal = 16.dp),
+        contentPadding = PaddingValues(start = 8.dp, end = 0.dp, top = 4.dp, bottom = 4.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         item {
@@ -714,11 +769,11 @@ fun RarityFilterRow(selected: Rarity?, onSelect: (Rarity?) -> Unit) {
 @Composable
 fun ClassFilterRow(selected: DinoClass?, onSelect: (DinoClass?) -> Unit) {
     LazyRow(
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 4.dp),
+        contentPadding = PaddingValues(start = 8.dp, end = 0.dp, top = 4.dp, bottom = 4.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         item {
-            FilterChip(selected = selected == null, onClick = { onSelect(null) }, label = { Text("All classes") })
+            FilterChip(selected = selected == null, onClick = { onSelect(null) }, label = { Text("All") })
         }
         items(DinoClass.entries) { cls ->
             FilterChip(
@@ -738,7 +793,7 @@ fun ClassFilterRow(selected: DinoClass?, onSelect: (DinoClass?) -> Unit) {
 @Composable
 fun NewFilterRow(newCount: Int, selected: Boolean, onToggle: () -> Unit) {
     LazyRow(
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 4.dp),
+        contentPadding = PaddingValues(start = 8.dp, end = 0.dp, top = 4.dp, bottom = 4.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         item {
@@ -750,6 +805,38 @@ fun NewFilterRow(newCount: Int, selected: Boolean, onToggle: () -> Unit) {
                     selectedContainerColor = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.25f),
                     selectedLabelColor = MaterialTheme.colorScheme.tertiary,
                 ),
+            )
+        }
+    }
+}
+
+@Composable
+fun LocationFilterRow(
+    selected: Set<SpawnLocation>,
+    onToggle: (SpawnLocation) -> Unit,
+    onClear: () -> Unit,
+) {
+    val locations = remember {
+        SpawnLocation.entries
+            .filter { it != SpawnLocation.NONE && !it.name.startsWith("EVERYWHERE_") }
+            .sortedBy { it.displayName() }
+    }
+    LazyRow(
+        contentPadding = PaddingValues(start = 8.dp, end = 0.dp, top = 4.dp, bottom = 4.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        item {
+            FilterChip(
+                selected = selected.isEmpty(),
+                onClick = onClear,
+                label = { Text("All") },
+            )
+        }
+        items(locations) { loc ->
+            FilterChip(
+                selected = loc in selected,
+                onClick = { onToggle(loc) },
+                label = { Text(loc.displayName()) },
             )
         }
     }
@@ -891,4 +978,107 @@ fun classColor(dinoClass: DinoClass): Color = when (dinoClass) {
     DinoClass.FIERCE, DinoClass.FIERCE_RESILIENT -> ClassFierce
     DinoClass.RESILIENT -> ClassResilient
     DinoClass.WILD_CARD -> ClassWildCard
+}
+
+@Composable
+fun StatSortRow(selected: StatSortMode?, onSelect: (StatSortMode?) -> Unit) {
+    LazyRow(
+        contentPadding = PaddingValues(start = 8.dp, end = 0.dp, top = 4.dp, bottom = 4.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        item {
+            FilterChip(
+                selected = selected == null,
+                onClick = { onSelect(null) },
+                label = { Text("Reset") },
+            )
+        }
+        item {
+            FilterChip(
+                selected = selected == StatSortMode.DAMAGE,
+                onClick = { onSelect(if (selected == StatSortMode.DAMAGE) null else StatSortMode.DAMAGE) },
+                label = { Text("Damage") },
+            )
+        }
+        item {
+            FilterChip(
+                selected = selected == StatSortMode.HEALTH,
+                onClick = { onSelect(if (selected == StatSortMode.HEALTH) null else StatSortMode.HEALTH) },
+                label = { Text("Health") },
+            )
+        }
+        item {
+            FilterChip(
+                selected = selected == StatSortMode.SPEED,
+                onClick = { onSelect(if (selected == StatSortMode.SPEED) null else StatSortMode.SPEED) },
+                label = { Text("Speed") },
+            )
+        }
+        item {
+            FilterChip(
+                selected = selected == StatSortMode.ARMOR,
+                onClick = { onSelect(if (selected == StatSortMode.ARMOR) null else StatSortMode.ARMOR) },
+                label = { Text("Armor") },
+            )
+        }
+        item {
+            FilterChip(
+                selected = selected == StatSortMode.CRIT,
+                onClick = { onSelect(if (selected == StatSortMode.CRIT) null else StatSortMode.CRIT) },
+                label = { Text("Crit") },
+            )
+        }
+    }
+}
+
+@Composable
+fun ResistanceSortRow(selected: ResistanceType?, onSelect: (ResistanceType?) -> Unit) {
+    val resistances = listOf(
+        ResistanceType.REDUCED_ARMOR       to "Armor Decrease",
+        ResistanceType.CRIT_REDUCTION      to "Crit Reduction",
+        ResistanceType.DAMAGE_DECREASE     to "Damage Decrease",
+        ResistanceType.DAZE                to "Daze",
+        ResistanceType.DOT                 to "DoT",
+        ResistanceType.HEAL_DECREASE       to "Heal Decrease",
+        ResistanceType.REND                to "Rend",
+        ResistanceType.RESISTANCE_DECREASE to "Resistance Decrease",
+        ResistanceType.SPEED_DECREASE      to "Speed Decrease",
+        ResistanceType.STUN                to "Stun",
+        ResistanceType.SWAP_PREVENTION     to "Swap Prevention",
+        ResistanceType.TAUNT               to "Taunt",
+        ResistanceType.VULNERABLE          to "Vulnerability",
+    )
+    LazyRow(
+        contentPadding = PaddingValues(start = 8.dp, end = 0.dp, top = 4.dp, bottom = 4.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        item {
+            FilterChip(
+                selected = selected == null,
+                onClick = { onSelect(null) },
+                label = { Text("Reset") },
+            )
+        }
+        items(resistances) { (type, label) ->
+            FilterChip(
+                selected = selected == type,
+                onClick = { onSelect(if (selected == type) null else type) },
+                label = { Text(label) },
+            )
+        }
+    }
+}
+
+@Composable
+private fun SortGroupHeader(label: String) {
+    Text(
+        text = label,
+        style = MaterialTheme.typography.labelMedium,
+        fontWeight = FontWeight.Bold,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.surfaceVariant)
+            .padding(horizontal = 12.dp, vertical = 6.dp),
+    )
 }

@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.jurassicjournal.data.game.entity.DinoSpawnLocation
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface DinoSpawnLocationDao {
@@ -13,4 +14,7 @@ interface DinoSpawnLocationDao {
 
     @Query("SELECT * FROM dino_spawn_locations WHERE dinoId = :dinoId")
     suspend fun getForDino(dinoId: Long): List<DinoSpawnLocation>
+
+    @Query("SELECT * FROM dino_spawn_locations")
+    fun observeAll(): Flow<List<DinoSpawnLocation>>
 }
