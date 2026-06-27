@@ -41,7 +41,7 @@ object StatCalculator {
     /** Maximum total boost tiers available at this creature level. */
     fun maxTotalBoosts(level: Int): Int =
         if (level < BOOST_UNLOCK_LEVEL) 0
-        else minOf(MAX_BOOST_TIERS_TOTAL, level)
+        else level
 
     /** Health after applying boost tiers (percentage-based). */
     fun applyHealthBoost(statAtLevel: Int, tiers: Int): Int =

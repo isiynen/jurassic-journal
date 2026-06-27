@@ -66,6 +66,7 @@ import coil.request.ImageRequest
 import com.jurassicjournal.data.update.dinoImageModel
 import com.jurassicjournal.data.model.Rarity
 import com.jurassicjournal.data.model.minLevel
+import com.jurassicjournal.util.StatCalculator
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -220,21 +221,21 @@ private fun LevelAndBoostCard(
                 color    = MaterialTheme.colorScheme.outline.copy(alpha = 0.15f),
             )
             // Boost rows
-            ConfigRow(label = "Speed boosts") {
-                CompactStepper(title = "Speed boosts", value = boosts.speed, min = 0, max = 20, onValueChange = onSpeedChange)
+            ConfigRow(label = "Health boosts") {
+                CompactStepper(title = "Health boosts", value = boosts.health, min = 0, max = 20, onValueChange = onHealthChange)
             }
             Spacer(Modifier.height(8.dp))
             ConfigRow(label = "Attack boosts") {
                 CompactStepper(title = "Attack boosts", value = boosts.attack, min = 0, max = 20, onValueChange = onAttackChange)
             }
             Spacer(Modifier.height(8.dp))
-            ConfigRow(label = "Health boosts") {
-                CompactStepper(title = "Health boosts", value = boosts.health, min = 0, max = 20, onValueChange = onHealthChange)
+            ConfigRow(label = "Speed boosts") {
+                CompactStepper(title = "Speed boosts", value = boosts.speed, min = 0, max = 20, onValueChange = onSpeedChange)
             }
             if (boosts.total > 0) {
                 Spacer(Modifier.height(10.dp))
                 Text(
-                    "Total boosts: ${boosts.total} / 30",
+                    "Total boosts: ${boosts.total} / ${StatCalculator.maxTotalBoosts(level)}",
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
                     modifier = Modifier.fillMaxWidth(),
