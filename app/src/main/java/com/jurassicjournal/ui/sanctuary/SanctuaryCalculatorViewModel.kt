@@ -70,7 +70,7 @@ class SanctuaryCalculatorViewModel @Inject constructor(
 
     private fun maxPerStat(current: SanctuaryBoostConfig, oldValue: Int, newValue: Int): Int {
         val delta = newValue - oldValue
-        val remaining = StatCalculator.MAX_BOOST_TIERS_TOTAL - current.total
+        val remaining = StatCalculator.maxTotalBoosts(_uiState.value.level) - current.total
         return if (delta > 0) minOf(StatCalculator.MAX_BOOST_TIERS_PER_STAT, oldValue + remaining)
                else StatCalculator.MAX_BOOST_TIERS_PER_STAT
     }
@@ -93,8 +93,17 @@ class SanctuaryCalculatorViewModel @Inject constructor(
     }
 
     private fun computeSp(spSad: Double, level: Int, boosts: SanctuaryBoostConfig): Int {
-        val a = spSad / (1.05.pow(26.0) * 1.25)
+        val spBase = spSad / 1.25
+        val levelMult = if (level <= 30) {
+            1.05.pow((level - 26).toDouble())
+        } else {
+            HIGH_LEVEL_SP_MULTIPLIERS[level - 31]
+        }
         val boostMult = 1.0 + (boosts.health + boosts.attack) * 0.0125 + boosts.speed * 0.02
-        return floor(a * 1.05.pow(level.toDouble()) * boostMult).toInt()
+        return floor(spBase * levelMult * boostMult).toInt()
+    }
+
+    companion object {
+        private val HIGH_LEVEL_SP_MULTIPLIERS = doubleArrayOf(1.270, 1.320, 1.370, 1.425, 1.500)
     }
 }
