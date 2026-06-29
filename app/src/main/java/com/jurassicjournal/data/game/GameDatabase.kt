@@ -5,6 +5,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.jurassicjournal.data.game.dao.DinoBaseStatDao
 import com.jurassicjournal.data.game.dao.DinoDao
+import com.jurassicjournal.data.game.dao.EnhancementDao
 import com.jurassicjournal.data.game.dao.DinoHybridIngredientDao
 import com.jurassicjournal.data.game.dao.DinoMoveDao
 import com.jurassicjournal.data.game.dao.DinoResistanceDao
@@ -55,7 +56,7 @@ import com.jurassicjournal.data.game.entity.SanctuaryYield
         CatalystRecipe::class,
         EnhancementCatalystCost::class,
     ],
-    version = 8,
+    version = 9,
     exportSchema = true
 )
 @TypeConverters(GameConverters::class)
@@ -70,4 +71,5 @@ abstract class GameDatabase : RoomDatabase() {
     abstract fun omegaTrainingConfigDao(): OmegaTrainingConfigDao
     abstract fun dinoSanctuaryPointDao(): DinoSanctuaryPointDao
     abstract fun levelUpCostDao(): LevelUpCostDao
+    abstract fun enhancementDao(): EnhancementDao
 }
