@@ -30,6 +30,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -55,12 +56,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
@@ -139,6 +142,7 @@ fun DinoDetailScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val teamState by teamViewModel.state.collectAsState()
+    val pendingUncheck by viewModel.pendingEnhancementUncheck.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
 
     var showFullResetDialog by remember { mutableStateOf(false) }
@@ -189,6 +193,26 @@ fun DinoDetailScreen(
             },
             dismissButton = {
                 TextButton(onClick = { showCatalogueDialog = false }) { Text("Cancel") }
+            },
+        )
+    }
+
+    // Enhancement uncheck warning
+    pendingUncheck?.let { pending ->
+        AlertDialog(
+            onDismissRequest = viewModel::cancelEnhancementUncheck,
+            title = { Text("Remove Boosts?") },
+            text = {
+                Text(
+                    "Disabling E${pending.tier} will remove ${pending.boostsTrimmed} boost(s) " +
+                    "to stay within the new limit."
+                )
+            },
+            confirmButton = {
+                TextButton(onClick = viewModel::confirmEnhancementUncheck) { Text("OK") }
+            },
+            dismissButton = {
+                TextButton(onClick = viewModel::cancelEnhancementUncheck) { Text("Cancel") }
             },
         )
     }
@@ -353,6 +377,7 @@ fun DinoDetailScreen(
                     onHealthBoostChange = viewModel::setHealthBoosts,
                     onAttackBoostChange = viewModel::setAttackBoosts,
                     onSpeedBoostChange = viewModel::setSpeedBoosts,
+                    onToggleEnhancement = viewModel::toggleEnhancement,
                 )
                 if (detail.dino.progressionSystem == ProgressionSystem.TRAINING_POINT) {
                     Spacer(Modifier.height(8.dp))
@@ -373,8 +398,10 @@ fun DinoDetailScreen(
 
             if (detail.movesByTrigger.isNotEmpty()) {
                 item {
+                    val reactiveMoveLocked = uiState.enhancementItems.isNotEmpty() &&
+                        uiState.enhancementItems.none { it.tier == 5 && it.isUnlocked }
                     SectionHeader("Moves")
-                    MovesPanel(detail.movesByTrigger, computed.attack)
+                    MovesPanel(detail.movesByTrigger, computed.attack, reactiveMoveLocked)
                     Spacer(Modifier.height(8.dp))
                 }
             }
@@ -465,10 +492,11 @@ private fun StatsPanel(
     onHealthBoostChange: (Int) -> Unit,
     onAttackBoostChange: (Int) -> Unit,
     onSpeedBoostChange: (Int) -> Unit,
+    onToggleEnhancement: (EnhancementUiItem) -> Unit,
 ) {
     val level = uiState.level
     val boosts = uiState.boosts
-    val maxTotal = StatCalculator.maxTotalBoosts(level)
+    val maxTotal = uiState.maxTotalBoosts
     val minLevel = uiState.detail?.dino?.rarity?.minLevel() ?: 1
 
     Card(
@@ -533,7 +561,62 @@ private fun StatsPanel(
             BoostRow("HP",  boosts.health, maxH, onHealthBoostChange)
             BoostRow("ATK", boosts.attack, maxA, onAttackBoostChange)
             BoostRow("SPD", boosts.speed,  maxS, onSpeedBoostChange)
+
+            if (uiState.enhancementItems.isNotEmpty()) {
+                Spacer(Modifier.height(16.dp))
+                HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+                Spacer(Modifier.height(12.dp))
+                Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                    Text("Enhancements", style = MaterialTheme.typography.labelLarge, modifier = Modifier.weight(1f))
+                    if (level < 30) {
+                        Text(
+                            "Available at level 30",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+                        )
+                    }
+                }
+                Spacer(Modifier.height(8.dp))
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    uiState.enhancementItems.forEach { item ->
+                        EnhancementItemBox(item, onToggleEnhancement, Modifier.weight(1f))
+                    }
+                }
+            }
         }
+    }
+}
+
+@Composable
+private fun EnhancementItemBox(
+    item: EnhancementUiItem,
+    onToggle: (EnhancementUiItem) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val contentAlpha = if (item.isAvailable) 1f else 0.38f
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Text(
+            "E${item.tier}",
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurface.copy(alpha = contentAlpha),
+            textAlign = TextAlign.Center,
+        )
+        Checkbox(
+            checked = item.isUnlocked,
+            onCheckedChange = { if (item.isAvailable) onToggle(item) },
+            enabled = item.isAvailable,
+        )
+        Text(
+            item.description,
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurface.copy(alpha = contentAlpha),
+            textAlign = TextAlign.Center,
+            maxLines = 3,
+            overflow = TextOverflow.Ellipsis,
+        )
     }
 }
 
@@ -797,6 +880,7 @@ private fun resistanceLabel(type: ResistanceType): String = when (type) {
 private fun MovesPanel(
     movesByTrigger: Map<MoveTriggerType, List<DinoMoveDetail>>,
     computedAttack: Int,
+    reactiveMoveLocked: Boolean = false,
 ) {
     Column(modifier = Modifier.padding(horizontal = 16.dp)) {
         movesByTrigger.forEach { (trigger, moves) ->
@@ -808,9 +892,18 @@ private fun MovesPanel(
                     color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.padding(top = 8.dp, bottom = 4.dp),
                 )
+                if (trigger == MoveTriggerType.REACTIVE && reactiveMoveLocked) {
+                    Text(
+                        "Enable E5 to unlock",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+                        modifier = Modifier.padding(bottom = 4.dp),
+                    )
+                }
             }
+            val isDimmed = trigger == MoveTriggerType.REACTIVE && reactiveMoveLocked
             moves.forEach { detail ->
-                MoveCard(detail, computedAttack)
+                MoveCard(detail, computedAttack, isDimmed)
                 Spacer(Modifier.height(8.dp))
             }
         }
@@ -818,14 +911,14 @@ private fun MovesPanel(
 }
 
 @Composable
-private fun MoveCard(detail: DinoMoveDetail, computedAttack: Int) {
+private fun MoveCard(detail: DinoMoveDetail, computedAttack: Int, isDimmed: Boolean = false) {
     val overlays = remember(detail.move.overlayIconsJson) {
         parseOverlays(detail.move.overlayIconsJson)
     }
     val hasThreatenedVariant = detail.threatened != null
 
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().alpha(if (isDimmed) 0.5f else 1f),
         shape = RoundedCornerShape(10.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
         elevation = CardDefaults.cardElevation(1.dp),

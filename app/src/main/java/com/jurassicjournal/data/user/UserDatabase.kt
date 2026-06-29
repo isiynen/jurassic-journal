@@ -4,6 +4,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.jurassicjournal.data.user.dao.OmegaTrainingAllocationDao
+import com.jurassicjournal.data.user.dao.UserDinoEnhancementDao
 import com.jurassicjournal.data.user.dao.ProfileDao
 import com.jurassicjournal.data.user.dao.TeamDao
 import com.jurassicjournal.data.user.dao.NewDinoDao
@@ -54,4 +55,5 @@ abstract class UserDatabase : RoomDatabase() {
     abstract fun teamDao(): TeamDao
     abstract fun teamMemberDao(): TeamMemberDao
     abstract fun newDinoDao(): NewDinoDao
+    abstract fun userDinoEnhancementDao(): UserDinoEnhancementDao
 }

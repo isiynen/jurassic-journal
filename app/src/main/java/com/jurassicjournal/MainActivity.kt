@@ -29,6 +29,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.core.tween
 import com.jurassicjournal.data.update.AbilityIconSync
 import com.jurassicjournal.data.update.DinoImageSync
 import com.jurassicjournal.data.update.NewDinoDetector
@@ -147,10 +150,23 @@ private fun androidx.navigation.NavController.navigateSafe(route: String) {
     }
 }
 
+private fun androidx.navigation.NavController.popBackStackSafe() {
+    if (currentBackStackEntry?.lifecycle?.currentState?.isAtLeast(Lifecycle.State.RESUMED) == true) {
+        popBackStack()
+    }
+}
+
 @Composable
 private fun JurassicJournalNav() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = Screen.DinoList.route) {
+    NavHost(
+        navController = navController,
+        startDestination = Screen.DinoList.route,
+        enterTransition = { fadeIn(animationSpec = tween(150)) },
+        exitTransition = { fadeOut(animationSpec = tween(150)) },
+        popEnterTransition = { fadeIn(animationSpec = tween(150)) },
+        popExitTransition = { fadeOut(animationSpec = tween(150)) },
+    ) {
         composable(Screen.DinoList.route) {
             DinoListScreen(
                 onDinoClick = { dinoId -> navController.navigateSafe(Screen.DinoDetail(dinoId).route) },
@@ -160,11 +176,11 @@ private fun JurassicJournalNav() {
             )
         }
         composable(Screen.ManageProfiles.route) {
-            ManageProfilesScreen(onBack = { navController.popBackStack() })
+            ManageProfilesScreen(onBack = { navController.popBackStackSafe() })
         }
         composable(Screen.ManageTeams.route) {
             ManageTeamsScreen(
-                onBack = { navController.popBackStack() },
+                onBack = { navController.popBackStackSafe() },
                 onTeamClick = { teamId -> navController.navigateSafe(Screen.TeamDetail(teamId).route) },
                 onEditMembers = { teamId -> navController.navigateSafe(Screen.TeamDinoPicker(teamId).route) },
             )
@@ -175,7 +191,7 @@ private fun JurassicJournalNav() {
         ) { entry ->
             val teamId = entry.arguments?.getLong("teamId") ?: 0L
             TeamDetailScreen(
-                onBack = { navController.popBackStack() },
+                onBack = { navController.popBackStackSafe() },
                 onDinoClick = { dinoId -> navController.navigateSafe(Screen.DinoDetail(dinoId).route) },
                 onEditMembers = { navController.navigateSafe(Screen.TeamDinoPicker(teamId).route) },
             )
@@ -185,7 +201,7 @@ private fun JurassicJournalNav() {
             arguments = listOf(navArgument("teamId") { type = NavType.LongType })
         ) {
             TeamDinoPickerScreen(
-                onBack = { navController.popBackStack() },
+                onBack = { navController.popBackStackSafe() },
                 onDinoClick = { dinoId -> navController.navigateSafe(Screen.DinoDetail(dinoId, hideTeams = true).route) },
             )
         }
@@ -198,7 +214,7 @@ private fun JurassicJournalNav() {
         ) { entry ->
             val hideTeams = entry.arguments?.getBoolean("hideTeams") ?: false
             DinoDetailScreen(
-                onBack = { navController.popBackStack() },
+                onBack = { navController.popBackStackSafe() },
                 onDinoClick = { dinoId -> navController.navigateSafe(Screen.DinoDetail(dinoId).route) },
                 onCalculate = { dinoId -> navController.navigateSafe(Screen.HybridCalculator(dinoId).route) },
                 onSanctuaryCalculate = { dinoId -> navController.navigateSafe(Screen.SanctuaryCalculator(dinoId).route) },
@@ -210,7 +226,7 @@ private fun JurassicJournalNav() {
             arguments = listOf(navArgument("dinoId") { type = NavType.LongType })
         ) {
             HybridCalculatorScreen(
-                onBack = { navController.popBackStack() },
+                onBack = { navController.popBackStackSafe() },
                 onDinoClick = { dinoId -> navController.navigateSafe(Screen.DinoDetail(dinoId).route) },
             )
         }
@@ -218,7 +234,7 @@ private fun JurassicJournalNav() {
             route = Screen.SanctuaryCalculator.ROUTE,
             arguments = listOf(navArgument("dinoId") { type = NavType.LongType })
         ) {
-            SanctuaryCalculatorScreen(onBack = { navController.popBackStack() })
+            SanctuaryCalculatorScreen(onBack = { navController.popBackStackSafe() })
         }
     }
 }

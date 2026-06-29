@@ -5,8 +5,10 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.jurassicjournal.data.game.GameDatabase
+import com.jurassicjournal.data.game.GameDatabaseMigrations
 import com.jurassicjournal.data.game.dao.DinoBaseStatDao
 import com.jurassicjournal.data.game.dao.DinoDao
+import com.jurassicjournal.data.game.dao.EnhancementDao
 import com.jurassicjournal.data.game.dao.DinoHybridIngredientDao
 import com.jurassicjournal.data.game.dao.DinoMoveDao
 import com.jurassicjournal.data.game.dao.DinoResistanceDao
@@ -24,6 +26,7 @@ import com.jurassicjournal.data.user.dao.TeamDao
 import com.jurassicjournal.data.user.dao.TeamMemberDao
 import com.jurassicjournal.data.user.dao.UserBoostDao
 import com.jurassicjournal.data.user.dao.UserDinoDao
+import com.jurassicjournal.data.user.dao.UserDinoEnhancementDao
 import com.jurassicjournal.data.user.dao.UserDnaInventoryDao
 import com.jurassicjournal.data.user.dao.UserWalletDao
 import dagger.Module
@@ -42,6 +45,7 @@ object DatabaseModule {
     fun provideGameDatabase(@ApplicationContext context: Context): GameDatabase =
         Room.databaseBuilder(context, GameDatabase::class.java, "game_database")
             .createFromAsset("game_database.db")
+            .addMigrations(GameDatabaseMigrations.MIGRATION_8_9)
             .fallbackToDestructiveMigration()
             .build()
 
@@ -90,4 +94,6 @@ object DatabaseModule {
     @Provides fun provideTeamDao(db: UserDatabase): TeamDao = db.teamDao()
     @Provides fun provideTeamMemberDao(db: UserDatabase): TeamMemberDao = db.teamMemberDao()
     @Provides fun provideNewDinoDao(db: UserDatabase): NewDinoDao = db.newDinoDao()
+    @Provides fun provideEnhancementDao(db: GameDatabase): EnhancementDao = db.enhancementDao()
+    @Provides fun provideUserDinoEnhancementDao(db: UserDatabase): UserDinoEnhancementDao = db.userDinoEnhancementDao()
 }
