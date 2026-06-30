@@ -1,5 +1,7 @@
 package com.jurassicjournal.util
 
+import kotlin.math.floor
+import kotlin.math.pow
 import kotlin.math.roundToInt
 
 /**
@@ -67,4 +69,22 @@ object StatCalculator {
     /** Omega stat after applying allocated training points, capped at maxCap. */
     fun applyOmegaTraining(baseStat: Int, pointsAllocated: Int, gainPerPoint: Int, maxCap: Int): Int =
         minOf(baseStat + pointsAllocated * gainPerPoint, maxCap)
+
+    // ── Sanctuary Points ─────────────────────────────────────────────────────────
+
+    // SP boost multipliers: +1.25% per health/attack tier, +2% per speed tier.
+    // Levels 31-35 use fixed multipliers (same breakpoints as stat scaling).
+    private val HIGH_LEVEL_SP_MULTIPLIERS = doubleArrayOf(1.270, 1.320, 1.370, 1.425, 1.500)
+
+    /** Estimated SP per sanctuary action at the given level and boost configuration. */
+    fun calculateSp(spSad: Double, level: Int, healthBoosts: Int, attackBoosts: Int, speedBoosts: Int): Int {
+        val spBase = spSad / 1.25
+        val levelMult = if (level <= 30) {
+            1.05.pow((level - 26).toDouble())
+        } else {
+            HIGH_LEVEL_SP_MULTIPLIERS[level - 31]
+        }
+        val boostMult = 1.0 + (healthBoosts + attackBoosts) * 0.0125 + speedBoosts * 0.02
+        return floor(spBase * levelMult * boostMult).toInt()
+    }
 }

@@ -15,8 +15,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.math.floor
-import kotlin.math.pow
 
 data class SanctuaryBoostConfig(
     val speed: Int = 0,
@@ -92,18 +90,6 @@ class SanctuaryCalculatorViewModel @Inject constructor(
         }
     }
 
-    private fun computeSp(spSad: Double, level: Int, boosts: SanctuaryBoostConfig): Int {
-        val spBase = spSad / 1.25
-        val levelMult = if (level <= 30) {
-            1.05.pow((level - 26).toDouble())
-        } else {
-            HIGH_LEVEL_SP_MULTIPLIERS[level - 31]
-        }
-        val boostMult = 1.0 + (boosts.health + boosts.attack) * 0.0125 + boosts.speed * 0.02
-        return floor(spBase * levelMult * boostMult).toInt()
-    }
-
-    companion object {
-        private val HIGH_LEVEL_SP_MULTIPLIERS = doubleArrayOf(1.270, 1.320, 1.370, 1.425, 1.500)
-    }
+    private fun computeSp(spSad: Double, level: Int, boosts: SanctuaryBoostConfig): Int =
+        StatCalculator.calculateSp(spSad, level, boosts.health, boosts.attack, boosts.speed)
 }
