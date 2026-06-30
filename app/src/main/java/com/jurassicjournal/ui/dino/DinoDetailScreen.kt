@@ -97,8 +97,6 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.input.pointer.pointerInput
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlin.math.floor
-import kotlin.math.pow
 import kotlin.math.roundToInt
 
 private val ATTACK_MULT_REGEX = Regex("""(?i)attack\s+([\d.]+)x""")
@@ -1331,9 +1329,7 @@ private fun SanctuaryPointRow(label: String, value: Int) {
 
 @Composable
 private fun SanctuarySpEstimate(sp: DinoSanctuaryPoint, level: Int, boosts: BoostState) {
-    val a = sp.spSad / (1.05.pow(26.0) * 1.25)
-    val boostMult = 1.0 + (boosts.health + boosts.attack) * 0.0125 + boosts.speed * 0.02
-    val estimated = floor(a * 1.05.pow(level.toDouble()) * boostMult).toInt()
+    val estimated = StatCalculator.calculateSp(sp.spSad, level, boosts.health, boosts.attack, boosts.speed)
 
     Card(
         modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp).fillMaxWidth(),
