@@ -134,6 +134,7 @@ fun DinoDetailScreen(
     onDinoClick: (Long) -> Unit = {},
     onCalculate: (Long) -> Unit = {},
     onSanctuaryCalculate: (Long) -> Unit = {},
+    onEnhancementEstimate: (Long, Int) -> Unit = { _, _ -> },
     showTeamSelector: Boolean = true,
     viewModel: DinoDetailViewModel = hiltViewModel(),
     teamViewModel: DinoTeamViewModel = hiltViewModel(),
@@ -357,7 +358,7 @@ fun DinoDetailScreen(
                 }
             }
 
-            if (detail.dino.isHybrid || detail.hybridsUsing.isNotEmpty()) {
+            if (detail.dino.isHybrid || detail.hybridsUsing.isNotEmpty() || uiState.enhancementItems.isNotEmpty()) {
                 item {
                     DnaOnHandCard(
                         dnaOnHand = uiState.dnaOnHand,
@@ -384,6 +385,23 @@ fun DinoDetailScreen(
                         omegaConfigs = detail.omegaTrainingConfigs,
                         onOmegaPointsChange = viewModel::setOmegaPoints,
                     )
+                }
+            }
+
+            if (uiState.enhancementItems.isNotEmpty()) {
+                item {
+                    val highestUnlocked = uiState.enhancementItems
+                        .filter { it.isUnlocked }.maxOfOrNull { it.tier } ?: 0
+                    OutlinedButton(
+                        onClick = { onEnhancementEstimate(detail.dino.id, highestUnlocked) },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp)
+                            .padding(top = 4.dp),
+                    ) {
+                        Text("Estimate Enhancement Costs")
+                    }
+                    Spacer(Modifier.height(4.dp))
                 }
             }
 

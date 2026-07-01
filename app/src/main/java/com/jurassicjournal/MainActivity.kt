@@ -39,6 +39,7 @@ import com.jurassicjournal.data.update.SyncProgressTracker
 import com.jurassicjournal.data.update.UpdateInfo
 import com.jurassicjournal.ui.update.UpdateProgressStrip
 import com.jurassicjournal.ui.calculator.HybridCalculatorScreen
+import com.jurassicjournal.ui.enhancement.EnhancementEstimatorScreen
 import com.jurassicjournal.ui.dino.DinoDetailScreen
 import com.jurassicjournal.ui.dino.DinoListScreen
 import com.jurassicjournal.ui.navigation.Screen
@@ -218,6 +219,7 @@ private fun JurassicJournalNav() {
                 onDinoClick = { dinoId -> navController.navigateSafe(Screen.DinoDetail(dinoId).route) },
                 onCalculate = { dinoId -> navController.navigateSafe(Screen.HybridCalculator(dinoId).route) },
                 onSanctuaryCalculate = { dinoId -> navController.navigateSafe(Screen.SanctuaryCalculator(dinoId).route) },
+                onEnhancementEstimate = { dinoId, current -> navController.navigateSafe(Screen.EnhancementEstimator(dinoId, current).route) },
                 showTeamSelector = !hideTeams,
             )
         }
@@ -235,6 +237,15 @@ private fun JurassicJournalNav() {
             arguments = listOf(navArgument("dinoId") { type = NavType.LongType })
         ) {
             SanctuaryCalculatorScreen(onBack = { navController.popBackStackSafe() })
+        }
+        composable(
+            route = Screen.EnhancementEstimator.ROUTE,
+            arguments = listOf(
+                navArgument("dinoId") { type = NavType.LongType },
+                navArgument("currentEnhancement") { type = NavType.IntType },
+            )
+        ) {
+            EnhancementEstimatorScreen(onBack = { navController.popBackStackSafe() })
         }
     }
 }

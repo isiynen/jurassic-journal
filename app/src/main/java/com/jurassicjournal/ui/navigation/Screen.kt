@@ -34,4 +34,10 @@ sealed class Screen(val route: String) {
             const val ROUTE = "team_dino_picker/{teamId}"
         }
     }
+    data class EnhancementEstimator(val dinoId: Long, val currentEnhancement: Int) :
+        Screen("enhancement_estimator/$dinoId/$currentEnhancement") {
+        companion object {
+            const val ROUTE = "enhancement_estimator/{dinoId}/{currentEnhancement}"
+        }
+    }
 }
