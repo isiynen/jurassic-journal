@@ -49,6 +49,7 @@ data class CalcResult(
 
 data class HybridCalculatorUiState(
     val hybrid: Dino? = null,
+    val isCreate: Boolean = false,
     val currentLevel: Int = 0,
     val targetLevel: Int = 1,
     val currentHybridDna: Int = 0,
@@ -57,14 +58,6 @@ data class HybridCalculatorUiState(
     val result: CalcResult? = null,
     val maxReachableLevel: Int? = null,
     val isLoading: Boolean = true,
-)
-
-private data class CalcCore(
-    val hybridData: Pair<Dino, List<LevelUpCost>>?,
-    val currentLevel: Int,
-    val targetLevel: Int,
-    val currentHybridDna: Int,
-    val ingredients: List<IngredientInput>,
 )
 
 @HiltViewModel
@@ -82,6 +75,7 @@ class HybridCalculatorViewModel @Inject constructor(
     private var profileId: Long = 1L
 
     private val _hybridData    = MutableStateFlow<Pair<Dino, List<LevelUpCost>>?>(null)
+    private val _isCreate      = MutableStateFlow(false)
     private val _currentLevel  = MutableStateFlow(0)
     private val _targetLevel   = MutableStateFlow(1)
     private val _currentHybridDna = MutableStateFlow(0)
@@ -89,24 +83,23 @@ class HybridCalculatorViewModel @Inject constructor(
     private val _coinsOnHand   = MutableStateFlow(0L)
 
     val uiState: StateFlow<HybridCalculatorUiState> = combine(
-        combine(_hybridData, _currentLevel, _targetLevel, _currentHybridDna, _ingredients) {
-            hd, cl, tl, cd, ing -> CalcCore(hd, cl, tl, cd, ing)
-        },
+        combine(_hybridData, _isCreate, _currentLevel) { hd, ic, cl -> Triple(hd, ic, cl) },
+        combine(_targetLevel, _currentHybridDna, _ingredients) { tl, cd, ing -> Triple(tl, cd, ing) },
         _coinsOnHand,
-    ) { core, coinsOnHand ->
-        val (hybridData, currentLevel, targetLevel, currentHybridDna, ingredients) = core
+    ) { (hybridData, isCreate, currentLevel), (targetLevel, currentHybridDna, ingredients), coinsOnHand ->
         val (hybrid, costs) = hybridData ?: return@combine HybridCalculatorUiState(isLoading = true)
 
-        val result = if (targetLevel > currentLevel) {
-            calculateCosts(currentLevel, targetLevel, currentHybridDna, ingredients, costs, coinsOnHand)
+        val result = if (targetLevel >= currentLevel) {
+            calculateCosts(isCreate, hybrid.rarity, currentLevel, targetLevel, currentHybridDna, ingredients, costs, coinsOnHand)
         } else null
 
         val maxReachableLevel = calculateMaxReachableLevel(
-            currentLevel, currentHybridDna, ingredients, coinsOnHand, costs,
+            isCreate, hybrid.rarity, currentLevel, currentHybridDna, ingredients, coinsOnHand, costs,
         )
 
         HybridCalculatorUiState(
             hybrid            = hybrid,
+            isCreate          = isCreate,
             currentLevel      = currentLevel,
             targetLevel       = targetLevel,
             currentHybridDna  = currentHybridDna,
@@ -149,7 +142,19 @@ class HybridCalculatorViewModel @Inject constructor(
 
     // ── Setters ───────────────────────────────────────────────────────────────
 
+    fun setIsCreate(create: Boolean) {
+        _isCreate.value = create
+        val minLev = _hybridData.value?.first?.rarity?.minLevel() ?: 1
+        if (create) {
+            _currentLevel.value = minLev
+            _targetLevel.value  = minLev
+        } else {
+            _targetLevel.value = (_currentLevel.value + 1).coerceAtMost(35)
+        }
+    }
+
     fun setCurrentLevel(level: Int) {
+        if (_isCreate.value) return
         val minLev  = _hybridData.value?.first?.rarity?.minLevel() ?: 1
         val clamped = level.coerceIn(minLev, 34)
         _currentLevel.value = clamped
@@ -160,7 +165,8 @@ class HybridCalculatorViewModel @Inject constructor(
     }
 
     fun setTargetLevel(level: Int) {
-        _targetLevel.value = level.coerceIn(_currentLevel.value + 1, 35)
+        val minTarget = if (_isCreate.value) _currentLevel.value else _currentLevel.value + 1
+        _targetLevel.value = level.coerceIn(minTarget, 35)
     }
 
     fun setCurrentHybridDna(dna: Int) {
@@ -195,6 +201,8 @@ class HybridCalculatorViewModel @Inject constructor(
     // ── Calculations ──────────────────────────────────────────────────────────
 
     private fun calculateCosts(
+        isCreate: Boolean,
+        rarity: Rarity,
         currentLevel: Int,
         targetLevel: Int,
         currentHybridDna: Int,
@@ -204,7 +212,8 @@ class HybridCalculatorViewModel @Inject constructor(
     ): CalcResult {
         val costMap = costs.associateBy { it.fromLevel }
 
-        val totalHybridDna = (currentLevel until targetLevel).sumOf { level ->
+        val creationDna = if (isCreate) creationDnaCostForRarity(rarity).toLong() else 0L
+        val totalHybridDna = creationDna + (currentLevel until targetLevel).sumOf { level ->
             costMap[level]?.dnaCost?.toLong() ?: 0L
         }
         val remainingHybridDna = maxOf(0L, totalHybridDna - currentHybridDna)
@@ -240,6 +249,8 @@ class HybridCalculatorViewModel @Inject constructor(
      * and returns the highest level reachable with the current inventory.
      */
     private fun calculateMaxReachableLevel(
+        isCreate: Boolean,
+        rarity: Rarity,
         currentLevel: Int,
         currentHybridDna: Int,
         ingredients: List<IngredientInput>,
@@ -251,6 +262,24 @@ class HybridCalculatorViewModel @Inject constructor(
         val ingredientDnaAvail = ingredients.map { it.dnaOnHand.toLong() }.toMutableList()
         var coinsAvail         = coinsOnHand
         var maxLevel           = currentLevel
+
+        if (isCreate) {
+            val creationDnaNeeded = creationDnaCostForRarity(rarity).toLong()
+            val deficit           = maxOf(0L, creationDnaNeeded - hybridDnaAvail)
+            val fusesNeeded       = if (deficit > 0L) ceil(deficit / 20.0).toInt() else 0
+
+            var canAfford = true
+            for (i in ingredients.indices) {
+                val needed = fusesNeeded.toLong() * fuseCostForRarity(ingredients[i].dino.rarity)
+                if (ingredientDnaAvail[i] < needed) { canAfford = false; break }
+            }
+            if (!canAfford) return currentLevel - 1
+
+            for (i in ingredients.indices) {
+                ingredientDnaAvail[i] -= fusesNeeded.toLong() * fuseCostForRarity(ingredients[i].dino.rarity)
+            }
+            hybridDnaAvail = hybridDnaAvail + fusesNeeded * 20L - creationDnaNeeded
+        }
 
         for (fromLevel in currentLevel until 35) {
             val cost = costMap[fromLevel] ?: break
@@ -286,6 +315,15 @@ class HybridCalculatorViewModel @Inject constructor(
             Rarity.EPIC      -> 150
             Rarity.LEGENDARY -> 200
             Rarity.UNIQUE    -> 250
+            else             -> 0
+        }
+
+        fun creationDnaCostForRarity(rarity: Rarity): Int = when (rarity) {
+            Rarity.RARE      -> 100
+            Rarity.EPIC      -> 150
+            Rarity.LEGENDARY -> 200
+            Rarity.UNIQUE    -> 250
+            Rarity.APEX      -> 300
             else             -> 0
         }
     }

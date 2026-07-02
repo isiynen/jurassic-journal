@@ -117,10 +117,20 @@ fun HybridCalculatorScreen(
                 HybridHeaderCard(hybrid = hybrid, onClick = { onDinoClick(hybrid.id) })
             }
 
+            // ── Mode ─────────────────────────────────────────────────────────
+            item { SectionHeader("Mode") }
+            item {
+                ModeCard(
+                    isCreate       = uiState.isCreate,
+                    onIsCreateChange = viewModel::setIsCreate,
+                )
+            }
+
             // ── Level range ──────────────────────────────────────────────────
             item { SectionHeader("Level Range") }
             item {
                 LevelRangeCard(
+                    isCreate          = uiState.isCreate,
                     currentLevel      = uiState.currentLevel,
                     targetLevel       = uiState.targetLevel,
                     minLevel          = hybrid.rarity.minLevel(),
@@ -158,7 +168,8 @@ fun HybridCalculatorScreen(
 
             // ── Target cost breakdown ────────────────────────────────────────
             uiState.result?.let { result ->
-                item { SectionHeader("Estimated Cost (Lv ${uiState.currentLevel} → ${uiState.targetLevel})") }
+                val costHeaderPrefix = if (uiState.isCreate) "Estimated Cost to Create" else "Estimated Cost to Level Up"
+                item { SectionHeader("$costHeaderPrefix (Lv ${uiState.currentLevel} → ${uiState.targetLevel})") }
                 item { ResultSummaryCard(result = result) }
                 if (result.ingredientCosts.isNotEmpty()) {
                     item {
@@ -181,10 +192,14 @@ fun HybridCalculatorScreen(
             uiState.maxReachableLevel?.let { maxLevel ->
                 item { SectionHeader("How Far Can You Go?") }
                 item {
-                    MaxReachableLevelCard(
-                        currentLevel = uiState.currentLevel,
-                        maxLevel     = maxLevel,
-                    )
+                    if (maxLevel < uiState.currentLevel) {
+                        CannotCreateCard()
+                    } else {
+                        MaxReachableLevelCard(
+                            currentLevel = uiState.currentLevel,
+                            maxLevel     = maxLevel,
+                        )
+                    }
                 }
             }
         }
@@ -235,10 +250,46 @@ private fun HybridHeaderCard(hybrid: Dino, onClick: () -> Unit) {
     }
 }
 
+// ── Mode card ─────────────────────────────────────────────────────────────────
+
+@Composable
+private fun ModeCard(
+    isCreate: Boolean,
+    onIsCreateChange: (Boolean) -> Unit,
+) {
+    Card(
+        modifier  = Modifier.padding(horizontal = 16.dp, vertical = 4.dp).fillMaxWidth(),
+        shape     = RoundedCornerShape(12.dp),
+        colors    = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        elevation = CardDefaults.cardElevation(2.dp),
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(16.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+        ) {
+            ModeCheckbox(label = "Create", checked = isCreate, onSelect = { onIsCreateChange(true) })
+            ModeCheckbox(label = "Level Up", checked = !isCreate, onSelect = { onIsCreateChange(false) })
+        }
+    }
+}
+
+@Composable
+private fun ModeCheckbox(label: String, checked: Boolean, onSelect: () -> Unit) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier          = Modifier.clickable(onClick = onSelect),
+    ) {
+        androidx.compose.material3.Checkbox(checked = checked, onCheckedChange = { onSelect() })
+        Spacer(Modifier.width(4.dp))
+        Text(label, style = MaterialTheme.typography.bodyMedium)
+    }
+}
+
 // ── Level range card ──────────────────────────────────────────────────────────
 
 @Composable
 private fun LevelRangeCard(
+    isCreate: Boolean,
     currentLevel: Int,
     targetLevel: Int,
     minLevel: Int,
@@ -260,6 +311,7 @@ private fun LevelRangeCard(
                 value       = currentLevel,
                 min         = minLevel,
                 max         = 34,
+                enabled     = !isCreate,
                 onValueChange = onCurrentLevelChange,
                 modifier    = Modifier.weight(1f),
             )
@@ -272,7 +324,7 @@ private fun LevelRangeCard(
             LevelStepper(
                 label       = "Target",
                 value       = targetLevel,
-                min         = currentLevel + 1,
+                min         = if (isCreate) currentLevel else currentLevel + 1,
                 max         = 35,
                 onValueChange = onTargetLevelChange,
                 modifier    = Modifier.weight(1f),
@@ -289,6 +341,7 @@ private fun LevelStepper(
     max: Int,
     onValueChange: (Int) -> Unit,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
 ) {
     var showDialog by remember { mutableStateOf(false) }
 
@@ -309,19 +362,20 @@ private fun LevelStepper(
         Row(verticalAlignment = Alignment.CenterVertically) {
             RepeatingButton(
                 onClick  = { if (value > min) onValueChange(value - 1) },
-                enabled  = value > min,
+                enabled  = enabled && value > min,
                 modifier = Modifier.size(32.dp),
             ) { Text("−", style = MaterialTheme.typography.titleMedium) }
             Text(
                 text     = value.toString(),
                 style    = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier.clickable { showDialog = true }.padding(horizontal = 8.dp),
+                color    = if (enabled) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f),
+                modifier = Modifier.clickable(enabled = enabled) { showDialog = true }.padding(horizontal = 8.dp),
                 textAlign = TextAlign.Center,
             )
             RepeatingButton(
                 onClick  = { if (value < max) onValueChange(value + 1) },
-                enabled  = value < max,
+                enabled  = enabled && value < max,
                 modifier = Modifier.size(32.dp),
             ) { Text("+", style = MaterialTheme.typography.titleMedium) }
         }
@@ -501,6 +555,31 @@ private fun ResultSummaryCard(result: CalcResult) {
                     valueColor = MaterialTheme.colorScheme.error,
                 )
             }
+        }
+    }
+}
+
+@Composable
+private fun CannotCreateCard() {
+    Card(
+        modifier  = Modifier.padding(horizontal = 16.dp, vertical = 4.dp).fillMaxWidth(),
+        shape     = RoundedCornerShape(12.dp),
+        colors    = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.5f)),
+        elevation = CardDefaults.cardElevation(0.dp),
+    ) {
+        Column(Modifier.padding(16.dp)) {
+            Text(
+                "Cannot Create Yet",
+                style      = MaterialTheme.typography.titleSmall,
+                fontWeight = FontWeight.SemiBold,
+                color      = MaterialTheme.colorScheme.error,
+            )
+            Spacer(Modifier.height(4.dp))
+            Text(
+                "Not enough resources to create this hybrid — add your inventory above",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+            )
         }
     }
 }

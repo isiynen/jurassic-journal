@@ -526,7 +526,7 @@ private fun StatsPanel(
                 Text("Level", style = MaterialTheme.typography.labelLarge, modifier = Modifier.width(52.dp))
                 Slider(
                     value = level.toFloat(),
-                    onValueChange = { onLevelChange(it.toInt()) },
+                    onValueChange = { onLevelChange(it.roundToInt()) },
                     valueRange = minLevel.toFloat()..35f,
                     steps = 34 - minLevel,
                     modifier = Modifier.weight(1f),
