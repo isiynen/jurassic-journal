@@ -2,6 +2,11 @@ package com.jurassicjournal
 
 import android.app.Application
 import android.util.Log
+import coil.EventListener
+import coil.ImageLoader
+import coil.ImageLoaderFactory
+import coil.request.ErrorResult
+import coil.request.ImageRequest
 import com.jurassicjournal.data.update.BundledAbilityIcons
 import com.jurassicjournal.data.update.BundledDinoImages
 import com.jurassicjournal.data.update.GameDataUpdater
@@ -9,7 +14,7 @@ import dagger.hilt.android.HiltAndroidApp
 import java.io.File
 
 @HiltAndroidApp
-class JurassicJournalApp : Application() {
+class JurassicJournalApp : Application(), ImageLoaderFactory {
 
     override fun onCreate() {
         super.onCreate()
@@ -17,6 +22,19 @@ class JurassicJournalApp : Application() {
         BundledDinoImages.init(this)
         BundledAbilityIcons.init(this)
     }
+
+    /**
+     * Logs image decode/fetch failures so intermittent load glitches (e.g. a dino
+     * portrait momentarily failing to render) leave a diagnosable trail instead of
+     * failing silently.
+     */
+    override fun newImageLoader(): ImageLoader = ImageLoader.Builder(this)
+        .eventListener(object : EventListener {
+            override fun onError(request: ImageRequest, result: ErrorResult) {
+                Log.w(TAG, "Image load failed for ${request.data}: ${result.throwable}")
+            }
+        })
+        .build()
 
     /**
      * If a previously downloaded DB is staged, swap it into Room's database directory
