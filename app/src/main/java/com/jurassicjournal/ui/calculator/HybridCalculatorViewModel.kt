@@ -334,10 +334,11 @@ class HybridCalculatorViewModel @Inject constructor(
         }
 
         // Coin cost charged per press of the "Fuse" button, by the hybrid's own rarity.
-        // Common/Rare/Apex are extrapolated from confirmed Epic/Legendary/Unique values — verify against live game data.
+        // Rare/Epic/Legendary/Unique/Apex confirmed. Common is unused in practice —
+        // hybrids only exist at Rare rarity and above.
         fun fuseCoinCostForRarity(rarity: Rarity): Long = when (rarity) {
             Rarity.COMMON    -> 20L
-            Rarity.RARE      -> 40L
+            Rarity.RARE      -> 20L
             Rarity.EPIC      -> 100L
             Rarity.LEGENDARY -> 200L
             Rarity.UNIQUE    -> 1_000L
