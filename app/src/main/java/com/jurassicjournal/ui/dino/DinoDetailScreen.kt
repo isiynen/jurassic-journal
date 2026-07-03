@@ -825,16 +825,20 @@ private fun RepeatingButton(
             while (true) {
                 awaitPointerEventScope { awaitFirstDown(requireUnconsumed = false) }
                 if (!currentEnabled) continue
-                currentOnClick()
+                var repeatStarted = false
                 val job = scope.launch {
                     delay(400L)
+                    repeatStarted = true
                     while (currentEnabled) {
                         currentOnClick()
                         delay(80L)
                     }
                 }
-                awaitPointerEventScope { waitForUpOrCancellation() }
+                // Only click on a genuine tap release; a cancelled/consumed gesture
+                // (e.g. an ancestor intercepting a vertical scroll) fires nothing.
+                val upChange = awaitPointerEventScope { waitForUpOrCancellation() }
                 job.cancel()
+                if (!repeatStarted && upChange != null) currentOnClick()
             }
         },
         contentAlignment = Alignment.Center,

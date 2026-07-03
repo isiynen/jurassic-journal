@@ -4,6 +4,11 @@ import android.content.Context
 import android.util.Log
 import com.jurassicjournal.data.game.dao.DinoDao
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.sync.Semaphore
+import kotlinx.coroutines.sync.withPermit
 import java.io.File
 import java.io.FileOutputStream
 import java.net.HttpURLConnection
@@ -35,23 +40,17 @@ class DinoImageSync @Inject constructor(
 
         tracker.beginPhase(SyncPhase.IMAGE_SYNC, total = pending.size)
 
-        val newlyFailed = mutableSetOf<String>()
-        var downloaded = 0
-        for (path in pending) {
-            val dest = File(dir, path)
-            if (dest.exists()) {
-                tracker.advance(filesDelta = 1)
-                continue
-            }
-            try {
-                downloadImage(path, dest)
-                downloaded++
-            } catch (e: Exception) {
-                Log.w(TAG, "Failed to fetch $path: ${e.message}")
-                newlyFailed += path
-            }
-            tracker.advance(filesDelta = 1)
+        val semaphore = Semaphore(MAX_CONCURRENT_DOWNLOADS)
+        val results = coroutineScope {
+            pending.map { path ->
+                async {
+                    semaphore.withPermit { downloadOne(dir, path) }
+                }
+            }.awaitAll()
         }
+
+        val newlyFailed = results.filter { it.outcome == ImageOutcome.FAILED }.map { it.path }.toSet()
+        val downloaded = results.count { it.outcome == ImageOutcome.DOWNLOADED }
 
         tracker.finish()
 
@@ -85,6 +84,26 @@ class DinoImageSync @Inject constructor(
             .apply()
     }
 
+    private enum class ImageOutcome { EXISTED, DOWNLOADED, FAILED }
+    private data class ImageResult(val path: String, val outcome: ImageOutcome)
+
+    private suspend fun downloadOne(dir: File, path: String): ImageResult {
+        val dest = File(dir, path)
+        if (dest.exists()) {
+            tracker.advance(filesDelta = 1)
+            return ImageResult(path, ImageOutcome.EXISTED)
+        }
+        val outcome = try {
+            downloadImage(path, dest)
+            ImageOutcome.DOWNLOADED
+        } catch (e: Exception) {
+            Log.w(TAG, "Failed to fetch $path: ${e.message}")
+            ImageOutcome.FAILED
+        }
+        tracker.advance(filesDelta = 1)
+        return ImageResult(path, outcome)
+    }
+
     private suspend fun downloadImage(imagePath: String, dest: File) {
         val tmp = File(dest.parent, "${dest.name}.tmp")
         val conn = URL("$DINO_IMAGE_RAW_BASE/$imagePath").openConnection() as HttpURLConnection
@@ -96,16 +115,22 @@ class DinoImageSync @Inject constructor(
             throw Exception("HTTP ${conn.responseCode}")
         }
         val buffer = ByteArray(8_192)
+        var pendingBytes = 0L
         try {
             conn.inputStream.use { input ->
                 FileOutputStream(tmp).use { output ->
                     var n: Int
                     while (input.read(buffer).also { n = it } != -1) {
                         output.write(buffer, 0, n)
-                        tracker.advance(bytes = n.toLong())
+                        pendingBytes += n
+                        if (pendingBytes >= PROGRESS_FLUSH_BYTES) {
+                            tracker.advance(bytes = pendingBytes)
+                            pendingBytes = 0L
+                        }
                     }
                 }
             }
+            if (pendingBytes > 0L) tracker.advance(bytes = pendingBytes)
             tmp.renameTo(dest)
         } finally {
             conn.disconnect()
@@ -117,5 +142,7 @@ class DinoImageSync @Inject constructor(
         private const val TAG = "DinoImageSync"
         private const val KEY_FAILED_PATHS   = "dino_image_failed_paths"
         private const val KEY_FAILED_VERSION = "dino_image_failed_version"
+        private const val MAX_CONCURRENT_DOWNLOADS = 5
+        private const val PROGRESS_FLUSH_BYTES = 262_144L
     }
 }
