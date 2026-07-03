@@ -135,20 +135,27 @@ class GameDataUpdater(private val context: Context) {
             throw Exception("HTTP ${conn.responseCode}")
         }
         val buffer = ByteArray(8_192)
+        var pendingBytes = 0L
         conn.inputStream.use { input ->
             FileOutputStream(dest).use { output ->
                 var n: Int
                 while (input.read(buffer).also { n = it } != -1) {
                     output.write(buffer, 0, n)
-                    tracker?.advance(bytes = n.toLong())
+                    pendingBytes += n
+                    if (pendingBytes >= PROGRESS_FLUSH_BYTES) {
+                        tracker?.advance(bytes = pendingBytes)
+                        pendingBytes = 0L
+                    }
                 }
             }
         }
+        if (pendingBytes > 0L) tracker?.advance(bytes = pendingBytes)
         conn.disconnect()
     }
 
     companion object {
         private const val TAG = "GameDataUpdater"
+        private const val PROGRESS_FLUSH_BYTES = 262_144L
 
         const val PREFS_NAME          = "game_data_prefs"
         const val KEY_DATA_VERSION    = "data_version"

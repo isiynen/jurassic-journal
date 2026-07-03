@@ -219,9 +219,11 @@ class HybridCalculatorViewModel @Inject constructor(
         val remainingHybridDna = maxOf(0L, totalHybridDna - currentHybridDna)
         val fusesNeeded = ceil(remainingHybridDna / 20.0).toInt()
 
-        val totalCoins = (currentLevel until targetLevel).sumOf { level ->
+        val levelUpCoins = (currentLevel until targetLevel).sumOf { level ->
             costMap[level]?.coinsCost?.toLong() ?: 0L
         }
+        val fuseCoins = fusesNeeded.toLong() * fuseCoinCostForRarity(rarity)
+        val totalCoins = levelUpCoins + fuseCoins
 
         val ingredientCosts = ingredients.map { input ->
             val costPerFuse  = fuseCostForRarity(input.dino.rarity)
@@ -267,14 +269,16 @@ class HybridCalculatorViewModel @Inject constructor(
             val creationDnaNeeded = creationDnaCostForRarity(rarity).toLong()
             val deficit           = maxOf(0L, creationDnaNeeded - hybridDnaAvail)
             val fusesNeeded       = if (deficit > 0L) ceil(deficit / 20.0).toInt() else 0
+            val fuseCoinsNeeded   = fusesNeeded.toLong() * fuseCoinCostForRarity(rarity)
 
-            var canAfford = true
+            var canAfford = coinsAvail >= fuseCoinsNeeded
             for (i in ingredients.indices) {
                 val needed = fusesNeeded.toLong() * fuseCostForRarity(ingredients[i].dino.rarity)
                 if (ingredientDnaAvail[i] < needed) { canAfford = false; break }
             }
             if (!canAfford) return currentLevel - 1
 
+            coinsAvail -= fuseCoinsNeeded
             for (i in ingredients.indices) {
                 ingredientDnaAvail[i] -= fusesNeeded.toLong() * fuseCostForRarity(ingredients[i].dino.rarity)
             }
@@ -283,11 +287,13 @@ class HybridCalculatorViewModel @Inject constructor(
 
         for (fromLevel in currentLevel until 35) {
             val cost = costMap[fromLevel] ?: break
-            if (coinsAvail < cost.coinsCost) break
 
             val hybridDnaNeeded = cost.dnaCost.toLong()
             val deficit         = maxOf(0L, hybridDnaNeeded - hybridDnaAvail)
             val fusesNeeded     = if (deficit > 0L) ceil(deficit / 20.0).toInt() else 0
+            val fuseCoinsNeeded = fusesNeeded.toLong() * fuseCoinCostForRarity(rarity)
+            val totalCoinsNeeded = cost.coinsCost + fuseCoinsNeeded
+            if (coinsAvail < totalCoinsNeeded) break
 
             var canAfford = true
             for (i in ingredients.indices) {
@@ -296,7 +302,7 @@ class HybridCalculatorViewModel @Inject constructor(
             }
             if (!canAfford) break
 
-            coinsAvail -= cost.coinsCost
+            coinsAvail -= totalCoinsNeeded
             for (i in ingredients.indices) {
                 ingredientDnaAvail[i] -= fusesNeeded.toLong() * fuseCostForRarity(ingredients[i].dino.rarity)
             }
@@ -325,6 +331,18 @@ class HybridCalculatorViewModel @Inject constructor(
             Rarity.UNIQUE    -> 250
             Rarity.APEX      -> 300
             else             -> 0
+        }
+
+        // Coin cost charged per press of the "Fuse" button, by the hybrid's own rarity.
+        // Common/Rare/Apex are extrapolated from confirmed Epic/Legendary/Unique values — verify against live game data.
+        fun fuseCoinCostForRarity(rarity: Rarity): Long = when (rarity) {
+            Rarity.COMMON    -> 20L
+            Rarity.RARE      -> 40L
+            Rarity.EPIC      -> 100L
+            Rarity.LEGENDARY -> 200L
+            Rarity.UNIQUE    -> 1_000L
+            Rarity.APEX      -> 2_000L
+            else             -> 0L
         }
     }
 }

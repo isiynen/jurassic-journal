@@ -12,6 +12,7 @@ import com.jurassicjournal.data.update.BundledDinoImages
 import com.jurassicjournal.data.update.GameDataUpdater
 import dagger.hilt.android.HiltAndroidApp
 import java.io.File
+import java.io.IOException
 
 @HiltAndroidApp
 class JurassicJournalApp : Application(), ImageLoaderFactory {
@@ -52,10 +53,16 @@ class JurassicJournalApp : Application(), ImageLoaderFactory {
         try {
             val dbFile = getDatabasePath("game_database")
             dbFile.parentFile?.mkdirs()
-            staged.copyTo(dbFile, overwrite = true)
+            // Copy to a temp file first so an interrupted copy never leaves the
+            // live db file partially written; only rename() swaps it into place.
+            val tmpDbFile = File(dbFile.parentFile, "${dbFile.name}.tmp")
+            staged.copyTo(tmpDbFile, overwrite = true)
             // Remove WAL artifacts so Room opens the new file with a clean state
             File("${dbFile.path}-shm").delete()
             File("${dbFile.path}-wal").delete()
+            if (!tmpDbFile.renameTo(dbFile)) {
+                throw IOException("Failed to swap in updated database")
+            }
             staged.delete()
             prefs.edit()
                 .putString(GameDataUpdater.KEY_DATA_VERSION, pendingVersion)

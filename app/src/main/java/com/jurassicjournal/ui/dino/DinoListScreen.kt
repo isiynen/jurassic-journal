@@ -511,17 +511,15 @@ fun DinoFastScrollbar(
         label = "scrollbar_alpha",
     )
 
-    // rememberUpdatedState keeps gesture handler current without restarting pointerInput
+    // rememberUpdatedState keeps gesture handler + draw lambda current without
+    // recomposing the Canvas node itself — only the draw phase re-runs per frame.
     val thumbFractionRef = rememberUpdatedState(thumbFraction)
     val scrollFractionRef = rememberUpdatedState(scrollFraction)
+    val draggingRef = rememberUpdatedState(isDragging)
 
     var dragStartY by remember { mutableFloatStateOf(0f) }
     var dragStartFraction by remember { mutableFloatStateOf(0f) }
 
-    // Read in composition scope so Canvas lambda captures fresh values on recomposition
-    val tf = thumbFraction
-    val sf = scrollFraction
-    val dragging = isDragging
     val primaryColor = MaterialTheme.colorScheme.primary
     val onSurfaceColor = MaterialTheme.colorScheme.onSurface
 
@@ -578,10 +576,12 @@ fun DinoFastScrollbar(
                 cornerRadius = CornerRadius(trackW / 2f),
             )
 
+            val tf = thumbFractionRef.value
+            val sf = scrollFractionRef.value
             val thumbH = (size.height * tf).coerceAtLeast(trackW * 2f)
             val thumbTop = (size.height - thumbH) * sf
             drawRoundRect(
-                color = primaryColor.copy(alpha = if (dragging) 0.90f else 0.55f),
+                color = primaryColor.copy(alpha = if (draggingRef.value) 0.90f else 0.55f),
                 topLeft = Offset(x, thumbTop),
                 size = Size(trackW, thumbH),
                 cornerRadius = CornerRadius(trackW / 2f),

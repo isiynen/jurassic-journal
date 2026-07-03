@@ -4,6 +4,11 @@ import android.content.Context
 import android.util.Log
 import com.jurassicjournal.data.game.dao.MoveDao
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.sync.Semaphore
+import kotlinx.coroutines.sync.withPermit
 import org.json.JSONArray
 import java.io.File
 import java.io.FileOutputStream
@@ -34,23 +39,17 @@ class AbilityIconSync @Inject constructor(
 
         tracker.beginPhase(SyncPhase.ABILITY_SYNC, total = pending.size)
 
-        val newlyFailed = mutableSetOf<String>()
-        var downloaded = 0
-        for (rel in pending) {
-            val dest = File(dir, rel)
-            if (dest.exists()) {
-                tracker.advance(filesDelta = 1)
-                continue
-            }
-            try {
-                downloadIcon(rel, dest)
-                downloaded++
-            } catch (e: Exception) {
-                Log.w(TAG, "Failed to fetch ability icon $rel: ${e.message}")
-                newlyFailed += rel
-            }
-            tracker.advance(filesDelta = 1)
+        val semaphore = Semaphore(MAX_CONCURRENT_DOWNLOADS)
+        val results = coroutineScope {
+            pending.map { rel ->
+                async {
+                    semaphore.withPermit { downloadOne(dir, rel) }
+                }
+            }.awaitAll()
         }
+
+        val newlyFailed = results.filter { it.outcome == IconOutcome.FAILED }.map { it.path }.toSet()
+        val downloaded = results.count { it.outcome == IconOutcome.DOWNLOADED }
 
         tracker.finish()
 
@@ -106,6 +105,26 @@ class AbilityIconSync @Inject constructor(
         return allRel.filterNot { BundledAbilityIcons.contains(it) }.sorted()
     }
 
+    private enum class IconOutcome { EXISTED, DOWNLOADED, FAILED }
+    private data class IconResult(val path: String, val outcome: IconOutcome)
+
+    private suspend fun downloadOne(dir: File, rel: String): IconResult {
+        val dest = File(dir, rel)
+        if (dest.exists()) {
+            tracker.advance(filesDelta = 1)
+            return IconResult(rel, IconOutcome.EXISTED)
+        }
+        val outcome = try {
+            downloadIcon(rel, dest)
+            IconOutcome.DOWNLOADED
+        } catch (e: Exception) {
+            Log.w(TAG, "Failed to fetch ability icon $rel: ${e.message}")
+            IconOutcome.FAILED
+        }
+        tracker.advance(filesDelta = 1)
+        return IconResult(rel, outcome)
+    }
+
     private suspend fun downloadIcon(rel: String, dest: File) {
         dest.parentFile?.mkdirs()
         val tmp = File(dest.parent, "${dest.name}.tmp")
@@ -118,16 +137,22 @@ class AbilityIconSync @Inject constructor(
             throw Exception("HTTP ${conn.responseCode}")
         }
         val buffer = ByteArray(8_192)
+        var pendingBytes = 0L
         try {
             conn.inputStream.use { input ->
                 FileOutputStream(tmp).use { output ->
                     var n: Int
                     while (input.read(buffer).also { n = it } != -1) {
                         output.write(buffer, 0, n)
-                        tracker.advance(bytes = n.toLong())
+                        pendingBytes += n
+                        if (pendingBytes >= PROGRESS_FLUSH_BYTES) {
+                            tracker.advance(bytes = pendingBytes)
+                            pendingBytes = 0L
+                        }
                     }
                 }
             }
+            if (pendingBytes > 0L) tracker.advance(bytes = pendingBytes)
             tmp.renameTo(dest)
         } finally {
             conn.disconnect()
@@ -139,5 +164,7 @@ class AbilityIconSync @Inject constructor(
         private const val TAG = "AbilityIconSync"
         private const val KEY_FAILED_PATHS   = "ability_icon_failed_paths"
         private const val KEY_FAILED_VERSION = "ability_icon_failed_version"
+        private const val MAX_CONCURRENT_DOWNLOADS = 5
+        private const val PROGRESS_FLUSH_BYTES = 262_144L
     }
 }
