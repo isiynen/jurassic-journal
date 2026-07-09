@@ -1,8 +1,8 @@
-package com.jurassicjournal.data.game.entity
+package com.sufficienteffort.jurassicjournal.data.game.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.jurassicjournal.data.model.ResearchStatus
+import com.sufficienteffort.jurassicjournal.data.model.ResearchStatus
 
 @Entity(tableName = "sanctuary_yields")
 data class SanctuaryYield(

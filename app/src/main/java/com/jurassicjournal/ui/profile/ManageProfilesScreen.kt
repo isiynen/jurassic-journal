@@ -1,4 +1,4 @@
-package com.jurassicjournal.ui.profile
+package com.sufficienteffort.jurassicjournal.ui.profile
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -45,7 +45,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.jurassicjournal.data.user.entity.Profile
+import com.sufficienteffort.jurassicjournal.data.user.entity.Profile
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

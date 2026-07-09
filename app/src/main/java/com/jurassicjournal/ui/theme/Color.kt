@@ -1,4 +1,4 @@
-package com.jurassicjournal.ui.theme
+package com.sufficienteffort.jurassicjournal.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

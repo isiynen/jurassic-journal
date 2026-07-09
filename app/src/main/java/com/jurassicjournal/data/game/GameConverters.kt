@@ -1,19 +1,19 @@
-package com.jurassicjournal.data.game
+package com.sufficienteffort.jurassicjournal.data.game
 
 import androidx.room.TypeConverter
-import com.jurassicjournal.data.model.CatalystType
-import com.jurassicjournal.data.model.DinoClass
-import com.jurassicjournal.data.model.EffectTarget
-import com.jurassicjournal.data.model.EnhancementType
-import com.jurassicjournal.data.model.HybridType
-import com.jurassicjournal.data.model.MovePriorityType
-import com.jurassicjournal.data.model.MoveTriggerType
-import com.jurassicjournal.data.model.MoveUnlockType
-import com.jurassicjournal.data.model.ProgressionSystem
-import com.jurassicjournal.data.model.Rarity
-import com.jurassicjournal.data.model.ResearchStatus
-import com.jurassicjournal.data.model.ResistanceType
-import com.jurassicjournal.data.model.SpawnLocation
+import com.sufficienteffort.jurassicjournal.data.model.CatalystType
+import com.sufficienteffort.jurassicjournal.data.model.DinoClass
+import com.sufficienteffort.jurassicjournal.data.model.EffectTarget
+import com.sufficienteffort.jurassicjournal.data.model.EnhancementType
+import com.sufficienteffort.jurassicjournal.data.model.HybridType
+import com.sufficienteffort.jurassicjournal.data.model.MovePriorityType
+import com.sufficienteffort.jurassicjournal.data.model.MoveTriggerType
+import com.sufficienteffort.jurassicjournal.data.model.MoveUnlockType
+import com.sufficienteffort.jurassicjournal.data.model.ProgressionSystem
+import com.sufficienteffort.jurassicjournal.data.model.Rarity
+import com.sufficienteffort.jurassicjournal.data.model.ResearchStatus
+import com.sufficienteffort.jurassicjournal.data.model.ResistanceType
+import com.sufficienteffort.jurassicjournal.data.model.SpawnLocation
 
 class GameConverters {
     @TypeConverter fun fromRarity(v: Rarity): String = v.name

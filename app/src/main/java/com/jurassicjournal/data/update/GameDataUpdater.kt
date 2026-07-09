@@ -1,4 +1,4 @@
-package com.jurassicjournal.data.update
+package com.sufficienteffort.jurassicjournal.data.update
 
 import android.content.Context
 import android.net.ConnectivityManager
@@ -9,8 +9,8 @@ import java.io.File
 import java.io.FileOutputStream
 import java.net.HttpURLConnection
 import java.net.URL
-import com.jurassicjournal.data.update.SyncPhase
-import com.jurassicjournal.data.update.SyncProgressTracker
+import com.sufficienteffort.jurassicjournal.data.update.SyncPhase
+import com.sufficienteffort.jurassicjournal.data.update.SyncProgressTracker
 
 data class UpdateInfo(val tag: String, val downloadUrl: String)
 

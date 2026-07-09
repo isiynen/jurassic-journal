@@ -1,4 +1,4 @@
-package com.jurassicjournal.util
+package com.sufficienteffort.jurassicjournal.util
 
 import kotlin.math.floor
 import kotlin.math.pow

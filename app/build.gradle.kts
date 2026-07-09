@@ -15,11 +15,11 @@ val keystoreProps = Properties().apply {
 }
 
 android {
-    namespace = "com.jurassicjournal"
+    namespace = "com.sufficienteffort.jurassicjournal"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.jurassicjournal"
+        applicationId = "com.sufficienteffort.jurassicjournal"
         minSdk = 26
         targetSdk = 35
         versionCode = 12

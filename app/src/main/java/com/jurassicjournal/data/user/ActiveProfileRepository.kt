@@ -1,11 +1,11 @@
-package com.jurassicjournal.data.user
+package com.sufficienteffort.jurassicjournal.data.user
 
 import android.content.Context
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import com.jurassicjournal.data.user.dao.ProfileDao
-import com.jurassicjournal.data.user.entity.Profile
+import com.sufficienteffort.jurassicjournal.data.user.dao.ProfileDao
+import com.sufficienteffort.jurassicjournal.data.user.entity.Profile
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first

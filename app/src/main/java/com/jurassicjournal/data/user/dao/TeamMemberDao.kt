@@ -1,10 +1,10 @@
-package com.jurassicjournal.data.user.dao
+package com.sufficienteffort.jurassicjournal.data.user.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.jurassicjournal.data.user.entity.TeamMember
+import com.sufficienteffort.jurassicjournal.data.user.entity.TeamMember
 import kotlinx.coroutines.flow.Flow
 
 @Dao

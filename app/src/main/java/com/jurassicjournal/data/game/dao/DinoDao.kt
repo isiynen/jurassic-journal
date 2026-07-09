@@ -1,10 +1,10 @@
-package com.jurassicjournal.data.game.dao
+package com.sufficienteffort.jurassicjournal.data.game.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.jurassicjournal.data.game.entity.Dino
+import com.sufficienteffort.jurassicjournal.data.game.entity.Dino
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -57,13 +57,13 @@ data class DinoMoveRow(
     val slug: String,
     val name: String,
     val description: String,
-    val rarity: com.jurassicjournal.data.model.Rarity,
-    val dinoClass: com.jurassicjournal.data.model.DinoClass,
-    val hybridType: com.jurassicjournal.data.model.HybridType,
+    val rarity: com.sufficienteffort.jurassicjournal.data.model.Rarity,
+    val dinoClass: com.sufficienteffort.jurassicjournal.data.model.DinoClass,
+    val hybridType: com.sufficienteffort.jurassicjournal.data.model.HybridType,
     val imagePath: String,
     val isHybrid: Boolean,
     val sanctuaryEligible: Boolean,
-    val progressionSystem: com.jurassicjournal.data.model.ProgressionSystem,
+    val progressionSystem: com.sufficienteffort.jurassicjournal.data.model.ProgressionSystem,
     val matchedMoveName: String?,
 )
 

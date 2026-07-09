@@ -1,4 +1,4 @@
-package com.jurassicjournal
+package com.sufficienteffort.jurassicjournal
 
 import android.app.Application
 import android.util.Log
@@ -7,9 +7,9 @@ import coil.ImageLoader
 import coil.ImageLoaderFactory
 import coil.request.ErrorResult
 import coil.request.ImageRequest
-import com.jurassicjournal.data.update.BundledAbilityIcons
-import com.jurassicjournal.data.update.BundledDinoImages
-import com.jurassicjournal.data.update.GameDataUpdater
+import com.sufficienteffort.jurassicjournal.data.update.BundledAbilityIcons
+import com.sufficienteffort.jurassicjournal.data.update.BundledDinoImages
+import com.sufficienteffort.jurassicjournal.data.update.GameDataUpdater
 import dagger.hilt.android.HiltAndroidApp
 import java.io.File
 import java.io.IOException

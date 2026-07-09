@@ -1,8 +1,8 @@
-package com.jurassicjournal.data.update
+package com.sufficienteffort.jurassicjournal.data.update
 
 import android.content.Context
 import android.util.Log
-import com.jurassicjournal.data.game.dao.DinoDao
+import com.sufficienteffort.jurassicjournal.data.game.dao.DinoDao
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll

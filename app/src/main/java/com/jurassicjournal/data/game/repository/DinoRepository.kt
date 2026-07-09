@@ -1,14 +1,14 @@
-package com.jurassicjournal.data.game.repository
+package com.sufficienteffort.jurassicjournal.data.game.repository
 
-import com.jurassicjournal.data.game.dao.DinoDao
-import com.jurassicjournal.data.game.dao.DinoMoveRow
-import com.jurassicjournal.data.game.dao.DinoSpawnLocationDao
-import com.jurassicjournal.data.game.entity.Dino
-import com.jurassicjournal.data.model.DinoClass
-import com.jurassicjournal.data.model.Rarity
-import com.jurassicjournal.data.model.SpawnLocation
-import com.jurassicjournal.data.user.ActiveProfileRepository
-import com.jurassicjournal.data.user.dao.NewDinoDao
+import com.sufficienteffort.jurassicjournal.data.game.dao.DinoDao
+import com.sufficienteffort.jurassicjournal.data.game.dao.DinoMoveRow
+import com.sufficienteffort.jurassicjournal.data.game.dao.DinoSpawnLocationDao
+import com.sufficienteffort.jurassicjournal.data.game.entity.Dino
+import com.sufficienteffort.jurassicjournal.data.model.DinoClass
+import com.sufficienteffort.jurassicjournal.data.model.Rarity
+import com.sufficienteffort.jurassicjournal.data.model.SpawnLocation
+import com.sufficienteffort.jurassicjournal.data.user.ActiveProfileRepository
+import com.sufficienteffort.jurassicjournal.data.user.dao.NewDinoDao
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine

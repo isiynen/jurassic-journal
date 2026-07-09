@@ -1,7 +1,7 @@
-package com.jurassicjournal.data.game.entity
+package com.sufficienteffort.jurassicjournal.data.game.entity
 
 import androidx.room.Entity
-import com.jurassicjournal.data.model.CatalystType
+import com.sufficienteffort.jurassicjournal.data.model.CatalystType
 
 @Entity(
     tableName = "enhancement_catalyst_costs",

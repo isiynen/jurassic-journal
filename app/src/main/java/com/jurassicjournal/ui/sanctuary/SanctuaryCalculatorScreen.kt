@@ -1,4 +1,4 @@
-package com.jurassicjournal.ui.sanctuary
+package com.sufficienteffort.jurassicjournal.ui.sanctuary
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -63,10 +63,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.jurassicjournal.data.update.dinoImageModel
-import com.jurassicjournal.data.model.Rarity
-import com.jurassicjournal.data.model.minLevel
-import com.jurassicjournal.util.StatCalculator
+import com.sufficienteffort.jurassicjournal.data.update.dinoImageModel
+import com.sufficienteffort.jurassicjournal.data.model.Rarity
+import com.sufficienteffort.jurassicjournal.data.model.minLevel
+import com.sufficienteffort.jurassicjournal.util.StatCalculator
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -149,7 +149,7 @@ fun SanctuaryCalculatorScreen(
 // ── Dino badge ────────────────────────────────────────────────────────────────
 
 @Composable
-private fun DinoBadgeCard(dino: com.jurassicjournal.data.game.entity.Dino) {
+private fun DinoBadgeCard(dino: com.sufficienteffort.jurassicjournal.data.game.entity.Dino) {
     Card(
         modifier  = Modifier.padding(horizontal = 16.dp, vertical = 4.dp).fillMaxWidth(),
         shape     = RoundedCornerShape(12.dp),

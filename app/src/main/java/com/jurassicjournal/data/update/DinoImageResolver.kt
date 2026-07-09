@@ -1,4 +1,4 @@
-package com.jurassicjournal.data.update
+package com.sufficienteffort.jurassicjournal.data.update
 
 import android.content.Context
 import java.io.File

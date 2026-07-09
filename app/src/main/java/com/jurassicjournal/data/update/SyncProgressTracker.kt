@@ -1,4 +1,4 @@
-package com.jurassicjournal.data.update
+package com.sufficienteffort.jurassicjournal.data.update
 
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock

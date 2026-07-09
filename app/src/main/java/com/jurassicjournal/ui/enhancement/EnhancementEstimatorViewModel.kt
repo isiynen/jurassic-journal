@@ -1,11 +1,11 @@
-package com.jurassicjournal.ui.enhancement
+package com.sufficienteffort.jurassicjournal.ui.enhancement
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.jurassicjournal.data.game.dao.DinoDao
-import com.jurassicjournal.data.game.entity.Dino
-import com.jurassicjournal.data.model.Rarity
+import com.sufficienteffort.jurassicjournal.data.game.dao.DinoDao
+import com.sufficienteffort.jurassicjournal.data.game.entity.Dino
+import com.sufficienteffort.jurassicjournal.data.model.Rarity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

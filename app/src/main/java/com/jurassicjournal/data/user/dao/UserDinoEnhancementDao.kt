@@ -1,9 +1,9 @@
-package com.jurassicjournal.data.user.dao
+package com.sufficienteffort.jurassicjournal.data.user.dao
 
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
-import com.jurassicjournal.data.user.entity.UserDinoEnhancement
+import com.sufficienteffort.jurassicjournal.data.user.entity.UserDinoEnhancement
 
 @Dao
 interface UserDinoEnhancementDao {

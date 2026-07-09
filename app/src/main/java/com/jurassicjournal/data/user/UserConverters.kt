@@ -1,7 +1,7 @@
-package com.jurassicjournal.data.user
+package com.sufficienteffort.jurassicjournal.data.user
 
 import androidx.room.TypeConverter
-import com.jurassicjournal.data.model.CatalystType
+import com.sufficienteffort.jurassicjournal.data.model.CatalystType
 
 class UserConverters {
     @TypeConverter fun fromCatalystType(v: CatalystType): String = v.name

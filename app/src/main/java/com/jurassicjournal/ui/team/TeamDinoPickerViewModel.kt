@@ -1,14 +1,14 @@
-package com.jurassicjournal.ui.team
+package com.sufficienteffort.jurassicjournal.ui.team
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.jurassicjournal.data.game.repository.DinoRepository
-import com.jurassicjournal.data.game.repository.DinoSearchResult
-import com.jurassicjournal.data.user.dao.TeamDao
-import com.jurassicjournal.data.user.dao.TeamMemberDao
-import com.jurassicjournal.data.user.entity.TeamMember
-import com.jurassicjournal.ui.dino.FilterState
+import com.sufficienteffort.jurassicjournal.data.game.repository.DinoRepository
+import com.sufficienteffort.jurassicjournal.data.game.repository.DinoSearchResult
+import com.sufficienteffort.jurassicjournal.data.user.dao.TeamDao
+import com.sufficienteffort.jurassicjournal.data.user.dao.TeamMemberDao
+import com.sufficienteffort.jurassicjournal.data.user.entity.TeamMember
+import com.sufficienteffort.jurassicjournal.ui.dino.FilterState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -90,8 +90,8 @@ class TeamDinoPickerViewModel @Inject constructor(
     }
 
     fun onQueryChange(query: String) = _filters.update { it.copy(query = query) }
-    fun onRarityFilter(rarity: com.jurassicjournal.data.model.Rarity?) = _filters.update { it.copy(rarity = rarity) }
-    fun onClassFilter(dinoClass: com.jurassicjournal.data.model.DinoClass?) = _filters.update { it.copy(dinoClass = dinoClass) }
+    fun onRarityFilter(rarity: com.sufficienteffort.jurassicjournal.data.model.Rarity?) = _filters.update { it.copy(rarity = rarity) }
+    fun onClassFilter(dinoClass: com.sufficienteffort.jurassicjournal.data.model.DinoClass?) = _filters.update { it.copy(dinoClass = dinoClass) }
     fun onNewOnlyFilter(enabled: Boolean) = _filters.update { it.copy(newOnly = enabled) }
 
     fun save() {

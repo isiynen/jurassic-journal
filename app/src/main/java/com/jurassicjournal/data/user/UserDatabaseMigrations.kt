@@ -1,4 +1,4 @@
-package com.jurassicjournal.data.user
+package com.sufficienteffort.jurassicjournal.data.user
 
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase

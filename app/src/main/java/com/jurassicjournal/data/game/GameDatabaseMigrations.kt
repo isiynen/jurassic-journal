@@ -1,4 +1,4 @@
-package com.jurassicjournal.data.game
+package com.sufficienteffort.jurassicjournal.data.game
 
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase

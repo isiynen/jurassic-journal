@@ -1,8 +1,8 @@
-package com.jurassicjournal.data.game.entity
+package com.sufficienteffort.jurassicjournal.data.game.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.jurassicjournal.data.model.EnhancementType
+import com.sufficienteffort.jurassicjournal.data.model.EnhancementType
 
 @Entity(tableName = "enhancements")
 data class Enhancement(
