@@ -1,4 +1,4 @@
-package com.jurassicjournal.ui.navigation
+package com.sufficienteffort.jurassicjournal.ui.navigation
 
 sealed class Screen(val route: String) {
     data object DinoList : Screen("dino_list")

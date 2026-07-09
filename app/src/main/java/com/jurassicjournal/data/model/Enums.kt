@@ -1,4 +1,4 @@
-package com.jurassicjournal.data.model
+package com.sufficienteffort.jurassicjournal.data.model
 
 enum class Rarity {
     COMMON, RARE, EPIC, LEGENDARY, UNIQUE, OMEGA, APEX

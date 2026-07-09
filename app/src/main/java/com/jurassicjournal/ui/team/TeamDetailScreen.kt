@@ -1,4 +1,4 @@
-package com.jurassicjournal.ui.team
+package com.sufficienteffort.jurassicjournal.ui.team
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -33,8 +33,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.jurassicjournal.ui.dino.DinoFastScrollbar
-import com.jurassicjournal.ui.dino.DinoGridCell
+import com.sufficienteffort.jurassicjournal.ui.dino.DinoFastScrollbar
+import com.sufficienteffort.jurassicjournal.ui.dino.DinoGridCell
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

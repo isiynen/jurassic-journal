@@ -1,13 +1,13 @@
-package com.jurassicjournal.ui.sanctuary
+package com.sufficienteffort.jurassicjournal.ui.sanctuary
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.jurassicjournal.data.game.dao.DinoDao
-import com.jurassicjournal.data.game.dao.DinoSanctuaryPointDao
-import com.jurassicjournal.data.game.entity.Dino
-import com.jurassicjournal.data.model.minLevel
-import com.jurassicjournal.util.StatCalculator
+import com.sufficienteffort.jurassicjournal.data.game.dao.DinoDao
+import com.sufficienteffort.jurassicjournal.data.game.dao.DinoSanctuaryPointDao
+import com.sufficienteffort.jurassicjournal.data.game.entity.Dino
+import com.sufficienteffort.jurassicjournal.data.model.minLevel
+import com.sufficienteffort.jurassicjournal.util.StatCalculator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

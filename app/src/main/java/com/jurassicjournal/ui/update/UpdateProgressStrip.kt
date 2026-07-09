@@ -1,4 +1,4 @@
-package com.jurassicjournal.ui.update
+package com.sufficienteffort.jurassicjournal.ui.update
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
@@ -18,8 +18,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.jurassicjournal.data.update.SyncPhase
-import com.jurassicjournal.data.update.SyncProgress
+import com.sufficienteffort.jurassicjournal.data.update.SyncPhase
+import com.sufficienteffort.jurassicjournal.data.update.SyncProgress
 
 @Composable
 fun UpdateProgressStrip(

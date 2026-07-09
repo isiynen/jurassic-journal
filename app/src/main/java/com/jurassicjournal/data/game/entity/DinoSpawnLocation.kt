@@ -1,8 +1,8 @@
-package com.jurassicjournal.data.game.entity
+package com.sufficienteffort.jurassicjournal.data.game.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.jurassicjournal.data.model.SpawnLocation
+import com.sufficienteffort.jurassicjournal.data.model.SpawnLocation
 
 @Entity(tableName = "dino_spawn_locations")
 data class DinoSpawnLocation(

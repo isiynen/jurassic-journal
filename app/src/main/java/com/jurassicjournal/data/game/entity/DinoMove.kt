@@ -1,8 +1,8 @@
-package com.jurassicjournal.data.game.entity
+package com.sufficienteffort.jurassicjournal.data.game.entity
 
 import androidx.room.Entity
-import com.jurassicjournal.data.model.MoveTriggerType
-import com.jurassicjournal.data.model.MoveUnlockType
+import com.sufficienteffort.jurassicjournal.data.model.MoveTriggerType
+import com.sufficienteffort.jurassicjournal.data.model.MoveUnlockType
 
 @Entity(
     tableName = "dino_moves",

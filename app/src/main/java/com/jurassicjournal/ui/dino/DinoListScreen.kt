@@ -1,4 +1,4 @@
-package com.jurassicjournal.ui.dino
+package com.sufficienteffort.jurassicjournal.ui.dino
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -96,28 +96,28 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.jurassicjournal.R
-import com.jurassicjournal.data.game.entity.Dino
-import com.jurassicjournal.data.game.repository.DinoSearchResult
-import com.jurassicjournal.data.game.repository.displayName
-import com.jurassicjournal.data.model.DinoClass
-import com.jurassicjournal.data.model.Rarity
-import com.jurassicjournal.data.model.ResistanceType
-import com.jurassicjournal.data.model.SpawnLocation
-import com.jurassicjournal.data.model.displayName
-import com.jurassicjournal.data.update.dinoImageModel
-import com.jurassicjournal.ui.profile.ProfileBarViewModel
-import com.jurassicjournal.ui.theme.ClassCunning
-import com.jurassicjournal.ui.theme.ClassFierce
-import com.jurassicjournal.ui.theme.ClassResilient
-import com.jurassicjournal.ui.theme.ClassWildCard
-import com.jurassicjournal.ui.theme.RarityApex
-import com.jurassicjournal.ui.theme.RarityCommon
-import com.jurassicjournal.ui.theme.RarityEpic
-import com.jurassicjournal.ui.theme.RarityLegendary
-import com.jurassicjournal.ui.theme.RarityOmega
-import com.jurassicjournal.ui.theme.RarityRare
-import com.jurassicjournal.ui.theme.RarityUnique
+import com.sufficienteffort.jurassicjournal.R
+import com.sufficienteffort.jurassicjournal.data.game.entity.Dino
+import com.sufficienteffort.jurassicjournal.data.game.repository.DinoSearchResult
+import com.sufficienteffort.jurassicjournal.data.game.repository.displayName
+import com.sufficienteffort.jurassicjournal.data.model.DinoClass
+import com.sufficienteffort.jurassicjournal.data.model.Rarity
+import com.sufficienteffort.jurassicjournal.data.model.ResistanceType
+import com.sufficienteffort.jurassicjournal.data.model.SpawnLocation
+import com.sufficienteffort.jurassicjournal.data.model.displayName
+import com.sufficienteffort.jurassicjournal.data.update.dinoImageModel
+import com.sufficienteffort.jurassicjournal.ui.profile.ProfileBarViewModel
+import com.sufficienteffort.jurassicjournal.ui.theme.ClassCunning
+import com.sufficienteffort.jurassicjournal.ui.theme.ClassFierce
+import com.sufficienteffort.jurassicjournal.ui.theme.ClassResilient
+import com.sufficienteffort.jurassicjournal.ui.theme.ClassWildCard
+import com.sufficienteffort.jurassicjournal.ui.theme.RarityApex
+import com.sufficienteffort.jurassicjournal.ui.theme.RarityCommon
+import com.sufficienteffort.jurassicjournal.ui.theme.RarityEpic
+import com.sufficienteffort.jurassicjournal.ui.theme.RarityLegendary
+import com.sufficienteffort.jurassicjournal.ui.theme.RarityOmega
+import com.sufficienteffort.jurassicjournal.ui.theme.RarityRare
+import com.sufficienteffort.jurassicjournal.ui.theme.RarityUnique
 import kotlin.math.ceil
 import kotlin.math.roundToInt
 import kotlinx.coroutines.delay
@@ -633,7 +633,7 @@ private fun SupportDialog(onDismiss: () -> Unit) {
 @Composable
 private fun ProfileDropdown(
     activeProfileId: Long,
-    profiles: List<com.jurassicjournal.data.user.entity.Profile>,
+    profiles: List<com.sufficienteffort.jurassicjournal.data.user.entity.Profile>,
     onSelect: (Long) -> Unit,
     onManage: () -> Unit,
 ) {
@@ -673,7 +673,7 @@ private fun ProfileDropdown(
 
 @Composable
 private fun TeamDropdown(
-    teams: List<com.jurassicjournal.data.user.entity.Team>,
+    teams: List<com.sufficienteffort.jurassicjournal.data.user.entity.Team>,
     onTeamClick: (Long) -> Unit,
     onManage: () -> Unit,
 ) {

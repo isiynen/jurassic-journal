@@ -1,10 +1,10 @@
-package com.jurassicjournal.data.update
+package com.sufficienteffort.jurassicjournal.data.update
 
 import android.content.Context
-import com.jurassicjournal.data.game.dao.DinoDao
-import com.jurassicjournal.data.user.dao.NewDinoDao
-import com.jurassicjournal.data.user.dao.ProfileDao
-import com.jurassicjournal.data.user.entity.NewDino
+import com.sufficienteffort.jurassicjournal.data.game.dao.DinoDao
+import com.sufficienteffort.jurassicjournal.data.user.dao.NewDinoDao
+import com.sufficienteffort.jurassicjournal.data.user.dao.ProfileDao
+import com.sufficienteffort.jurassicjournal.data.user.entity.NewDino
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton

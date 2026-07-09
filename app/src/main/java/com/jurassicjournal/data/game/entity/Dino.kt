@@ -1,11 +1,11 @@
-package com.jurassicjournal.data.game.entity
+package com.sufficienteffort.jurassicjournal.data.game.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.jurassicjournal.data.model.DinoClass
-import com.jurassicjournal.data.model.HybridType
-import com.jurassicjournal.data.model.ProgressionSystem
-import com.jurassicjournal.data.model.Rarity
+import com.sufficienteffort.jurassicjournal.data.model.DinoClass
+import com.sufficienteffort.jurassicjournal.data.model.HybridType
+import com.sufficienteffort.jurassicjournal.data.model.ProgressionSystem
+import com.sufficienteffort.jurassicjournal.data.model.Rarity
 
 @Entity(tableName = "dinos")
 data class Dino(

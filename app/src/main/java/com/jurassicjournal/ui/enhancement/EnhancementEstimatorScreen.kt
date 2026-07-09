@@ -1,4 +1,4 @@
-package com.jurassicjournal.ui.enhancement
+package com.sufficienteffort.jurassicjournal.ui.enhancement
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -50,8 +50,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.jurassicjournal.data.game.entity.Dino
-import com.jurassicjournal.data.update.dinoImageModel
+import com.sufficienteffort.jurassicjournal.data.game.entity.Dino
+import com.sufficienteffort.jurassicjournal.data.update.dinoImageModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 

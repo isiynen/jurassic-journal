@@ -1,4 +1,4 @@
-package com.jurassicjournal.ui.dino
+package com.sufficienteffort.jurassicjournal.ui.dino
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
@@ -68,25 +68,25 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.jurassicjournal.data.update.abilityIconModel
-import com.jurassicjournal.data.update.dinoImageModel
-import com.jurassicjournal.data.game.entity.DinoSanctuaryPoint
-import com.jurassicjournal.data.game.entity.OmegaTrainingConfig
-import com.jurassicjournal.data.game.repository.DinoMoveDetail
-import com.jurassicjournal.data.game.repository.IngredientNode
-import com.jurassicjournal.data.game.repository.MoveVariant
-import com.jurassicjournal.data.game.repository.ParsedTarget
-import com.jurassicjournal.data.game.repository.displayName
-import com.jurassicjournal.data.model.MovePriorityType
-import com.jurassicjournal.data.model.MoveTriggerType
-import com.jurassicjournal.data.model.MoveUnlockType
-import com.jurassicjournal.data.model.ProgressionSystem
-import com.jurassicjournal.data.model.ResistanceType
-import com.jurassicjournal.data.model.SpawnLocation
-import com.jurassicjournal.data.model.minLevel
-import com.jurassicjournal.data.user.entity.Team
-import com.jurassicjournal.ui.team.DinoTeamViewModel
-import com.jurassicjournal.util.StatCalculator
+import com.sufficienteffort.jurassicjournal.data.update.abilityIconModel
+import com.sufficienteffort.jurassicjournal.data.update.dinoImageModel
+import com.sufficienteffort.jurassicjournal.data.game.entity.DinoSanctuaryPoint
+import com.sufficienteffort.jurassicjournal.data.game.entity.OmegaTrainingConfig
+import com.sufficienteffort.jurassicjournal.data.game.repository.DinoMoveDetail
+import com.sufficienteffort.jurassicjournal.data.game.repository.IngredientNode
+import com.sufficienteffort.jurassicjournal.data.game.repository.MoveVariant
+import com.sufficienteffort.jurassicjournal.data.game.repository.ParsedTarget
+import com.sufficienteffort.jurassicjournal.data.game.repository.displayName
+import com.sufficienteffort.jurassicjournal.data.model.MovePriorityType
+import com.sufficienteffort.jurassicjournal.data.model.MoveTriggerType
+import com.sufficienteffort.jurassicjournal.data.model.MoveUnlockType
+import com.sufficienteffort.jurassicjournal.data.model.ProgressionSystem
+import com.sufficienteffort.jurassicjournal.data.model.ResistanceType
+import com.sufficienteffort.jurassicjournal.data.model.SpawnLocation
+import com.sufficienteffort.jurassicjournal.data.model.minLevel
+import com.sufficienteffort.jurassicjournal.data.user.entity.Team
+import com.sufficienteffort.jurassicjournal.ui.team.DinoTeamViewModel
+import com.sufficienteffort.jurassicjournal.util.StatCalculator
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import org.json.JSONArray
@@ -1481,7 +1481,7 @@ private fun TeamsCard(
 
 @Composable
 private fun HybridsUsingSection(
-    hybrids: List<com.jurassicjournal.data.game.entity.Dino>,
+    hybrids: List<com.sufficienteffort.jurassicjournal.data.game.entity.Dino>,
     onDinoClick: (Long) -> Unit,
 ) {
     Column(modifier = Modifier.padding(horizontal = 16.dp)) {

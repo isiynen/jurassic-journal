@@ -1,9 +1,9 @@
-package com.jurassicjournal.data.game.dao
+package com.sufficienteffort.jurassicjournal.data.game.dao
 
 import androidx.room.Dao
 import androidx.room.Query
-import com.jurassicjournal.data.game.entity.Enhancement
-import com.jurassicjournal.data.game.entity.EnhancementStatBonus
+import com.sufficienteffort.jurassicjournal.data.game.entity.Enhancement
+import com.sufficienteffort.jurassicjournal.data.game.entity.EnhancementStatBonus
 
 @Dao
 interface EnhancementDao {

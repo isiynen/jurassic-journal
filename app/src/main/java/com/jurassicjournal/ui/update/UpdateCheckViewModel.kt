@@ -1,11 +1,11 @@
-package com.jurassicjournal.ui.update
+package com.sufficienteffort.jurassicjournal.ui.update
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.jurassicjournal.data.update.GameDataUpdater
-import com.jurassicjournal.data.update.SyncProgressTracker
-import com.jurassicjournal.data.update.UpdateInfo
+import com.sufficienteffort.jurassicjournal.data.update.GameDataUpdater
+import com.sufficienteffort.jurassicjournal.data.update.SyncProgressTracker
+import com.sufficienteffort.jurassicjournal.data.update.UpdateInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers

@@ -1,4 +1,4 @@
-package com.jurassicjournal.ui.calculator
+package com.sufficienteffort.jurassicjournal.ui.calculator
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -56,15 +56,15 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.jurassicjournal.data.update.dinoImageModel
-import com.jurassicjournal.data.game.entity.Dino
+import com.sufficienteffort.jurassicjournal.data.update.dinoImageModel
+import com.sufficienteffort.jurassicjournal.data.game.entity.Dino
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.input.pointer.pointerInput
-import com.jurassicjournal.data.model.Rarity
-import com.jurassicjournal.data.model.minLevel
+import com.sufficienteffort.jurassicjournal.data.model.Rarity
+import com.sufficienteffort.jurassicjournal.data.model.minLevel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 

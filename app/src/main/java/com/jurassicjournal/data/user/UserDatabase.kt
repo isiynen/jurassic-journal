@@ -1,30 +1,30 @@
-package com.jurassicjournal.data.user
+package com.sufficienteffort.jurassicjournal.data.user
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.jurassicjournal.data.user.dao.OmegaTrainingAllocationDao
-import com.jurassicjournal.data.user.dao.UserDinoEnhancementDao
-import com.jurassicjournal.data.user.dao.ProfileDao
-import com.jurassicjournal.data.user.dao.TeamDao
-import com.jurassicjournal.data.user.dao.NewDinoDao
-import com.jurassicjournal.data.user.dao.TeamMemberDao
-import com.jurassicjournal.data.user.dao.UserBoostDao
-import com.jurassicjournal.data.user.dao.UserDinoDao
-import com.jurassicjournal.data.user.dao.UserDnaInventoryDao
-import com.jurassicjournal.data.user.dao.UserWalletDao
-import com.jurassicjournal.data.user.entity.NewDino
-import com.jurassicjournal.data.user.entity.OmegaTrainingAllocation
-import com.jurassicjournal.data.user.entity.Profile
-import com.jurassicjournal.data.user.entity.Team
-import com.jurassicjournal.data.user.entity.TeamMember
-import com.jurassicjournal.data.user.entity.UserBoost
-import com.jurassicjournal.data.user.entity.UserCatalyst
-import com.jurassicjournal.data.user.entity.UserDino
-import com.jurassicjournal.data.user.entity.UserDinoEnhancement
-import com.jurassicjournal.data.user.entity.UserDnaInventory
-import com.jurassicjournal.data.user.entity.UserPreference
-import com.jurassicjournal.data.user.entity.UserWallet
+import com.sufficienteffort.jurassicjournal.data.user.dao.OmegaTrainingAllocationDao
+import com.sufficienteffort.jurassicjournal.data.user.dao.UserDinoEnhancementDao
+import com.sufficienteffort.jurassicjournal.data.user.dao.ProfileDao
+import com.sufficienteffort.jurassicjournal.data.user.dao.TeamDao
+import com.sufficienteffort.jurassicjournal.data.user.dao.NewDinoDao
+import com.sufficienteffort.jurassicjournal.data.user.dao.TeamMemberDao
+import com.sufficienteffort.jurassicjournal.data.user.dao.UserBoostDao
+import com.sufficienteffort.jurassicjournal.data.user.dao.UserDinoDao
+import com.sufficienteffort.jurassicjournal.data.user.dao.UserDnaInventoryDao
+import com.sufficienteffort.jurassicjournal.data.user.dao.UserWalletDao
+import com.sufficienteffort.jurassicjournal.data.user.entity.NewDino
+import com.sufficienteffort.jurassicjournal.data.user.entity.OmegaTrainingAllocation
+import com.sufficienteffort.jurassicjournal.data.user.entity.Profile
+import com.sufficienteffort.jurassicjournal.data.user.entity.Team
+import com.sufficienteffort.jurassicjournal.data.user.entity.TeamMember
+import com.sufficienteffort.jurassicjournal.data.user.entity.UserBoost
+import com.sufficienteffort.jurassicjournal.data.user.entity.UserCatalyst
+import com.sufficienteffort.jurassicjournal.data.user.entity.UserDino
+import com.sufficienteffort.jurassicjournal.data.user.entity.UserDinoEnhancement
+import com.sufficienteffort.jurassicjournal.data.user.entity.UserDnaInventory
+import com.sufficienteffort.jurassicjournal.data.user.entity.UserPreference
+import com.sufficienteffort.jurassicjournal.data.user.entity.UserWallet
 
 @Database(
     entities = [

@@ -1,11 +1,11 @@
-package com.jurassicjournal.data.game.dao
+package com.sufficienteffort.jurassicjournal.data.game.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.jurassicjournal.data.game.entity.LevelUpCost
-import com.jurassicjournal.data.model.Rarity
+import com.sufficienteffort.jurassicjournal.data.game.entity.LevelUpCost
+import com.sufficienteffort.jurassicjournal.data.model.Rarity
 
 @Dao
 interface LevelUpCostDao {

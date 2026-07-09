@@ -1,4 +1,4 @@
-package com.jurassicjournal.data.user.entity
+package com.sufficienteffort.jurassicjournal.data.user.entity
 
 import androidx.room.Entity
 import androidx.room.ForeignKey

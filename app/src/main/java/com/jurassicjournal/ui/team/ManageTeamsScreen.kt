@@ -1,4 +1,4 @@
-package com.jurassicjournal.ui.team
+package com.sufficienteffort.jurassicjournal.ui.team
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -42,7 +42,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.jurassicjournal.data.user.entity.Team
+import com.sufficienteffort.jurassicjournal.data.user.entity.Team
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

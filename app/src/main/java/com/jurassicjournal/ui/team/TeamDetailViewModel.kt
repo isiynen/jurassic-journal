@@ -1,14 +1,14 @@
-package com.jurassicjournal.ui.team
+package com.sufficienteffort.jurassicjournal.ui.team
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.jurassicjournal.data.game.entity.Dino
-import com.jurassicjournal.data.game.repository.DinoRepository
-import com.jurassicjournal.data.user.dao.TeamDao
-import com.jurassicjournal.data.user.dao.TeamMemberDao
-import com.jurassicjournal.data.user.entity.Team
-import com.jurassicjournal.data.user.entity.TeamMember
+import com.sufficienteffort.jurassicjournal.data.game.entity.Dino
+import com.sufficienteffort.jurassicjournal.data.game.repository.DinoRepository
+import com.sufficienteffort.jurassicjournal.data.user.dao.TeamDao
+import com.sufficienteffort.jurassicjournal.data.user.dao.TeamMemberDao
+import com.sufficienteffort.jurassicjournal.data.user.entity.Team
+import com.sufficienteffort.jurassicjournal.data.user.entity.TeamMember
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

@@ -1,10 +1,10 @@
-package com.jurassicjournal.data.game.dao
+package com.sufficienteffort.jurassicjournal.data.game.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.jurassicjournal.data.game.entity.DinoMove
+import com.sufficienteffort.jurassicjournal.data.game.entity.DinoMove
 
 @Dao
 interface DinoMoveDao {

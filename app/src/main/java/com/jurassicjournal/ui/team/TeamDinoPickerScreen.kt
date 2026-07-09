@@ -1,4 +1,4 @@
-package com.jurassicjournal.ui.team
+package com.sufficienteffort.jurassicjournal.ui.team
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
@@ -41,13 +41,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.jurassicjournal.ui.dino.ClassFilterRow
-import com.jurassicjournal.ui.dino.DinoFastScrollbar
-import com.jurassicjournal.ui.dino.DinoGridCell
-import com.jurassicjournal.ui.dino.NewFilterRow
-import com.jurassicjournal.ui.dino.RarityFilterRow
-import com.jurassicjournal.ui.dino.SearchBar
-import com.jurassicjournal.ui.profile.ProfileBarViewModel
+import com.sufficienteffort.jurassicjournal.ui.dino.ClassFilterRow
+import com.sufficienteffort.jurassicjournal.ui.dino.DinoFastScrollbar
+import com.sufficienteffort.jurassicjournal.ui.dino.DinoGridCell
+import com.sufficienteffort.jurassicjournal.ui.dino.NewFilterRow
+import com.sufficienteffort.jurassicjournal.ui.dino.RarityFilterRow
+import com.sufficienteffort.jurassicjournal.ui.dino.SearchBar
+import com.sufficienteffort.jurassicjournal.ui.profile.ProfileBarViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
