@@ -1,7 +1,5 @@
-This is a standalone companion app to Jurassic World Alive
+This is a standalone companion app to Jurassic World Alive.
 This work is inspired by paleo.gg and the no-longer updated Field Guide.
-
-Currently, this app requires minimum Android v8.
 
 The usage is pretty simple.
 - Search for dinos or use filters at top of list
@@ -12,7 +10,7 @@ The usage is pretty simple.
 
 Anywhere you see a number with a -/+ to the sides of it, you can also click the number and enter it with numeric keypad.
 
-Planned features:
+Implemented features:
 - Multiple profiles - so if a user has more than one account, they can track all of their accounts in one app
 - Import/Export of profile data so can migrate to a new device easily
 - Creating teams where users can select which dinos show up under that team name
