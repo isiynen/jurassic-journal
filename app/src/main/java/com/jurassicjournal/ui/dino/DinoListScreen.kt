@@ -603,7 +603,7 @@ private fun SupportDialog(onDismiss: () -> Unit) {
             Text(
                 "Jurassic Journal is a solo project built and maintained alongside real life. " +
                 "JWA ships new dinos, moves, and balance changes constantly — every update means " +
-                "re-scraping data, running the pipeline, fixing edge cases, and keeping the UI in sync.\n\n" +
+                "gathering new data, running the pipeline, fixing edge cases, and keeping the UI in sync.\n\n" +
                 "If this app saves you time or makes your JWA experience better, a small donation " +
                 "goes a long way toward justifying those hours."
             )
