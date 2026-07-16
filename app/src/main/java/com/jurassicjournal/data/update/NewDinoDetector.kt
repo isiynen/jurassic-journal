@@ -23,6 +23,11 @@ class NewDinoDetector @Inject constructor(
 
     suspend fun detect() {
         val currentSlugs = dinoDao.getAllSlugIds().map { it.slug }.toSet()
+        // An empty slug set means the game DB isn't readable (mid-swap, corrupt);
+        // proceeding would make pruneStale's NOT IN () delete every badge and
+        // poison the baseline.
+        if (currentSlugs.isEmpty()) return
+
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         val knownSlugs = prefs.getStringSet(KEY_KNOWN_SLUGS, null)
 
@@ -33,18 +38,17 @@ class NewDinoDetector @Inject constructor(
         }
 
         val newSlugs = currentSlugs - knownSlugs
-        if (newSlugs.isNotEmpty()) {
-            val profiles = profileDao.getAll()
-            val entries = profiles.flatMap { profile ->
+        val entries = if (newSlugs.isNotEmpty()) {
+            profileDao.getAll().flatMap { profile ->
                 newSlugs.map { slug -> NewDino(profileId = profile.id, dinoSlug = slug) }
             }
-            newDinoDao.insertAll(entries)
+        } else {
+            emptyList()
         }
 
-        // Remove rows for slugs no longer in the game DB
-        newDinoDao.pruneStale(currentSlugs.toList())
-
-        // Update baseline to current set
+        // Insert badges + prune stale rows in one transaction, and only then
+        // move the baseline forward — a crash in between just re-runs detection.
+        newDinoDao.applyDetection(entries, currentSlugs.toList())
         prefs.edit().putStringSet(KEY_KNOWN_SLUGS, currentSlugs).apply()
     }
 }

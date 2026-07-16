@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Backup is an intentional feature: it carries profiles/teams across devices.
+Include-only rules — anything not listed is NOT backed up. The game DB and
+downloaded art are re-fetchable (bundled asset + OTA), and game_data_prefs
+holds device-local OTA state (data_version, skip lists) that must not follow
+the user to a new install.
+-->
+<data-extraction-rules>
+    <cloud-backup>
+        <include domain="database" path="user_database" />
+        <include domain="database" path="user_database-wal" />
+        <include domain="database" path="user_database-shm" />
+        <include domain="file" path="datastore/user_prefs.preferences_pb" />
+    </cloud-backup>
+    <device-transfer>
+        <include domain="database" path="user_database" />
+        <include domain="database" path="user_database-wal" />
+        <include domain="database" path="user_database-shm" />
+        <include domain="file" path="datastore/user_prefs.preferences_pb" />
+    </device-transfer>
+</data-extraction-rules>

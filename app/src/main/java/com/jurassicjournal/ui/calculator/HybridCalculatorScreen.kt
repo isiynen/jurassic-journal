@@ -24,7 +24,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -35,7 +34,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -67,6 +66,15 @@ import com.sufficienteffort.jurassicjournal.data.model.Rarity
 import com.sufficienteffort.jurassicjournal.data.model.minLevel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import com.sufficienteffort.jurassicjournal.ui.components.RepeatingButton
+import com.sufficienteffort.jurassicjournal.ui.components.SectionHeader
+import com.sufficienteffort.jurassicjournal.ui.components.HintText
+import com.sufficienteffort.jurassicjournal.ui.components.ResultRow
+import com.sufficienteffort.jurassicjournal.ui.components.SectionDivider
+import com.sufficienteffort.jurassicjournal.ui.components.NumberInputDialog
+import com.sufficienteffort.jurassicjournal.ui.components.LongInputDialog
+import com.sufficienteffort.jurassicjournal.ui.components.rarityLabel
+import com.sufficienteffort.jurassicjournal.ui.components.rarityColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -75,7 +83,7 @@ fun HybridCalculatorScreen(
     onDinoClick: (Long) -> Unit = {},
     viewModel: HybridCalculatorViewModel = hiltViewModel(),
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     Scaffold(
         topBar = {
@@ -543,12 +551,12 @@ private fun ResultSummaryCard(result: CalcResult) {
     ) {
         Column(Modifier.padding(16.dp)) {
             ResultRow("Hybrid DNA still needed", "%,d DNA".format(result.hybridDnaStillNeeded))
-            Divider()
+            SectionDivider()
             ResultRow("Estimated fuses (avg 20 DNA each)", "%,d".format(result.fusesNeeded))
-            Divider()
+            SectionDivider()
             ResultRow("Coins needed", "%,d".format(result.coinsNeeded))
             if (result.coinDeficit > 0) {
-                Divider()
+                SectionDivider()
                 ResultRow(
                     label      = "Coin deficit",
                     value      = "−%,d".format(result.coinDeficit),
@@ -696,178 +704,4 @@ private fun IngredientCostCard(cost: IngredientCost) {
             }
         }
     }
-}
-
-@Composable
-private fun RepeatingButton(
-    onClick: () -> Unit,
-    enabled: Boolean = true,
-    modifier: Modifier = Modifier,
-    content: @Composable () -> Unit,
-) {
-    val currentOnClick by rememberUpdatedState(onClick)
-    val currentEnabled by rememberUpdatedState(enabled)
-    val scope = rememberCoroutineScope()
-    Box(
-        modifier = modifier.pointerInput(Unit) {
-            while (true) {
-                awaitPointerEventScope { awaitFirstDown(requireUnconsumed = false) }
-                if (!currentEnabled) continue
-                currentOnClick()
-                val job = scope.launch {
-                    delay(400L)
-                    while (currentEnabled) {
-                        currentOnClick()
-                        delay(80L)
-                    }
-                }
-                awaitPointerEventScope { waitForUpOrCancellation() }
-                job.cancel()
-            }
-        },
-        contentAlignment = Alignment.Center,
-    ) { content() }
-}
-
-// ── Shared helpers ────────────────────────────────────────────────────────────
-
-@Composable
-private fun SectionHeader(title: String) {
-    Text(
-        text     = title,
-        style    = MaterialTheme.typography.titleSmall,
-        fontWeight = FontWeight.SemiBold,
-        color    = MaterialTheme.colorScheme.primary,
-        modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 20.dp, bottom = 4.dp),
-    )
-}
-
-@Composable
-private fun HintText(text: String) {
-    Text(
-        text,
-        style    = MaterialTheme.typography.labelSmall,
-        color    = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.45f),
-        modifier = Modifier.padding(start = 16.dp, bottom = 2.dp),
-    )
-}
-
-@Composable
-private fun ResultRow(
-    label: String,
-    value: String,
-    valueColor: Color = MaterialTheme.colorScheme.onSurface,
-) {
-    Row(
-        modifier              = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment     = Alignment.CenterVertically,
-    ) {
-        Text(
-            label,
-            style    = MaterialTheme.typography.bodyMedium,
-            color    = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.75f),
-            modifier = Modifier.weight(1f),
-        )
-        Text(value, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold, color = valueColor)
-    }
-}
-
-@Composable
-private fun Divider() {
-    HorizontalDivider(
-        modifier = Modifier.padding(vertical = 8.dp),
-        color    = MaterialTheme.colorScheme.outline.copy(alpha = 0.2f),
-    )
-}
-
-@Composable
-private fun NumberInputDialog(
-    title: String,
-    current: Int,
-    min: Int,
-    max: Int,
-    onConfirm: (Int) -> Unit,
-    onDismiss: () -> Unit,
-) {
-    val initialText = current.toString()
-    var fieldValue by remember {
-        mutableStateOf(TextFieldValue(text = initialText, selection = TextRange(0, initialText.length)))
-    }
-    val parsed  = fieldValue.text.toIntOrNull()
-    val isValid = parsed != null && parsed in min..max
-
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = { Text(title) },
-        text  = {
-            OutlinedTextField(
-                value       = fieldValue,
-                onValueChange = { new -> if (new.text.all { it.isDigit() }) fieldValue = new },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
-                keyboardActions = KeyboardActions(onDone = { if (isValid) onConfirm(parsed!!) }),
-                singleLine   = true,
-                isError      = !isValid,
-                supportingText = { Text("$min – $max") },
-            )
-        },
-        confirmButton = { TextButton(onClick = { if (isValid) onConfirm(parsed!!) }, enabled = isValid) { Text("OK") } },
-        dismissButton = { TextButton(onClick = onDismiss) { Text("Cancel") } },
-    )
-}
-
-@Composable
-private fun LongInputDialog(
-    title: String,
-    current: Long,
-    min: Long = 0L,
-    max: Long = 2_100_000_000L,
-    onConfirm: (Long) -> Unit,
-    onDismiss: () -> Unit,
-) {
-    val initialText = current.toString()
-    var fieldValue by remember {
-        mutableStateOf(TextFieldValue(text = initialText, selection = TextRange(0, initialText.length)))
-    }
-    val parsed  = fieldValue.text.toLongOrNull()
-    val isValid = parsed != null && parsed in min..max
-
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = { Text(title) },
-        text  = {
-            OutlinedTextField(
-                value       = fieldValue,
-                onValueChange = { new -> if (new.text.all { it.isDigit() }) fieldValue = new },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
-                keyboardActions = KeyboardActions(onDone = { if (isValid) onConfirm(parsed!!) }),
-                singleLine   = true,
-                isError      = !isValid,
-                supportingText = { Text("0 – 2,100,000,000") },
-            )
-        },
-        confirmButton = { TextButton(onClick = { if (isValid) onConfirm(parsed!!) }, enabled = isValid) { Text("OK") } },
-        dismissButton = { TextButton(onClick = onDismiss) { Text("Cancel") } },
-    )
-}
-
-private fun rarityLabel(rarity: Rarity): String = when (rarity) {
-    Rarity.COMMON    -> "Common"
-    Rarity.RARE      -> "Rare"
-    Rarity.EPIC      -> "Epic"
-    Rarity.LEGENDARY -> "Legendary"
-    Rarity.UNIQUE    -> "Unique"
-    Rarity.APEX      -> "Apex"
-    Rarity.OMEGA     -> "Omega"
-}
-
-@Composable
-private fun rarityColor(rarity: Rarity): Color = when (rarity) {
-    Rarity.COMMON    -> MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
-    Rarity.RARE      -> Color(0xFF4B9EFF)
-    Rarity.EPIC      -> Color(0xFFAB67D8)
-    Rarity.LEGENDARY -> Color(0xFFFFD700)
-    Rarity.UNIQUE    -> Color(0xFF00CBA0)
-    Rarity.APEX      -> Color(0xFFFF5555)
-    Rarity.OMEGA     -> Color(0xFFFF8C00)
 }

@@ -10,6 +10,8 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -18,8 +20,9 @@ private val Context.dataStore by preferencesDataStore(name = "user_prefs")
 @Singleton
 class ActiveProfileRepository @Inject constructor(
     @ApplicationContext private val context: Context,
-    val profileDao: ProfileDao,
+    private val profileDao: ProfileDao,
 ) {
+    private val repairMutex = Mutex()
     private val KEY_ACTIVE_PROFILE = longPreferencesKey("active_profile_id")
 
     val activeProfileId: Flow<Long> = context.dataStore.data
@@ -38,7 +41,9 @@ class ActiveProfileRepository @Inject constructor(
      *   2. the first existing profile, promoted to active;
      *   3. a freshly created "Default" profile.
      */
-    suspend fun requireActiveProfileId(): Long {
+    suspend fun requireActiveProfileId(): Long = repairMutex.withLock {
+        // Mutex: two concurrent callers both seeing "no profile" would each
+        // insert a Default profile (non-atomic check-then-insert).
         val activeId = activeProfileId.first()
         if (profileDao.getById(activeId) != null) return activeId
 
@@ -55,6 +60,8 @@ class ActiveProfileRepository @Inject constructor(
 
     fun observeProfiles(): Flow<List<Profile>> = profileDao.observeAll()
 
+    suspend fun getProfileById(id: Long): Profile? = profileDao.getById(id)
+
     suspend fun createProfile(name: String): Long =
         profileDao.insert(Profile(name = name))
 
@@ -62,7 +69,13 @@ class ActiveProfileRepository @Inject constructor(
         profileDao.getById(id)?.let { profileDao.update(it.copy(name = newName)) }
     }
 
+    /** Deletes the profile and all rows it owns (wallet, collection, boosts, …) atomically. */
     suspend fun deleteProfile(id: Long) {
-        profileDao.deleteById(id)
+        profileDao.deleteProfileWithData(id)
+    }
+
+    /** Cleans rows orphaned by profile deletions from before deleteProfileWithData existed. */
+    suspend fun pruneOrphanedData() {
+        profileDao.pruneOrphanedData()
     }
 }

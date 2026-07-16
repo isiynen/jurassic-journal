@@ -10,6 +10,8 @@ internal const val DINO_IMAGE_RAW_BASE =
     "https://raw.githubusercontent.com/isiynen/jurassic-journal/master/app/src/main/assets/dinosaurs"
 
 object BundledDinoImages {
+    // Written once in Application.onCreate, read from Coil/sync worker threads.
+    @Volatile
     private var names: Set<String> = emptySet()
     fun init(context: Context) { names = context.assets.list("dinosaurs")?.toHashSet() ?: emptySet() }
     fun contains(imagePath: String): Boolean = imagePath in names
@@ -39,6 +41,8 @@ internal const val ABILITY_ICON_RAW_BASE =
  * Must be initialised once in Application.onCreate() before any icon is loaded.
  */
 object BundledAbilityIcons {
+    // Written once in Application.onCreate, read from Coil/sync worker threads.
+    @Volatile
     private var names: Set<String> = emptySet()
 
     fun init(context: Context) {

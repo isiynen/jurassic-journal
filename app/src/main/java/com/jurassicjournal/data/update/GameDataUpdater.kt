@@ -11,10 +11,21 @@ import java.net.HttpURLConnection
 import java.net.URL
 import com.sufficienteffort.jurassicjournal.data.update.SyncPhase
 import com.sufficienteffort.jurassicjournal.data.update.SyncProgressTracker
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
+import javax.inject.Singleton
 
-data class UpdateInfo(val tag: String, val downloadUrl: String)
+data class UpdateInfo(
+    val tag: String,
+    val downloadUrl: String,
+    /** Asset size from the GitHub releases API; 0 if unknown. Used to detect truncated downloads. */
+    val sizeBytes: Long = 0L,
+)
 
-class GameDataUpdater(private val context: Context) {
+@Singleton
+class GameDataUpdater @Inject constructor(
+    @ApplicationContext private val context: Context,
+) {
 
     /**
      * Checks GitHub for a newer release.
@@ -31,28 +42,39 @@ class GameDataUpdater(private val context: Context) {
         val currentVersion = prefs.getString(KEY_DATA_VERSION, BUNDLED_VERSION) ?: BUNDLED_VERSION
         Log.d(TAG, "Current data version: $currentVersion")
 
+        // Throttle: this runs on every app launch; don't hammer the GitHub API.
+        val now = System.currentTimeMillis()
+        val lastCheck = prefs.getLong(KEY_LAST_CHECK, 0L)
+        if (now - lastCheck in 0 until CHECK_INTERVAL_MS) {
+            Log.d(TAG, "Checked recently — skipping update check")
+            return null
+        }
+
         return try {
             val apiConn = URL(RELEASES_API_URL).openConnection() as HttpURLConnection
-            apiConn.setRequestProperty("Accept", "application/vnd.github+json")
-            apiConn.connectTimeout = 8_000
-            apiConn.readTimeout = 8_000
-            apiConn.connect()
+            val body = try {
+                apiConn.setRequestProperty("Accept", "application/vnd.github+json")
+                apiConn.connectTimeout = 8_000
+                apiConn.readTimeout = 8_000
+                apiConn.connect()
 
-            val responseCode = apiConn.responseCode
-            if (responseCode != 200) {
+                val responseCode = apiConn.responseCode
+                if (responseCode != 200) {
+                    Log.d(TAG, "GitHub API returned HTTP $responseCode — no releases found")
+                    return null
+                }
+                apiConn.inputStream.bufferedReader().readText()
+            } finally {
                 apiConn.disconnect()
-                Log.d(TAG, "GitHub API returned HTTP $responseCode — no releases found")
-                return null
             }
-
-            val body = apiConn.inputStream.bufferedReader().readText()
-            apiConn.disconnect()
+            prefs.edit().putLong(KEY_LAST_CHECK, now).apply()
 
             // Enumerate all releases and pick the highest data tag matching our bundled SCHEMA.
             // /releases/latest is unreliable here: APK release tags (v1.x) can outrank data tags.
             val releases = JSONArray(body)
             var bestTag: String? = null
             var bestUrl: String? = null
+            var bestSize = 0L
             for (i in 0 until releases.length()) {
                 val release = releases.optJSONObject(i) ?: continue
                 if (release.optBoolean("draft") || release.optBoolean("prerelease")) continue
@@ -64,10 +86,12 @@ class GameDataUpdater(private val context: Context) {
 
                 val assets = release.optJSONArray("assets") ?: continue
                 var url: String? = null
+                var size = 0L
                 for (j in 0 until assets.length()) {
                     val asset = assets.getJSONObject(j)
                     if (asset.optString("name") == DB_ASSET_NAME) {
                         url = asset.optString("browser_download_url").ifEmpty { null }
+                        size = asset.optLong("size")
                         break
                     }
                 }
@@ -75,6 +99,7 @@ class GameDataUpdater(private val context: Context) {
 
                 bestTag = tag
                 bestUrl = url
+                bestSize = size
             }
 
             if (bestTag == null || bestUrl == null) {
@@ -83,7 +108,7 @@ class GameDataUpdater(private val context: Context) {
             }
 
             Log.d(TAG, "New data version available: $bestTag")
-            UpdateInfo(tag = bestTag, downloadUrl = bestUrl)
+            UpdateInfo(tag = bestTag, downloadUrl = bestUrl, sizeBytes = bestSize)
         } catch (e: Exception) {
             Log.w(TAG, "Update check failed: ${e::class.simpleName}: ${e.message}")
             null
@@ -100,7 +125,7 @@ class GameDataUpdater(private val context: Context) {
         tracker?.beginPhase(SyncPhase.DB_DOWNLOAD, total = 1)
         val staged = File(context.filesDir, STAGED_DB_FILE)
         try {
-            downloadFile(info.downloadUrl, staged, tracker)
+            downloadFile(info.downloadUrl, staged, info.sizeBytes, tracker)
         } catch (e: Exception) {
             tracker?.finish()
             throw e
@@ -125,32 +150,69 @@ class GameDataUpdater(private val context: Context) {
         }
     }
 
-    private suspend fun downloadFile(url: String, dest: File, tracker: SyncProgressTracker?) {
+    /**
+     * Downloads to a .tmp file and only renames onto [dest] after the byte count
+     * matches [expectedSize] and the content looks like a SQLite database.
+     * A truncated-at-EOF body doesn't throw on read, so without these checks a
+     * partial DB would get staged and swapped in on next launch.
+     */
+    private suspend fun downloadFile(
+        url: String,
+        dest: File,
+        expectedSize: Long,
+        tracker: SyncProgressTracker?,
+    ) {
+        val tmp = File(dest.parent, "${dest.name}.tmp")
         val conn = URL(url).openConnection() as HttpURLConnection
-        conn.connectTimeout = 15_000
-        conn.readTimeout    = 120_000
-        conn.connect()
-        if (conn.responseCode != 200) {
-            conn.disconnect()
-            throw Exception("HTTP ${conn.responseCode}")
-        }
-        val buffer = ByteArray(8_192)
-        var pendingBytes = 0L
-        conn.inputStream.use { input ->
-            FileOutputStream(dest).use { output ->
-                var n: Int
-                while (input.read(buffer).also { n = it } != -1) {
-                    output.write(buffer, 0, n)
-                    pendingBytes += n
-                    if (pendingBytes >= PROGRESS_FLUSH_BYTES) {
-                        tracker?.advance(bytes = pendingBytes)
-                        pendingBytes = 0L
+        try {
+            conn.connectTimeout = 15_000
+            conn.readTimeout    = 120_000
+            conn.connect()
+            if (conn.responseCode != 200) {
+                throw Exception("HTTP ${conn.responseCode}")
+            }
+            val buffer = ByteArray(8_192)
+            var pendingBytes = 0L
+            var totalBytes = 0L
+            conn.inputStream.use { input ->
+                FileOutputStream(tmp).use { output ->
+                    var n: Int
+                    while (input.read(buffer).also { n = it } != -1) {
+                        output.write(buffer, 0, n)
+                        pendingBytes += n
+                        totalBytes += n
+                        if (pendingBytes >= PROGRESS_FLUSH_BYTES) {
+                            tracker?.advance(bytes = pendingBytes)
+                            pendingBytes = 0L
+                        }
                     }
                 }
             }
+            if (pendingBytes > 0L) tracker?.advance(bytes = pendingBytes)
+
+            if (expectedSize > 0L && totalBytes != expectedSize) {
+                throw Exception("Truncated download: got $totalBytes of $expectedSize bytes")
+            }
+            if (!isSqliteFile(tmp)) {
+                throw Exception("Downloaded file is not a SQLite database")
+            }
+            if (!tmp.renameTo(dest)) {
+                throw Exception("Could not move ${tmp.name} to ${dest.name}")
+            }
+        } catch (e: Exception) {
+            tmp.delete()
+            throw e
+        } finally {
+            conn.disconnect()
         }
-        if (pendingBytes > 0L) tracker?.advance(bytes = pendingBytes)
-        conn.disconnect()
+    }
+
+    private fun isSqliteFile(file: File): Boolean {
+        val magic = "SQLite format 3\u0000".toByteArray(Charsets.ISO_8859_1)
+        if (file.length() < magic.size) return false
+        val header = ByteArray(magic.size)
+        file.inputStream().use { if (it.read(header) != magic.size) return false }
+        return header.contentEquals(magic)
     }
 
     companion object {
@@ -160,6 +222,8 @@ class GameDataUpdater(private val context: Context) {
         const val PREFS_NAME          = "game_data_prefs"
         const val KEY_DATA_VERSION    = "data_version"
         const val KEY_PENDING_VERSION = "pending_version"
+        const val KEY_LAST_CHECK      = "last_update_check"
+        private const val CHECK_INTERVAL_MS = 6 * 60 * 60 * 1000L   // 6h
         const val STAGED_DB_FILE      = "game_db_pending.db"
         const val DB_ASSET_NAME       = "game_database.db"
 

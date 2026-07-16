@@ -1,0 +1,10825 @@
+[
+ {
+  "id": 1,
+  "dinoSlug": "aenocyonyx",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 2,
+  "dinoSlug": "aenocyonyx",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 3,
+  "dinoSlug": "aenocyonyx",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 4,
+  "dinoSlug": "aenocyonyx",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 5,
+  "dinoSlug": "aenocyonyx",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_aenocyonyx",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 6,
+  "dinoSlug": "aerospinosaurus",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 7,
+  "dinoSlug": "aerospinosaurus",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 8,
+  "dinoSlug": "aerospinosaurus",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 9,
+  "dinoSlug": "aerospinosaurus",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 10,
+  "dinoSlug": "aerospinosaurus",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_aerospinosaurus",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 11,
+  "dinoSlug": "alacranix",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 12,
+  "dinoSlug": "alacranix",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 13,
+  "dinoSlug": "alacranix",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 14,
+  "dinoSlug": "alacranix",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 15,
+  "dinoSlug": "alacranix",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_alacranix",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 16,
+  "dinoSlug": "alankydactylus",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 17,
+  "dinoSlug": "alankydactylus",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 18,
+  "dinoSlug": "alankydactylus",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 19,
+  "dinoSlug": "alankydactylus",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 20,
+  "dinoSlug": "alankydactylus",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_alankydactylus",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 21,
+  "dinoSlug": "alankyloceratops",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 22,
+  "dinoSlug": "alankyloceratops",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 23,
+  "dinoSlug": "alankyloceratops",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 24,
+  "dinoSlug": "alankyloceratops",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 25,
+  "dinoSlug": "alankyloceratops",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_alankyloceratops",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 26,
+  "dinoSlug": "albertocevia",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 27,
+  "dinoSlug": "albertocevia",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 28,
+  "dinoSlug": "albertocevia",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 29,
+  "dinoSlug": "albertocevia",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 30,
+  "dinoSlug": "albertocevia",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_albertocevia",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 31,
+  "dinoSlug": "albertospinos",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 32,
+  "dinoSlug": "albertospinos",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 33,
+  "dinoSlug": "albertospinos",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 34,
+  "dinoSlug": "albertospinos",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 35,
+  "dinoSlug": "albertospinos",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_albertospinos",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 36,
+  "dinoSlug": "allodrigues",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 37,
+  "dinoSlug": "allodrigues",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 38,
+  "dinoSlug": "allodrigues",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 39,
+  "dinoSlug": "allodrigues",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 40,
+  "dinoSlug": "allodrigues",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_allodrigues",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 41,
+  "dinoSlug": "ampelorex",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 42,
+  "dinoSlug": "ampelorex",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 43,
+  "dinoSlug": "ampelorex",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 44,
+  "dinoSlug": "ampelorex",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 45,
+  "dinoSlug": "ampelorex",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_ampelorex",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 46,
+  "dinoSlug": "andrewtops",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 47,
+  "dinoSlug": "andrewtops",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 48,
+  "dinoSlug": "andrewtops",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 49,
+  "dinoSlug": "andrewtops",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 50,
+  "dinoSlug": "andrewtops",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_andrewtops",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 51,
+  "dinoSlug": "ankylos_lux",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 52,
+  "dinoSlug": "ankylos_lux",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 53,
+  "dinoSlug": "ankylos_lux",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 54,
+  "dinoSlug": "ankylos_lux",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 55,
+  "dinoSlug": "ankylos_lux",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_ankylos_lux",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 56,
+  "dinoSlug": "antarctovenator",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 57,
+  "dinoSlug": "antarctovenator",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 58,
+  "dinoSlug": "antarctovenator",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 59,
+  "dinoSlug": "antarctovenator",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 60,
+  "dinoSlug": "antarctovenator",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_antarctovenator",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 61,
+  "dinoSlug": "apatoceratops",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 62,
+  "dinoSlug": "apatoceratops",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 63,
+  "dinoSlug": "apatoceratops",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 64,
+  "dinoSlug": "apatoceratops",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 65,
+  "dinoSlug": "apatoceratops",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_apatoceratops",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 66,
+  "dinoSlug": "aquignathus",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 67,
+  "dinoSlug": "aquignathus",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 68,
+  "dinoSlug": "aquignathus",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 69,
+  "dinoSlug": "aquignathus",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 70,
+  "dinoSlug": "aquignathus",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_aquignathus",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 71,
+  "dinoSlug": "aquilosaurus",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 72,
+  "dinoSlug": "aquilosaurus",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 73,
+  "dinoSlug": "aquilosaurus",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 74,
+  "dinoSlug": "aquilosaurus",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 75,
+  "dinoSlug": "aquilosaurus",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_aquilosaurus",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 76,
+  "dinoSlug": "aquilotae",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 77,
+  "dinoSlug": "aquilotae",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 78,
+  "dinoSlug": "aquilotae",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 79,
+  "dinoSlug": "aquilotae",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 80,
+  "dinoSlug": "aquilotae",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_aquilotae",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 81,
+  "dinoSlug": "aquiraptor",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 82,
+  "dinoSlug": "aquiraptor",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 83,
+  "dinoSlug": "aquiraptor",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 84,
+  "dinoSlug": "aquiraptor",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 85,
+  "dinoSlug": "aquiraptor",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_aquiraptor",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 86,
+  "dinoSlug": "arctocanis",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 87,
+  "dinoSlug": "arctocanis",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 88,
+  "dinoSlug": "arctocanis",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 89,
+  "dinoSlug": "arctocanis",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 90,
+  "dinoSlug": "arctocanis",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_arctocanis",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 91,
+  "dinoSlug": "arctovasilas",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 92,
+  "dinoSlug": "arctovasilas",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 93,
+  "dinoSlug": "arctovasilas",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 94,
+  "dinoSlug": "arctovasilas",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 95,
+  "dinoSlug": "arctovasilas",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_arctovasilas",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 96,
+  "dinoSlug": "ardentismaxima",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 97,
+  "dinoSlug": "ardentismaxima",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 98,
+  "dinoSlug": "ardentismaxima",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 99,
+  "dinoSlug": "ardentismaxima",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 100,
+  "dinoSlug": "ardentismaxima",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_ardentismaxima",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 101,
+  "dinoSlug": "ardontognathus",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 102,
+  "dinoSlug": "ardontognathus",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 103,
+  "dinoSlug": "ardontognathus",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 104,
+  "dinoSlug": "ardontognathus",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 105,
+  "dinoSlug": "ardontognathus",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_ardontognathus",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 106,
+  "dinoSlug": "atrocimoloch",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 107,
+  "dinoSlug": "atrocimoloch",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 108,
+  "dinoSlug": "atrocimoloch",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 109,
+  "dinoSlug": "atrocimoloch",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 110,
+  "dinoSlug": "atrocimoloch",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_atrocimoloch",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 111,
+  "dinoSlug": "atrocodistis",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 112,
+  "dinoSlug": "atrocodistis",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 113,
+  "dinoSlug": "atrocodistis",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 114,
+  "dinoSlug": "atrocodistis",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 115,
+  "dinoSlug": "atrocodistis",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_atrocodistis",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 116,
+  "dinoSlug": "atrocomaxima",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 117,
+  "dinoSlug": "atrocomaxima",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 118,
+  "dinoSlug": "atrocomaxima",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 119,
+  "dinoSlug": "atrocomaxima",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 120,
+  "dinoSlug": "atrocomaxima",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_atrocomaxima",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 121,
+  "dinoSlug": "atromolistis",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 122,
+  "dinoSlug": "atromolistis",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 123,
+  "dinoSlug": "atromolistis",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 124,
+  "dinoSlug": "atromolistis",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 125,
+  "dinoSlug": "atromolistis",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_atromolistis",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 126,
+  "dinoSlug": "baryosaurus",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 127,
+  "dinoSlug": "baryosaurus",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 128,
+  "dinoSlug": "baryosaurus",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 129,
+  "dinoSlug": "baryosaurus",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 130,
+  "dinoSlug": "baryosaurus",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_baryosaurus",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 131,
+  "dinoSlug": "baryotor",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 132,
+  "dinoSlug": "baryotor",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 133,
+  "dinoSlug": "baryotor",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 134,
+  "dinoSlug": "baryotor",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 135,
+  "dinoSlug": "baryotor",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_baryotor",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 136,
+  "dinoSlug": "becklejara",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 137,
+  "dinoSlug": "becklejara",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 138,
+  "dinoSlug": "becklejara",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 139,
+  "dinoSlug": "becklejara",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 140,
+  "dinoSlug": "becklejara",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_becklejara",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 141,
+  "dinoSlug": "becklerizaurus",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 142,
+  "dinoSlug": "becklerizaurus",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 143,
+  "dinoSlug": "becklerizaurus",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 144,
+  "dinoSlug": "becklerizaurus",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 145,
+  "dinoSlug": "becklerizaurus",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_becklerizaurus",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 146,
+  "dinoSlug": "centrolophus_lux",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 147,
+  "dinoSlug": "centrolophus_lux",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 148,
+  "dinoSlug": "centrolophus_lux",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 149,
+  "dinoSlug": "centrolophus_lux",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 150,
+  "dinoSlug": "centrolophus_lux",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_centrolophus_lux",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 151,
+  "dinoSlug": "ceramagnus",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 152,
+  "dinoSlug": "ceramagnus",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 153,
+  "dinoSlug": "ceramagnus",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 154,
+  "dinoSlug": "ceramagnus",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 155,
+  "dinoSlug": "ceramagnus",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_ceramagnus",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 156,
+  "dinoSlug": "ceranosaurus",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 157,
+  "dinoSlug": "ceranosaurus",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 158,
+  "dinoSlug": "ceranosaurus",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 159,
+  "dinoSlug": "ceranosaurus",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 160,
+  "dinoSlug": "ceranosaurus",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_ceranosaurus",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 161,
+  "dinoSlug": "cerastegotops",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 162,
+  "dinoSlug": "cerastegotops",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 163,
+  "dinoSlug": "cerastegotops",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 164,
+  "dinoSlug": "cerastegotops",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 165,
+  "dinoSlug": "cerastegotops",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_cerastegotops",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 166,
+  "dinoSlug": "ceratosaurus",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 167,
+  "dinoSlug": "ceratosaurus",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 168,
+  "dinoSlug": "ceratosaurus",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 169,
+  "dinoSlug": "ceratosaurus",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 170,
+  "dinoSlug": "ceratosaurus",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_ceratosaurus",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 171,
+  "dinoSlug": "coelocephalus",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 172,
+  "dinoSlug": "coelocephalus",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 173,
+  "dinoSlug": "coelocephalus",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 174,
+  "dinoSlug": "coelocephalus",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 175,
+  "dinoSlug": "coelocephalus",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_coelocephalus",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 176,
+  "dinoSlug": "compsocaulus",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 177,
+  "dinoSlug": "compsocaulus",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 178,
+  "dinoSlug": "compsocaulus",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 179,
+  "dinoSlug": "compsocaulus",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 180,
+  "dinoSlug": "compsocaulus",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_compsocaulus",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 181,
+  "dinoSlug": "compsoraptor",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 182,
+  "dinoSlug": "compsoraptor",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 183,
+  "dinoSlug": "compsoraptor",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 184,
+  "dinoSlug": "compsoraptor",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 185,
+  "dinoSlug": "compsoraptor",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_compsoraptor",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 186,
+  "dinoSlug": "compsovenator",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 187,
+  "dinoSlug": "compsovenator",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 188,
+  "dinoSlug": "compsovenator",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 189,
+  "dinoSlug": "compsovenator",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 190,
+  "dinoSlug": "compsovenator",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_compsovenator",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 191,
+  "dinoSlug": "concatoloch",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 192,
+  "dinoSlug": "concatoloch",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 193,
+  "dinoSlug": "concatoloch",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 194,
+  "dinoSlug": "concatoloch",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 195,
+  "dinoSlug": "concatoloch",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_concatoloch",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 196,
+  "dinoSlug": "concatosaurus",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 197,
+  "dinoSlug": "concatosaurus",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 198,
+  "dinoSlug": "concatosaurus",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 199,
+  "dinoSlug": "concatosaurus",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 200,
+  "dinoSlug": "concatosaurus",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_concatosaurus",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 201,
+  "dinoSlug": "constrictoraptor",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 202,
+  "dinoSlug": "constrictoraptor",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 203,
+  "dinoSlug": "constrictoraptor",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 204,
+  "dinoSlug": "constrictoraptor",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 205,
+  "dinoSlug": "constrictoraptor",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_constrictoraptor",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 206,
+  "dinoSlug": "crichtomoloch",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 207,
+  "dinoSlug": "crichtomoloch",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 208,
+  "dinoSlug": "crichtomoloch",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 209,
+  "dinoSlug": "crichtomoloch",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 210,
+  "dinoSlug": "crichtomoloch",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_crichtomoloch",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 211,
+  "dinoSlug": "dakotacurus",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 212,
+  "dinoSlug": "dakotacurus",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 213,
+  "dinoSlug": "dakotacurus",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 214,
+  "dinoSlug": "dakotacurus",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 215,
+  "dinoSlug": "dakotacurus",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_dakotacurus",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 216,
+  "dinoSlug": "deinomimus",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 217,
+  "dinoSlug": "deinomimus",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 218,
+  "dinoSlug": "deinomimus",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 219,
+  "dinoSlug": "deinomimus",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 220,
+  "dinoSlug": "deinomimus",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_deinomimus",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 221,
+  "dinoSlug": "diloracheirus",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 222,
+  "dinoSlug": "diloracheirus",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 223,
+  "dinoSlug": "diloracheirus",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 224,
+  "dinoSlug": "diloracheirus",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 225,
+  "dinoSlug": "diloracheirus",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_diloracheirus",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 226,
+  "dinoSlug": "dilozorion",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 227,
+  "dinoSlug": "dilozorion",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 228,
+  "dinoSlug": "dilozorion",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 229,
+  "dinoSlug": "dilozorion",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 230,
+  "dinoSlug": "dilozorion",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_dilozorion",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 231,
+  "dinoSlug": "diorajasaur",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 232,
+  "dinoSlug": "diorajasaur",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 233,
+  "dinoSlug": "diorajasaur",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 234,
+  "dinoSlug": "diorajasaur",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 235,
+  "dinoSlug": "diorajasaur",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_diorajasaur",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 236,
+  "dinoSlug": "distortus_rex",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 237,
+  "dinoSlug": "distortus_rex",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 238,
+  "dinoSlug": "distortus_rex",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 239,
+  "dinoSlug": "distortus_rex",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 240,
+  "dinoSlug": "distortus_rex",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_distortus_rex",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 241,
+  "dinoSlug": "draco_intrepidus",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 242,
+  "dinoSlug": "draco_intrepidus",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 243,
+  "dinoSlug": "draco_intrepidus",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 244,
+  "dinoSlug": "draco_intrepidus",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 245,
+  "dinoSlug": "draco_intrepidus",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_draco_intrepidus",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 246,
+  "dinoSlug": "draco_lux",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 247,
+  "dinoSlug": "draco_lux",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 248,
+  "dinoSlug": "draco_lux",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 249,
+  "dinoSlug": "draco_lux",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 250,
+  "dinoSlug": "draco_lux",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_draco_lux",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 251,
+  "dinoSlug": "dracoceratosaurus",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 252,
+  "dinoSlug": "dracoceratosaurus",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 253,
+  "dinoSlug": "dracoceratosaurus",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 254,
+  "dinoSlug": "dracoceratosaurus",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 255,
+  "dinoSlug": "dracoceratosaurus",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_dracoceratosaurus",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 256,
+  "dinoSlug": "dracovenator",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 257,
+  "dinoSlug": "dracovenator",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 258,
+  "dinoSlug": "dracovenator",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 259,
+  "dinoSlug": "dracovenator",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 260,
+  "dinoSlug": "dracovenator",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_dracovenator",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 261,
+  "dinoSlug": "dsungascorpios",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 262,
+  "dinoSlug": "dsungascorpios",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 263,
+  "dinoSlug": "dsungascorpios",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 264,
+  "dinoSlug": "dsungascorpios",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 265,
+  "dinoSlug": "dsungascorpios",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_dsungascorpios",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 266,
+  "dinoSlug": "entelolania",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 267,
+  "dinoSlug": "entelolania",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 268,
+  "dinoSlug": "entelolania",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 269,
+  "dinoSlug": "entelolania",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 270,
+  "dinoSlug": "entelolania",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_entelolania",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 271,
+  "dinoSlug": "eremocanis",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 272,
+  "dinoSlug": "eremocanis",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 273,
+  "dinoSlug": "eremocanis",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 274,
+  "dinoSlug": "eremocanis",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 275,
+  "dinoSlug": "eremocanis",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_eremocanis",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 276,
+  "dinoSlug": "erlidominus",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 277,
+  "dinoSlug": "erlidominus",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 278,
+  "dinoSlug": "erlidominus",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 279,
+  "dinoSlug": "erlidominus",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 280,
+  "dinoSlug": "erlidominus",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_erlidominus",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 281,
+  "dinoSlug": "erlikospyx",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 282,
+  "dinoSlug": "erlikospyx",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 283,
+  "dinoSlug": "erlikospyx",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 284,
+  "dinoSlug": "erlikospyx",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 285,
+  "dinoSlug": "erlikospyx",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_erlikospyx",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 286,
+  "dinoSlug": "estemmenosuchus",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 287,
+  "dinoSlug": "estemmenosuchus",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 288,
+  "dinoSlug": "estemmenosuchus",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 289,
+  "dinoSlug": "estemmenosuchus",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 290,
+  "dinoSlug": "estemmenosuchus",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_estemmenosuchus",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 291,
+  "dinoSlug": "fukuitops",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 292,
+  "dinoSlug": "fukuitops",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 293,
+  "dinoSlug": "fukuitops",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 294,
+  "dinoSlug": "fukuitops",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 295,
+  "dinoSlug": "fukuitops",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_fukuitops",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 296,
+  "dinoSlug": "geminideus",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 297,
+  "dinoSlug": "geminideus",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 298,
+  "dinoSlug": "geminideus",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 299,
+  "dinoSlug": "geminideus",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 300,
+  "dinoSlug": "geminideus",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_geminideus",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 301,
+  "dinoSlug": "geminititan",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 302,
+  "dinoSlug": "geminititan",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 303,
+  "dinoSlug": "geminititan",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 304,
+  "dinoSlug": "geminititan",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 305,
+  "dinoSlug": "geminititan",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_geminititan",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 306,
+  "dinoSlug": "giganspinoceratops",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 307,
+  "dinoSlug": "giganspinoceratops",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 308,
+  "dinoSlug": "giganspinoceratops",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 309,
+  "dinoSlug": "giganspinoceratops",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 310,
+  "dinoSlug": "giganspinoceratops",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_giganspinoceratops",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 311,
+  "dinoSlug": "giganyx",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 312,
+  "dinoSlug": "giganyx",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 313,
+  "dinoSlug": "giganyx",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 314,
+  "dinoSlug": "giganyx",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 315,
+  "dinoSlug": "giganyx",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_giganyx",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 316,
+  "dinoSlug": "glyptosavis",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 317,
+  "dinoSlug": "glyptosavis",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 318,
+  "dinoSlug": "glyptosavis",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 319,
+  "dinoSlug": "glyptosavis",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 320,
+  "dinoSlug": "glyptosavis",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_glyptosavis",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 321,
+  "dinoSlug": "gorgotrebax",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 322,
+  "dinoSlug": "gorgotrebax",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 323,
+  "dinoSlug": "gorgotrebax",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 324,
+  "dinoSlug": "gorgotrebax",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 325,
+  "dinoSlug": "gorgotrebax",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_gorgotrebax",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 326,
+  "dinoSlug": "gryganyth",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 327,
+  "dinoSlug": "gryganyth",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 328,
+  "dinoSlug": "gryganyth",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 329,
+  "dinoSlug": "gryganyth",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 330,
+  "dinoSlug": "gryganyth",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_gryganyth",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 331,
+  "dinoSlug": "grypolyth",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 332,
+  "dinoSlug": "grypolyth",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 333,
+  "dinoSlug": "grypolyth",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 334,
+  "dinoSlug": "grypolyth",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 335,
+  "dinoSlug": "grypolyth",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_grypolyth",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 336,
+  "dinoSlug": "haast_maximus",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 337,
+  "dinoSlug": "haast_maximus",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 338,
+  "dinoSlug": "haast_maximus",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 339,
+  "dinoSlug": "haast_maximus",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 340,
+  "dinoSlug": "haast_maximus",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_haast_maximus",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 341,
+  "dinoSlug": "hadros_lux",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 342,
+  "dinoSlug": "hadros_lux",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 343,
+  "dinoSlug": "hadros_lux",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 344,
+  "dinoSlug": "hadros_lux",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 345,
+  "dinoSlug": "hadros_lux",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_hadros_lux",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 346,
+  "dinoSlug": "herranotor",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 347,
+  "dinoSlug": "herranotor",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 348,
+  "dinoSlug": "herranotor",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 349,
+  "dinoSlug": "herranotor",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 350,
+  "dinoSlug": "herranotor",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_herranotor",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 351,
+  "dinoSlug": "hydra_boa",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 352,
+  "dinoSlug": "hydra_boa",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 353,
+  "dinoSlug": "hydra_boa",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 354,
+  "dinoSlug": "hydra_boa",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 355,
+  "dinoSlug": "hydra_boa",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_hydra_boa",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 356,
+  "dinoSlug": "imperatosuchus",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 357,
+  "dinoSlug": "imperatosuchus",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 358,
+  "dinoSlug": "imperatosuchus",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 359,
+  "dinoSlug": "imperatosuchus",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 360,
+  "dinoSlug": "imperatosuchus",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_imperatosuchus",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 361,
+  "dinoSlug": "indochicyon",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 362,
+  "dinoSlug": "indochicyon",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 363,
+  "dinoSlug": "indochicyon",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 364,
+  "dinoSlug": "indochicyon",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 365,
+  "dinoSlug": "indochicyon",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_indochicyon",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 366,
+  "dinoSlug": "indolycan",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 367,
+  "dinoSlug": "indolycan",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 368,
+  "dinoSlug": "indolycan",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 369,
+  "dinoSlug": "indolycan",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 370,
+  "dinoSlug": "indolycan",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_indolycan",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 371,
+  "dinoSlug": "indonemys",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 372,
+  "dinoSlug": "indonemys",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 373,
+  "dinoSlug": "indonemys",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 374,
+  "dinoSlug": "indonemys",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 375,
+  "dinoSlug": "indonemys",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_indonemys",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 376,
+  "dinoSlug": "indoraptor",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 377,
+  "dinoSlug": "indoraptor",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 378,
+  "dinoSlug": "indoraptor",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 379,
+  "dinoSlug": "indoraptor",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 380,
+  "dinoSlug": "indoraptor",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_indoraptor",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 381,
+  "dinoSlug": "indotaurus",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 382,
+  "dinoSlug": "indotaurus",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 383,
+  "dinoSlug": "indotaurus",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 384,
+  "dinoSlug": "indotaurus",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 385,
+  "dinoSlug": "indotaurus",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_indotaurus",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 386,
+  "dinoSlug": "junior",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 387,
+  "dinoSlug": "junior",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 388,
+  "dinoSlug": "junior",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 389,
+  "dinoSlug": "junior",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 390,
+  "dinoSlug": "junior",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_junior",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 391,
+  "dinoSlug": "kentrorex",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 392,
+  "dinoSlug": "kentrorex",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 393,
+  "dinoSlug": "kentrorex",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 394,
+  "dinoSlug": "kentrorex",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 395,
+  "dinoSlug": "kentrorex",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_kentrorex",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 396,
+  "dinoSlug": "lystrosavis",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 397,
+  "dinoSlug": "lystrosavis",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 398,
+  "dinoSlug": "lystrosavis",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 399,
+  "dinoSlug": "lystrosavis",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 400,
+  "dinoSlug": "lystrosavis",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_lystrosavis",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 401,
+  "dinoSlug": "magnapyritor",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 402,
+  "dinoSlug": "magnapyritor",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 403,
+  "dinoSlug": "magnapyritor",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 404,
+  "dinoSlug": "magnapyritor",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 405,
+  "dinoSlug": "magnapyritor",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_magnapyritor",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 406,
+  "dinoSlug": "magnaraptor",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 407,
+  "dinoSlug": "magnaraptor",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 408,
+  "dinoSlug": "magnaraptor",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 409,
+  "dinoSlug": "magnaraptor",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 410,
+  "dinoSlug": "magnaraptor",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_magnaraptor",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 411,
+  "dinoSlug": "mammolania",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 412,
+  "dinoSlug": "mammolania",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 413,
+  "dinoSlug": "mammolania",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 414,
+  "dinoSlug": "mammolania",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 415,
+  "dinoSlug": "mammolania",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_mammolania",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 416,
+  "dinoSlug": "megalocevia",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 417,
+  "dinoSlug": "megalocevia",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 418,
+  "dinoSlug": "megalocevia",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 419,
+  "dinoSlug": "megalocevia",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 420,
+  "dinoSlug": "megalocevia",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_megalocevia",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 421,
+  "dinoSlug": "megatyrannus",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 422,
+  "dinoSlug": "megatyrannus",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 423,
+  "dinoSlug": "megatyrannus",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 424,
+  "dinoSlug": "megatyrannus",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 425,
+  "dinoSlug": "megatyrannus",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_megatyrannus",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 426,
+  "dinoSlug": "monkeyondactylus",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 427,
+  "dinoSlug": "monkeyondactylus",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 428,
+  "dinoSlug": "monkeyondactylus",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 429,
+  "dinoSlug": "monkeyondactylus",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 430,
+  "dinoSlug": "monkeyondactylus",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_monkeyondactylus",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 431,
+  "dinoSlug": "monolomoth",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 432,
+  "dinoSlug": "monolomoth",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 433,
+  "dinoSlug": "monolomoth",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 434,
+  "dinoSlug": "monolomoth",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 435,
+  "dinoSlug": "monolomoth",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_monolomoth",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 436,
+  "dinoSlug": "monolorhino",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 437,
+  "dinoSlug": "monolorhino",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 438,
+  "dinoSlug": "monolorhino",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 439,
+  "dinoSlug": "monolorhino",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 440,
+  "dinoSlug": "monolorhino",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_monolorhino",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 441,
+  "dinoSlug": "mortem_rex",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 442,
+  "dinoSlug": "mortem_rex",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 443,
+  "dinoSlug": "mortem_rex",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 444,
+  "dinoSlug": "mortem_rex",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 445,
+  "dinoSlug": "mortem_rex",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_mortem_rex",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 446,
+  "dinoSlug": "mutadon",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 447,
+  "dinoSlug": "mutadon",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 448,
+  "dinoSlug": "mutadon",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 449,
+  "dinoSlug": "mutadon",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 450,
+  "dinoSlug": "mutadon",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_mutadon",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 451,
+  "dinoSlug": "nomingia",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 452,
+  "dinoSlug": "nomingia",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 453,
+  "dinoSlug": "nomingia",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 454,
+  "dinoSlug": "nomingia",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 455,
+  "dinoSlug": "nomingia",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_nomingia",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 456,
+  "dinoSlug": "nominrex",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 457,
+  "dinoSlug": "nominrex",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 458,
+  "dinoSlug": "nominrex",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 459,
+  "dinoSlug": "nominrex",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 460,
+  "dinoSlug": "nominrex",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_nominrex",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 461,
+  "dinoSlug": "nyctopteryx",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 462,
+  "dinoSlug": "nyctopteryx",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 463,
+  "dinoSlug": "nyctopteryx",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 464,
+  "dinoSlug": "nyctopteryx",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 465,
+  "dinoSlug": "nyctopteryx",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_nyctopteryx",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 466,
+  "dinoSlug": "ovinnolophosaurus",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 467,
+  "dinoSlug": "ovinnolophosaurus",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 468,
+  "dinoSlug": "ovinnolophosaurus",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 469,
+  "dinoSlug": "ovinnolophosaurus",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 470,
+  "dinoSlug": "ovinnolophosaurus",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_ovinnolophosaurus",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 471,
+  "dinoSlug": "ovylenken",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 472,
+  "dinoSlug": "ovylenken",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 473,
+  "dinoSlug": "ovylenken",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 474,
+  "dinoSlug": "ovylenken",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 475,
+  "dinoSlug": "ovylenken",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_ovylenken",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 476,
+  "dinoSlug": "pantherator",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 477,
+  "dinoSlug": "pantherator",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 478,
+  "dinoSlug": "pantherator",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 479,
+  "dinoSlug": "pantherator",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 480,
+  "dinoSlug": "pantherator",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_pantherator",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 481,
+  "dinoSlug": "parasaurolophus_lux",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 482,
+  "dinoSlug": "parasaurolophus_lux",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 483,
+  "dinoSlug": "parasaurolophus_lux",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 484,
+  "dinoSlug": "parasaurolophus_lux",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 485,
+  "dinoSlug": "parasaurolophus_lux",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_parasauthops",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 486,
+  "dinoSlug": "parasauthops",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 487,
+  "dinoSlug": "parasauthops",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 488,
+  "dinoSlug": "parasauthops",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 489,
+  "dinoSlug": "parasauthops",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 490,
+  "dinoSlug": "parasauthops",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_phorurex",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 491,
+  "dinoSlug": "pierce",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 492,
+  "dinoSlug": "pierce",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 493,
+  "dinoSlug": "pierce",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 494,
+  "dinoSlug": "pierce",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 495,
+  "dinoSlug": "pierce",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_plateopikasaurus",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 496,
+  "dinoSlug": "plateopikasaurus",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 497,
+  "dinoSlug": "plateopikasaurus",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 498,
+  "dinoSlug": "plateopikasaurus",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 499,
+  "dinoSlug": "plateopikasaurus",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 500,
+  "dinoSlug": "plateopikasaurus",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_plateorex",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 501,
+  "dinoSlug": "poukaidei",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 502,
+  "dinoSlug": "poukaidei",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 503,
+  "dinoSlug": "poukaidei",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 504,
+  "dinoSlug": "poukaidei",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 505,
+  "dinoSlug": "poukaidei",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_poukandactylus",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 506,
+  "dinoSlug": "proceratosaurus",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 507,
+  "dinoSlug": "proceratosaurus",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 508,
+  "dinoSlug": "proceratosaurus",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 509,
+  "dinoSlug": "proceratosaurus",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 510,
+  "dinoSlug": "proceratosaurus",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_proto_lux",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 511,
+  "dinoSlug": "protoceratops",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 512,
+  "dinoSlug": "protoceratops",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 513,
+  "dinoSlug": "protoceratops",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 514,
+  "dinoSlug": "protoceratops",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 515,
+  "dinoSlug": "protoceratops",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_protonodon",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 516,
+  "dinoSlug": "pteranodon",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 517,
+  "dinoSlug": "pteranodon",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 518,
+  "dinoSlug": "pteranodon",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 519,
+  "dinoSlug": "pteranodon",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 520,
+  "dinoSlug": "pteranodon",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_pteranokyrie",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 521,
+  "dinoSlug": "pteraquetzal",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 522,
+  "dinoSlug": "pteraquetzal",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 523,
+  "dinoSlug": "pteraquetzal",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 524,
+  "dinoSlug": "pteraquetzal",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 525,
+  "dinoSlug": "pteraquetzal",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_pterovexus",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 526,
+  "dinoSlug": "pyroraptor_gen_2",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 527,
+  "dinoSlug": "pyroraptor_gen_2",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 528,
+  "dinoSlug": "pyroraptor_gen_2",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 529,
+  "dinoSlug": "pyroraptor_gen_2",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 530,
+  "dinoSlug": "pyroraptor_gen_2",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_pyrorixis",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 531,
+  "dinoSlug": "quetzalcoatlus_gen_2",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 532,
+  "dinoSlug": "quetzalcoatlus_gen_2",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 533,
+  "dinoSlug": "quetzalcoatlus_gen_2",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 534,
+  "dinoSlug": "quetzalcoatlus_gen_2",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 535,
+  "dinoSlug": "quetzalcoatlus_gen_2",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_quetzaljara",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 536,
+  "dinoSlug": "quetzaljara",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 537,
+  "dinoSlug": "quetzaljara",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 538,
+  "dinoSlug": "quetzaljara",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 539,
+  "dinoSlug": "quetzaljara",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 540,
+  "dinoSlug": "quetzaljara",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_quetzorion",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 541,
+  "dinoSlug": "quetzorion",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 542,
+  "dinoSlug": "quetzorion",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 543,
+  "dinoSlug": "quetzorion",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 544,
+  "dinoSlug": "quetzorion",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 545,
+  "dinoSlug": "quetzorion",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_rajadorixis",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 546,
+  "dinoSlug": "rajadorixis",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 547,
+  "dinoSlug": "rajadorixis",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 548,
+  "dinoSlug": "rajadorixis",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 549,
+  "dinoSlug": "rajadorixis",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 550,
+  "dinoSlug": "rajadorixis",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_rajadotholus",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 551,
+  "dinoSlug": "rebirth_spinosaurus_gen_2",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 552,
+  "dinoSlug": "rebirth_spinosaurus_gen_2",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 553,
+  "dinoSlug": "rebirth_spinosaurus_gen_2",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 554,
+  "dinoSlug": "rebirth_spinosaurus_gen_2",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 555,
+  "dinoSlug": "rebirth_spinosaurus_gen_2",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_refrenantem",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 556,
+  "dinoSlug": "rinchenia",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 557,
+  "dinoSlug": "rinchenia",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 558,
+  "dinoSlug": "rinchenia",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 559,
+  "dinoSlug": "rinchenia",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 560,
+  "dinoSlug": "rinchenia",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_sah_panthera",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 561,
+  "dinoSlug": "rinchicyon",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 562,
+  "dinoSlug": "rinchicyon",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 563,
+  "dinoSlug": "rinchicyon",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 564,
+  "dinoSlug": "rinchicyon",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 565,
+  "dinoSlug": "rinchicyon",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_sarcomantarx",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 566,
+  "dinoSlug": "scolosaurus",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 567,
+  "dinoSlug": "scolosaurus",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 568,
+  "dinoSlug": "scolosaurus",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 569,
+  "dinoSlug": "scolosaurus",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 570,
+  "dinoSlug": "scolosaurus",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_scorpios_rex_gen_3",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 571,
+  "dinoSlug": "secodontosaurus",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 572,
+  "dinoSlug": "secodontosaurus",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 573,
+  "dinoSlug": "secodontosaurus",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 574,
+  "dinoSlug": "secodontosaurus",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 575,
+  "dinoSlug": "secodontosaurus",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_segnotherisaurus",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 576,
+  "dinoSlug": "segnoraptor",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 577,
+  "dinoSlug": "segnoraptor",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 578,
+  "dinoSlug": "segnoraptor",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 579,
+  "dinoSlug": "segnoraptor",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 580,
+  "dinoSlug": "segnoraptor",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_shantrospinos",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 581,
+  "dinoSlug": "sinosauropteryx",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 582,
+  "dinoSlug": "sinosauropteryx",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 583,
+  "dinoSlug": "sinosauropteryx",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 584,
+  "dinoSlug": "sinosauropteryx",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 585,
+  "dinoSlug": "sinosauropteryx",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_skoonametrodon",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 586,
+  "dinoSlug": "sinraptor",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 587,
+  "dinoSlug": "sinraptor",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 588,
+  "dinoSlug": "sinraptor",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 589,
+  "dinoSlug": "sinraptor",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 590,
+  "dinoSlug": "sinraptor",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_skoonasaurus",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 591,
+  "dinoSlug": "skoonametrodon",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 592,
+  "dinoSlug": "skoonametrodon",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 593,
+  "dinoSlug": "skoonametrodon",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 594,
+  "dinoSlug": "skoonametrodon",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 595,
+  "dinoSlug": "skoonametrodon",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_skorpiostegotops",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 596,
+  "dinoSlug": "skorpiovenator",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 597,
+  "dinoSlug": "skorpiovenator",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 598,
+  "dinoSlug": "skorpiovenator",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 599,
+  "dinoSlug": "skorpiovenator",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 600,
+  "dinoSlug": "skorpiovenator",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_smilonemys",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 601,
+  "dinoSlug": "sonorasaurus",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 602,
+  "dinoSlug": "sonorasaurus",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 603,
+  "dinoSlug": "sonorasaurus",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 604,
+  "dinoSlug": "sonorasaurus",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 605,
+  "dinoSlug": "sonorasaurus",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_spinoconstrictor",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 606,
+  "dinoSlug": "spinosaurus_gen_2",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 607,
+  "dinoSlug": "spinosaurus_gen_2",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 608,
+  "dinoSlug": "spinosaurus_gen_2",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 609,
+  "dinoSlug": "spinosaurus_gen_2",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 610,
+  "dinoSlug": "spinosaurus_gen_2",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_spinotops",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 611,
+  "dinoSlug": "stegosaurus_ungulatus",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 612,
+  "dinoSlug": "stegosaurus_ungulatus",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 613,
+  "dinoSlug": "stegosaurus_ungulatus",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 614,
+  "dinoSlug": "stegosaurus_ungulatus",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 615,
+  "dinoSlug": "stegosaurus_ungulatus",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_stygidaryx",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 616,
+  "dinoSlug": "stygidaryx",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 617,
+  "dinoSlug": "stygidaryx",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 618,
+  "dinoSlug": "stygidaryx",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 619,
+  "dinoSlug": "stygidaryx",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 620,
+  "dinoSlug": "stygidaryx",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_styracosaurus_lux",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 621,
+  "dinoSlug": "tapejara",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 622,
+  "dinoSlug": "tapejara",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 623,
+  "dinoSlug": "tapejara",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 624,
+  "dinoSlug": "tapejara",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 625,
+  "dinoSlug": "tapejara",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_tenontorex",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 626,
+  "dinoSlug": "tarbosaurus",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 627,
+  "dinoSlug": "tarbosaurus",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 628,
+  "dinoSlug": "tarbosaurus",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 629,
+  "dinoSlug": "tarbosaurus",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 630,
+  "dinoSlug": "tarbosaurus",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_testacornibus",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 631,
+  "dinoSlug": "tenontosaurus",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 632,
+  "dinoSlug": "tenontosaurus",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 633,
+  "dinoSlug": "tenontosaurus",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 634,
+  "dinoSlug": "tenontosaurus",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 635,
+  "dinoSlug": "tenontosaurus",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_thoradolosaur",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 636,
+  "dinoSlug": "thylaconyx",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 637,
+  "dinoSlug": "thylaconyx",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 638,
+  "dinoSlug": "thylaconyx",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 639,
+  "dinoSlug": "thylaconyx",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 640,
+  "dinoSlug": "thylaconyx",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_thylos_intrepidus",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 641,
+  "dinoSlug": "titanoboa",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 642,
+  "dinoSlug": "titanoboa",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 643,
+  "dinoSlug": "titanoboa",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 644,
+  "dinoSlug": "titanoboa",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 645,
+  "dinoSlug": "titanoboa",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_titanotarkus",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 646,
+  "dinoSlug": "titanoboa_gen_2",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 647,
+  "dinoSlug": "titanoboa_gen_2",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 648,
+  "dinoSlug": "titanoboa_gen_2",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 649,
+  "dinoSlug": "titanoboa_gen_2",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 650,
+  "dinoSlug": "titanoboa_gen_2",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_titanotholus",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 651,
+  "dinoSlug": "tragodistis",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 652,
+  "dinoSlug": "tragodistis",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 653,
+  "dinoSlug": "tragodistis",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 654,
+  "dinoSlug": "tragodistis",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 655,
+  "dinoSlug": "tragodistis",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_troodoboa",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 656,
+  "dinoSlug": "triceratops_gen_2",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 657,
+  "dinoSlug": "triceratops_gen_2",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 658,
+  "dinoSlug": "triceratops_gen_2",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 659,
+  "dinoSlug": "triceratops_gen_2",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 660,
+  "dinoSlug": "triceratops_gen_2",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_trykosaurus",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 661,
+  "dinoSlug": "troodoboa",
+  "tier": 1,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 662,
+  "dinoSlug": "troodoboa",
+  "tier": 2,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 663,
+  "dinoSlug": "troodoboa",
+  "tier": 3,
+  "name": "Boost Capacity",
+  "description": "+2 Max Boosts",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 664,
+  "dinoSlug": "troodoboa",
+  "tier": 4,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 665,
+  "dinoSlug": "troodoboa",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_trykovenator",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 666,
+  "dinoSlug": "tsintamoth",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 667,
+  "dinoSlug": "tsintamoth",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 668,
+  "dinoSlug": "tsintamoth",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 669,
+  "dinoSlug": "tsintamoth",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 670,
+  "dinoSlug": "tsintamoth",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_tuoramoloch",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 671,
+  "dinoSlug": "tuojiangosaurus",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 672,
+  "dinoSlug": "tuojiangosaurus",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 673,
+  "dinoSlug": "tuojiangosaurus",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 674,
+  "dinoSlug": "tuojiangosaurus",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 675,
+  "dinoSlug": "tuojiangosaurus",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_tyrannodactylus",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 676,
+  "dinoSlug": "tupandactylus",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 677,
+  "dinoSlug": "tupandactylus",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 678,
+  "dinoSlug": "tupandactylus",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 679,
+  "dinoSlug": "tupandactylus",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 680,
+  "dinoSlug": "tupandactylus",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_tyrannometrodon",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ },
+ {
+  "id": 681,
+  "dinoSlug": "tyrannosaurus_rex",
+  "tier": 1,
+  "name": "Enhanced Health",
+  "description": "+10% Health",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "health",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 682,
+  "dinoSlug": "tyrannosaurus_rex",
+  "tier": 2,
+  "name": "Enhanced Damage",
+  "description": "+10% Damage",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "attack",
+    "value": 10.0,
+    "isPercentage": 1
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 683,
+  "dinoSlug": "tyrannosaurus_rex",
+  "tier": 3,
+  "name": "Enhanced Speed",
+  "description": "+2 Speed",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "speed",
+    "value": 2.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 684,
+  "dinoSlug": "tyrannosaurus_rex",
+  "tier": 4,
+  "name": "Boost Capacity",
+  "description": "+1 Max Boost",
+  "type": "STAT_BONUS",
+  "statBonuses": [
+   {
+    "stat": "max_boosts",
+    "value": 1.0,
+    "isPercentage": 0
+   }
+  ],
+  "moveUnlocks": []
+ },
+ {
+  "id": 685,
+  "dinoSlug": "tyrannosaurus_rex",
+  "tier": 5,
+  "name": "Reactive Move",
+  "description": "Unlocks reactive move",
+  "type": "MOVE_UNLOCK",
+  "statBonuses": [],
+  "moveUnlocks": [
+   {
+    "moveSlug": "enhancement_track_lv5_utarinex",
+    "triggerType": "REACTIVE"
+   }
+  ]
+ }
+]

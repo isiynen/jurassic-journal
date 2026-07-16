@@ -57,7 +57,11 @@ class JurassicJournalApp : Application(), ImageLoaderFactory {
             // live db file partially written; only rename() swaps it into place.
             val tmpDbFile = File(dbFile.parentFile, "${dbFile.name}.tmp")
             staged.copyTo(tmpDbFile, overwrite = true)
-            // Remove WAL artifacts so Room opens the new file with a clean state
+            // WAL artifacts must go BEFORE the rename: a crash after the rename
+            // with the old -wal still present would make SQLite "recover" the new
+            // file with stale WAL pages. The reverse failure (rename fails, old DB
+            // left without its WAL) is harmless — the game DB is read-only, so its
+            // WAL never holds meaningful pages.
             File("${dbFile.path}-shm").delete()
             File("${dbFile.path}-wal").delete()
             if (!tmpDbFile.renameTo(dbFile)) {

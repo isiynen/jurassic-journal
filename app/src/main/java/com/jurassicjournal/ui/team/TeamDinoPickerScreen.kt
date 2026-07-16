@@ -31,7 +31,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -57,13 +57,13 @@ fun TeamDinoPickerScreen(
     viewModel: TeamDinoPickerViewModel = hiltViewModel(),
     profileBarViewModel: ProfileBarViewModel = hiltViewModel(),
 ) {
-    val results by viewModel.results.collectAsState()
-    val filters by viewModel.filters.collectAsState()
-    val newCount by viewModel.newCount.collectAsState()
-    val stagedIds by viewModel.stagedIds.collectAsState()
-    val hasChanges by viewModel.hasChanges.collectAsState()
-    val teamName by viewModel.teamName.collectAsState()
-    val barState by profileBarViewModel.state.collectAsState()
+    val results by viewModel.results.collectAsStateWithLifecycle()
+    val filters by viewModel.filters.collectAsStateWithLifecycle()
+    val newCount by viewModel.newCount.collectAsStateWithLifecycle()
+    val stagedIds by viewModel.stagedIds.collectAsStateWithLifecycle()
+    val hasChanges by viewModel.hasChanges.collectAsStateWithLifecycle()
+    val teamName by viewModel.teamName.collectAsStateWithLifecycle()
+    val barState by profileBarViewModel.state.collectAsStateWithLifecycle()
     val gridState = rememberLazyGridState()
 
     var showDiscardDialog by remember { mutableStateOf(false) }

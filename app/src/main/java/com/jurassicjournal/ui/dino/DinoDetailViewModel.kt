@@ -9,6 +9,7 @@ import com.sufficienteffort.jurassicjournal.data.game.repository.DinoDetailRepos
 import com.sufficienteffort.jurassicjournal.data.game.repository.DinoFullDetail
 import com.sufficienteffort.jurassicjournal.data.model.ProgressionSystem
 import com.sufficienteffort.jurassicjournal.data.model.Rarity
+import com.sufficienteffort.jurassicjournal.data.model.defaultLevel
 import com.sufficienteffort.jurassicjournal.data.model.minLevel
 import com.sufficienteffort.jurassicjournal.data.user.ActiveProfileRepository
 import com.sufficienteffort.jurassicjournal.data.user.dao.NewDinoDao
@@ -247,7 +248,8 @@ class DinoDetailViewModel @Inject constructor(
 
             val minLev = detail?.dino?.rarity?.minLevel() ?: 1
             val userDino = userDinoDao.getByDinoId(profileId, dinoId)
-            val level = (userDino?.currentLevel ?: maxOf(26, minLev)).coerceAtLeast(minLev)
+            val level = (userDino?.currentLevel ?: (detail?.dino?.rarity?.defaultLevel() ?: 26))
+                .coerceAtLeast(minLev)
             _savedLevel.value = level
             _level.value = level
 
@@ -445,8 +447,7 @@ class DinoDetailViewModel @Inject constructor(
     }
 
     fun fullReset() {
-        val minLev = _detail.value?.dino?.rarity?.minLevel() ?: 1
-        _level.value = maxOf(26, minLev)
+        _level.value = _detail.value?.dino?.rarity?.defaultLevel() ?: 26
         _boosts.value = BoostState()
         if (_detail.value?.dino?.progressionSystem == ProgressionSystem.TRAINING_POINT) {
             _omegaPoints.value = emptyMap()

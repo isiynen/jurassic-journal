@@ -1,13 +1,11 @@
 package com.sufficienteffort.jurassicjournal.ui.update
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sufficienteffort.jurassicjournal.data.update.GameDataUpdater
 import com.sufficienteffort.jurassicjournal.data.update.SyncProgressTracker
 import com.sufficienteffort.jurassicjournal.data.update.UpdateInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -24,11 +22,9 @@ sealed class UpdateState {
 
 @HiltViewModel
 class UpdateCheckViewModel @Inject constructor(
-    @ApplicationContext private val context: Context,
+    private val updater: GameDataUpdater,
     private val progressTracker: SyncProgressTracker,
 ) : ViewModel() {
-
-    private val updater = GameDataUpdater(context)
 
     private val _state = MutableStateFlow<UpdateState>(UpdateState.Checking)
     val state: StateFlow<UpdateState> = _state.asStateFlow()

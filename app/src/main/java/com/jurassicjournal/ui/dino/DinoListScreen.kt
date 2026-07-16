@@ -62,7 +62,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -111,17 +111,11 @@ import com.sufficienteffort.jurassicjournal.ui.theme.ClassCunning
 import com.sufficienteffort.jurassicjournal.ui.theme.ClassFierce
 import com.sufficienteffort.jurassicjournal.ui.theme.ClassResilient
 import com.sufficienteffort.jurassicjournal.ui.theme.ClassWildCard
-import com.sufficienteffort.jurassicjournal.ui.theme.RarityApex
-import com.sufficienteffort.jurassicjournal.ui.theme.RarityCommon
-import com.sufficienteffort.jurassicjournal.ui.theme.RarityEpic
-import com.sufficienteffort.jurassicjournal.ui.theme.RarityLegendary
-import com.sufficienteffort.jurassicjournal.ui.theme.RarityOmega
-import com.sufficienteffort.jurassicjournal.ui.theme.RarityRare
-import com.sufficienteffort.jurassicjournal.ui.theme.RarityUnique
 import kotlin.math.ceil
 import kotlin.math.roundToInt
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import com.sufficienteffort.jurassicjournal.ui.components.rarityColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -133,10 +127,10 @@ fun DinoListScreen(
     viewModel: DinoListViewModel = hiltViewModel(),
     profileBarViewModel: ProfileBarViewModel = hiltViewModel(),
 ) {
-    val listItems by viewModel.listItems.collectAsState()
-    val filters by viewModel.filters.collectAsState()
-    val newCount by viewModel.newCount.collectAsState()
-    val barState by profileBarViewModel.state.collectAsState()
+    val listItems by viewModel.listItems.collectAsStateWithLifecycle()
+    val filters by viewModel.filters.collectAsStateWithLifecycle()
+    val newCount by viewModel.newCount.collectAsStateWithLifecycle()
+    val barState by profileBarViewModel.state.collectAsStateWithLifecycle()
     val gridState = rememberLazyGridState()
     val coroutineScope = rememberCoroutineScope()
     val currentProfileId by rememberUpdatedState(barState.activeProfileId)
@@ -961,16 +955,6 @@ fun ClassChip(dinoClass: DinoClass) {
             color = color,
         )
     }
-}
-
-fun rarityColor(rarity: Rarity): Color = when (rarity) {
-    Rarity.COMMON -> RarityCommon
-    Rarity.RARE -> RarityRare
-    Rarity.EPIC -> RarityEpic
-    Rarity.LEGENDARY -> RarityLegendary
-    Rarity.UNIQUE -> RarityUnique
-    Rarity.OMEGA -> RarityOmega
-    Rarity.APEX -> RarityApex
 }
 
 fun classColor(dinoClass: DinoClass): Color = when (dinoClass) {

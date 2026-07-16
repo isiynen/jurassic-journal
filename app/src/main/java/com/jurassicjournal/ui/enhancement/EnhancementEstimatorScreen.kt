@@ -25,7 +25,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -34,7 +33,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
@@ -54,6 +53,9 @@ import com.sufficienteffort.jurassicjournal.data.game.entity.Dino
 import com.sufficienteffort.jurassicjournal.data.update.dinoImageModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import com.sufficienteffort.jurassicjournal.ui.components.RepeatingButton
+import com.sufficienteffort.jurassicjournal.ui.components.SectionHeader
+import com.sufficienteffort.jurassicjournal.ui.components.SectionDivider
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -61,7 +63,7 @@ fun EnhancementEstimatorScreen(
     onBack: () -> Unit,
     viewModel: EnhancementEstimatorViewModel = hiltViewModel(),
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     Scaffold(
         topBar = {
@@ -273,11 +275,11 @@ private fun CostCard(result: EnhancementCostResult) {
         elevation = CardDefaults.cardElevation(0.dp),
     ) {
         Column(Modifier.padding(16.dp)) {
-            if (result.bronze > 0) { CostRow("Bronze Catalyst", "%,d".format(result.bronze)); Divider() }
-            if (result.silver > 0) { CostRow("Silver Catalyst", "%,d".format(result.silver)); Divider() }
-            if (result.gold   > 0) { CostRow("Gold Catalyst",   "%,d".format(result.gold));   Divider() }
+            if (result.bronze > 0) { CostRow("Bronze Catalyst", "%,d".format(result.bronze)); SectionDivider() }
+            if (result.silver > 0) { CostRow("Silver Catalyst", "%,d".format(result.silver)); SectionDivider() }
+            if (result.gold   > 0) { CostRow("Gold Catalyst",   "%,d".format(result.gold));   SectionDivider() }
             CostRow("Coins", "%,d".format(result.coins))
-            Divider()
+            SectionDivider()
             CostRow("DNA", "%,d".format(result.dna))
         }
     }
@@ -298,56 +300,4 @@ private fun CostRow(label: String, value: String) {
         )
         Text(value, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
     }
-}
-
-// ── Shared helpers ────────────────────────────────────────────────────────────
-
-@Composable
-private fun SectionHeader(title: String) {
-    Text(
-        text       = title,
-        style      = MaterialTheme.typography.titleSmall,
-        fontWeight = FontWeight.SemiBold,
-        color      = MaterialTheme.colorScheme.primary,
-        modifier   = Modifier.padding(start = 16.dp, end = 16.dp, top = 20.dp, bottom = 4.dp),
-    )
-}
-
-@Composable
-private fun Divider() {
-    HorizontalDivider(
-        modifier = Modifier.padding(vertical = 8.dp),
-        color    = MaterialTheme.colorScheme.outline.copy(alpha = 0.2f),
-    )
-}
-
-@Composable
-private fun RepeatingButton(
-    onClick: () -> Unit,
-    enabled: Boolean = true,
-    modifier: Modifier = Modifier,
-    content: @Composable () -> Unit,
-) {
-    val currentOnClick by rememberUpdatedState(onClick)
-    val currentEnabled by rememberUpdatedState(enabled)
-    val scope = rememberCoroutineScope()
-    Box(
-        modifier = modifier.pointerInput(Unit) {
-            while (true) {
-                awaitPointerEventScope { awaitFirstDown(requireUnconsumed = false) }
-                if (!currentEnabled) continue
-                currentOnClick()
-                val job = scope.launch {
-                    delay(400L)
-                    while (currentEnabled) {
-                        currentOnClick()
-                        delay(80L)
-                    }
-                }
-                awaitPointerEventScope { waitForUpOrCancellation() }
-                job.cancel()
-            }
-        },
-        contentAlignment = Alignment.Center,
-    ) { content() }
 }

@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import com.sufficienteffort.jurassicjournal.data.user.entity.NewDino
 import kotlinx.coroutines.flow.Flow
 
@@ -24,4 +25,11 @@ interface NewDinoDao {
 
     @Query("DELETE FROM new_dinos WHERE dinoSlug NOT IN (:validSlugs)")
     suspend fun pruneStale(validSlugs: List<String>)
+
+    /** Insert new badges and prune stale ones atomically so a crash can't leave them half-applied. */
+    @Transaction
+    suspend fun applyDetection(entries: List<NewDino>, validSlugs: List<String>) {
+        if (entries.isNotEmpty()) insertAll(entries)
+        pruneStale(validSlugs)
+    }
 }

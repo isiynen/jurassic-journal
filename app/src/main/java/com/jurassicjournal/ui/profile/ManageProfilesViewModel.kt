@@ -22,12 +22,15 @@ import com.sufficienteffort.jurassicjournal.data.user.entity.UserDnaInventory
 import com.sufficienteffort.jurassicjournal.data.user.entity.UserWallet
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -138,9 +141,11 @@ class ManageProfilesViewModel @Inject constructor(
     // ── Export: full profile snapshot including all user data ─────────────────
 
     fun exportProfile(profileId: Long, uri: Uri) {
-        viewModelScope.launch {
+        // IO dispatcher: serialization + content-resolver stream writes would
+        // otherwise run on Main and jank/ANR on large profiles.
+        viewModelScope.launch(Dispatchers.IO) {
             try {
-                val profile = activeProfileRepository.profileDao.getById(profileId) ?: return@launch
+                val profile = activeProfileRepository.getProfileById(profileId) ?: return@launch
 
                 val dinos = userDinoDao.getForProfile(profileId)
                 val boosts = userBoostDao.getForProfile(profileId)
@@ -171,6 +176,8 @@ class ManageProfilesViewModel @Inject constructor(
 
                 val json = Json.encodeToString(export)
                 context.contentResolver.openOutputStream(uri)?.use { it.write(json.toByteArray()) }
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: Exception) {
                 _error.value = "Export failed: ${e.message}"
             }
@@ -180,7 +187,7 @@ class ManageProfilesViewModel @Inject constructor(
     // ── Import: restore full profile snapshot ─────────────────────────────────
 
     fun importProfile(uri: Uri) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 val json = context.contentResolver.openInputStream(uri)?.use {
                     it.readBytes().toString(Charsets.UTF_8)
@@ -221,6 +228,8 @@ class ManageProfilesViewModel @Inject constructor(
                         })
                     }
                 }
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: Exception) {
                 _error.value = "Import failed: ${e.message}"
             }

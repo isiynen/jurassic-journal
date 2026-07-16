@@ -4,6 +4,9 @@ enum class Rarity {
     COMMON, RARE, EPIC, LEGENDARY, UNIQUE, OMEGA, APEX
 }
 
+/** Default calculator level: 26 (server display default), raised where minLevel exceeds it. */
+fun Rarity.defaultLevel(): Int = maxOf(26, minLevel())
+
 fun Rarity.minLevel(): Int = when (this) {
     Rarity.COMMON    -> 1
     Rarity.RARE      -> 6

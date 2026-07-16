@@ -1,0 +1,9 @@
+#ignore
+**/__pycache__/
+**/build/
+.gradle/
+gradle/
+jwa_abilities/
+jwa_dinos/
+
+#to not ignore a file otherwise ignored, add ! before the file

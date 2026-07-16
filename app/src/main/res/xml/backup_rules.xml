@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Pre-Android-12 counterpart of data_extraction_rules.xml (same include-only set). -->
+<full-backup-content>
+    <include domain="database" path="user_database" />
+    <include domain="database" path="user_database-wal" />
+    <include domain="database" path="user_database-shm" />
+    <include domain="file" path="datastore/user_prefs.preferences_pb" />
+</full-backup-content>

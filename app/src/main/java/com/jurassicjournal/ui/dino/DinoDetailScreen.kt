@@ -49,7 +49,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -83,6 +83,7 @@ import com.sufficienteffort.jurassicjournal.data.model.MoveUnlockType
 import com.sufficienteffort.jurassicjournal.data.model.ProgressionSystem
 import com.sufficienteffort.jurassicjournal.data.model.ResistanceType
 import com.sufficienteffort.jurassicjournal.data.model.SpawnLocation
+import com.sufficienteffort.jurassicjournal.data.model.defaultLevel
 import com.sufficienteffort.jurassicjournal.data.model.minLevel
 import com.sufficienteffort.jurassicjournal.data.user.entity.Team
 import com.sufficienteffort.jurassicjournal.ui.team.DinoTeamViewModel
@@ -98,6 +99,9 @@ import androidx.compose.ui.input.pointer.pointerInput
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
+import com.sufficienteffort.jurassicjournal.ui.components.RepeatingButton
+import com.sufficienteffort.jurassicjournal.ui.components.NumberInputDialog
+import com.sufficienteffort.jurassicjournal.ui.components.rarityColor
 
 private val ATTACK_MULT_REGEX = Regex("""(?i)attack\s+([\d.]+)x""")
 
@@ -139,9 +143,9 @@ fun DinoDetailScreen(
     viewModel: DinoDetailViewModel = hiltViewModel(),
     teamViewModel: DinoTeamViewModel = hiltViewModel(),
 ) {
-    val uiState by viewModel.uiState.collectAsState()
-    val teamState by teamViewModel.state.collectAsState()
-    val pendingUncheck by viewModel.pendingEnhancementUncheck.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val teamState by teamViewModel.state.collectAsStateWithLifecycle()
+    val pendingUncheck by viewModel.pendingEnhancementUncheck.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
 
     var showFullResetDialog by remember { mutableStateOf(false) }
@@ -247,7 +251,8 @@ fun DinoDetailScreen(
     }
 
     // Whether there's any customisation worth resetting (saved or unsaved)
-    val hasAnyCustomization = uiState.level != 26 || uiState.boosts != BoostState()
+    val defaultLevel = uiState.detail?.dino?.rarity?.defaultLevel() ?: 26
+    val hasAnyCustomization = uiState.level != defaultLevel || uiState.boosts != BoostState()
         || uiState.hasUnsavedChanges
         || uiState.omegaPoints.values.any { it > 0 }
 
@@ -810,41 +815,6 @@ private fun BoostRow(label: String, value: Int, max: Int, onChange: (Int) -> Uni
     }
 }
 
-@Composable
-private fun RepeatingButton(
-    onClick: () -> Unit,
-    enabled: Boolean = true,
-    modifier: Modifier = Modifier,
-    content: @Composable () -> Unit,
-) {
-    val currentOnClick by rememberUpdatedState(onClick)
-    val currentEnabled by rememberUpdatedState(enabled)
-    val scope = rememberCoroutineScope()
-    Box(
-        modifier = modifier.pointerInput(Unit) {
-            while (true) {
-                awaitPointerEventScope { awaitFirstDown(requireUnconsumed = false) }
-                if (!currentEnabled) continue
-                var repeatStarted = false
-                val job = scope.launch {
-                    delay(400L)
-                    repeatStarted = true
-                    while (currentEnabled) {
-                        currentOnClick()
-                        delay(80L)
-                    }
-                }
-                // Only click on a genuine tap release; a cancelled/consumed gesture
-                // (e.g. an ancestor intercepting a vertical scroll) fires nothing.
-                val upChange = awaitPointerEventScope { waitForUpOrCancellation() }
-                job.cancel()
-                if (!repeatStarted && upChange != null) currentOnClick()
-            }
-        },
-        contentAlignment = Alignment.Center,
-    ) { content() }
-}
-
 // ── Resistances Panel ─────────────────────────────────────────────────────────
 
 @Composable
@@ -1120,54 +1090,6 @@ private fun CooldownDelayRow(cooldown: Int, delay: Int) {
             )
         }
     }
-}
-
-// ── Numeric input dialog ──────────────────────────────────────────────────────
-
-@Composable
-private fun NumberInputDialog(
-    title: String,
-    current: Int,
-    min: Int,
-    max: Int,
-    onConfirm: (Int) -> Unit,
-    onDismiss: () -> Unit,
-) {
-    val initialText = current.toString()
-    var fieldValue by remember {
-        mutableStateOf(TextFieldValue(text = initialText, selection = TextRange(0, initialText.length)))
-    }
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = { Text(title) },
-        text = {
-            OutlinedTextField(
-                value = fieldValue,
-                onValueChange = { new ->
-                    fieldValue = new.copy(text = new.text.filter { it.isDigit() })
-                },
-                label = { Text("$min – $max") },
-                singleLine = true,
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number,
-                    imeAction = ImeAction.Done,
-                ),
-                keyboardActions = KeyboardActions(onDone = {
-                    val v = fieldValue.text.toIntOrNull()?.coerceIn(min, max) ?: current
-                    onConfirm(v)
-                }),
-            )
-        },
-        confirmButton = {
-            TextButton(onClick = {
-                val v = fieldValue.text.toIntOrNull()?.coerceIn(min, max) ?: current
-                onConfirm(v)
-            }) { Text("OK") }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) { Text("Cancel") }
-        },
-    )
 }
 
 // ── Badge ─────────────────────────────────────────────────────────────────────

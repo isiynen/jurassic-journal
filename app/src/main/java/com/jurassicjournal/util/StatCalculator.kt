@@ -78,6 +78,7 @@ object StatCalculator {
 
     /** Estimated SP per sanctuary action at the given level and boost configuration. */
     fun calculateSp(spSad: Double, level: Int, healthBoosts: Int, attackBoosts: Int, speedBoosts: Int): Int {
+        require(level in 1..35) { "Level must be 1–35" }
         val spBase = spSad / 1.25
         val levelMult = if (level <= 30) {
             1.05.pow((level - 26).toDouble())

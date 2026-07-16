@@ -18,7 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,6 +43,7 @@ import com.sufficienteffort.jurassicjournal.ui.enhancement.EnhancementEstimatorS
 import com.sufficienteffort.jurassicjournal.ui.dino.DinoDetailScreen
 import com.sufficienteffort.jurassicjournal.ui.dino.DinoListScreen
 import com.sufficienteffort.jurassicjournal.ui.navigation.Screen
+import com.sufficienteffort.jurassicjournal.data.user.ActiveProfileRepository
 import com.sufficienteffort.jurassicjournal.ui.profile.ManageProfilesScreen
 import com.sufficienteffort.jurassicjournal.ui.sanctuary.SanctuaryCalculatorScreen
 import com.sufficienteffort.jurassicjournal.ui.team.ManageTeamsScreen
@@ -65,12 +66,22 @@ class MainActivity : ComponentActivity() {
     @Inject lateinit var dinoImageSync: DinoImageSync
     @Inject lateinit var abilityIconSync: AbilityIconSync
     @Inject lateinit var syncProgressTracker: SyncProgressTracker
+    @Inject lateinit var activeProfileRepository: ActiveProfileRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        lifecycleScope.launch(Dispatchers.IO) { newDinoDetector.detect() }
-        lifecycleScope.launch(Dispatchers.IO) { dinoImageSync.syncMissingImages() }
-        lifecycleScope.launch(Dispatchers.IO) { abilityIconSync.syncMissingIcons() }
+        // savedInstanceState guard: these must not re-fire on every rotation /
+        // theme change. Sequential on purpose — the image and icon syncs share
+        // one SyncProgressTracker, and running them concurrently lets each
+        // clobber the other's phase and reset the progress strip mid-sync.
+        if (savedInstanceState == null) {
+            lifecycleScope.launch(Dispatchers.IO) {
+                activeProfileRepository.pruneOrphanedData()
+                newDinoDetector.detect()
+                dinoImageSync.syncMissingImages()
+                abilityIconSync.syncMissingIcons()
+            }
+        }
         enableEdgeToEdge()
         setContent {
             JurassicJournalTheme {
@@ -81,15 +92,15 @@ class MainActivity : ComponentActivity() {
                     Box(modifier = Modifier.fillMaxSize()) {
                         JurassicJournalNav()
 
-                        val syncProgress by syncProgressTracker.progress.collectAsState()
+                        val syncProgress by syncProgressTracker.progress.collectAsStateWithLifecycle()
                         UpdateProgressStrip(
                             progress = syncProgress,
                             modifier = Modifier.align(Alignment.BottomCenter),
                         )
                     }
 
-                    val updateInfo by updateVm.updateInfo.collectAsState()
-                    val updateState by updateVm.state.collectAsState()
+                    val updateInfo by updateVm.updateInfo.collectAsStateWithLifecycle()
+                    val updateState by updateVm.state.collectAsStateWithLifecycle()
 
                     UpdatePromptOverlay(
                         updateInfo  = updateInfo,

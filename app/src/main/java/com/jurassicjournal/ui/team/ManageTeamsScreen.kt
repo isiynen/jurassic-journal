@@ -33,7 +33,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -43,6 +43,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.sufficienteffort.jurassicjournal.data.user.entity.Team
+import com.sufficienteffort.jurassicjournal.ui.components.NameInputDialog
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -52,7 +53,7 @@ fun ManageTeamsScreen(
     onEditMembers: (Long) -> Unit = {},
     viewModel: ManageTeamsViewModel = hiltViewModel(),
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     var showAddDialog by remember { mutableStateOf(false) }
     var renameTarget by remember { mutableStateOf<Team?>(null) }
@@ -109,7 +110,8 @@ fun ManageTeamsScreen(
     }
 
     if (showAddDialog) {
-        TeamNameDialog(
+        NameInputDialog(
+            fieldLabel = "Team name",
             title = "New Team",
             confirmLabel = "Create",
             onConfirm = { name ->
@@ -121,7 +123,8 @@ fun ManageTeamsScreen(
     }
 
     renameTarget?.let { team ->
-        TeamNameDialog(
+        NameInputDialog(
+            fieldLabel = "Team name",
             title = "Rename Team",
             initial = team.name,
             confirmLabel = "Rename",
@@ -184,37 +187,4 @@ private fun TeamRow(
             }
         }
     }
-}
-
-@Composable
-private fun TeamNameDialog(
-    title: String,
-    initial: String = "",
-    confirmLabel: String,
-    onConfirm: (String) -> Unit,
-    onDismiss: () -> Unit,
-) {
-    var text by remember(initial) { mutableStateOf(initial) }
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = { Text(title) },
-        text = {
-            OutlinedTextField(
-                value = text,
-                onValueChange = { text = it },
-                label = { Text("Team name") },
-                singleLine = true,
-                modifier = Modifier.fillMaxWidth(),
-            )
-        },
-        confirmButton = {
-            TextButton(
-                onClick = { if (text.isNotBlank()) onConfirm(text) },
-                enabled = text.isNotBlank(),
-            ) { Text(confirmLabel) }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) { Text("Cancel") }
-        },
-    )
 }

@@ -13,7 +13,8 @@
 }
 
 # ── Hilt ──────────────────────────────────────────────────────────────────────
--keep class dagger.hilt.** { *; }
+# Hilt, Coil and kotlinx-coroutines ship consumer ProGuard rules with their
+# AARs — no whole-package keeps needed here.
 -keep @dagger.hilt.android.HiltAndroidApp class *
 -keep @dagger.hilt.android.AndroidEntryPoint class *
 -keepclasseswithmembers class * {
@@ -21,19 +22,13 @@
 }
 
 # ── Kotlin Serialization ──────────────────────────────────────────────────────
+# Keep only the app's own @Serializable DTOs (profile export models); the
+# runtime library carries its own consumer rules.
 -keepattributes RuntimeVisibleAnnotations
--keep @kotlinx.serialization.Serializable class * { *; }
--keepclassmembers class * {
+-keep @kotlinx.serialization.Serializable class com.sufficienteffort.jurassicjournal.** { *; }
+-keepclassmembers class com.sufficienteffort.jurassicjournal.** {
     kotlinx.serialization.KSerializer serializer(...);
 }
--keep class kotlinx.serialization.** { *; }
 
-# ── Kotlin & Coroutines ───────────────────────────────────────────────────────
+# ── Kotlin ────────────────────────────────────────────────────────────────────
 -keep class kotlin.Metadata { *; }
--keepnames class kotlinx.coroutines.**
--keepclassmembernames class kotlinx.** {
-    volatile <fields>;
-}
-
-# ── Coil ──────────────────────────────────────────────────────────────────────
--keep class coil.** { *; }

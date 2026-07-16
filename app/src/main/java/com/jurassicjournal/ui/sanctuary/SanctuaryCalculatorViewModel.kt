@@ -44,23 +44,42 @@ class SanctuaryCalculatorViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(SanctuaryUiState())
     val uiState: StateFlow<SanctuaryUiState> = _uiState.asStateFlow()
 
+    // Loaded once in init; SP data is static per dino, so stepper ticks
+    // shouldn't re-query Room.
+    private var spSad: Double? = null
+
     init {
         viewModelScope.launch {
             val dino = dinoDao.getById(dinoId) ?: return@launch
-            val sp = sanctuaryPointDao.getForDino(dinoId)
+            spSad = sanctuaryPointDao.getForDino(dinoId)?.spSad
             val startLevel = maxOf(dino.rarity.minLevel(), 26)
             _uiState.update { state ->
                 state.copy(
                     isLoading = false,
                     dino = dino,
                     level = startLevel,
-                    estimatedSpPerAction = sp?.let { computeSp(it.spSad, startLevel, state.boosts) },
+                    estimatedSpPerAction = spSad?.let { computeSp(it, startLevel, state.boosts) },
                 )
             }
         }
     }
 
-    fun setLevel(level: Int) = updateState { it.copy(level = level) }
+    fun setLevel(level: Int) = updateState { state ->
+        val clamped = level.coerceIn(state.dino?.rarity?.minLevel() ?: 1, 35)
+        // Lowering the level lowers the boost cap; carry the boosts down with it
+        // (same behavior as DinoDetailViewModel.setLevel).
+        val cap = StatCalculator.maxTotalBoosts(clamped)
+        val boosts = if (state.boosts.total > cap) clampBoosts(state.boosts, cap) else state.boosts
+        state.copy(level = clamped, boosts = boosts)
+    }
+
+    private fun clampBoosts(b: SanctuaryBoostConfig, cap: Int): SanctuaryBoostConfig {
+        var rem = cap
+        val h = minOf(b.health, rem).also { rem -= it }
+        val a = minOf(b.attack, rem).also { rem -= it }
+        val s = minOf(b.speed,  rem)
+        return SanctuaryBoostConfig(speed = s, attack = a, health = h)
+    }
 
     fun setSpeedBoosts(value: Int)  = updateBoosts { it.copy(speed  = value.coerceIn(0, maxPerStat(it, it.speed, value))) }
     fun setAttackBoosts(value: Int) = updateBoosts { it.copy(attack = value.coerceIn(0, maxPerStat(it, it.attack, value))) }
@@ -78,15 +97,11 @@ class SanctuaryCalculatorViewModel @Inject constructor(
     }
 
     private fun updateState(transform: (SanctuaryUiState) -> SanctuaryUiState) {
-        viewModelScope.launch {
-            val sp = sanctuaryPointDao.getForDino(dinoId) ?: run {
-                _uiState.update(transform)
-                return@launch
-            }
-            _uiState.update { state ->
-                val next = transform(state)
-                next.copy(estimatedSpPerAction = computeSp(sp.spSad, next.level, next.boosts))
-            }
+        _uiState.update { state ->
+            val next = transform(state)
+            val sad = spSad
+            if (sad == null) next
+            else next.copy(estimatedSpPerAction = computeSp(sad, next.level, next.boosts))
         }
     }
 
