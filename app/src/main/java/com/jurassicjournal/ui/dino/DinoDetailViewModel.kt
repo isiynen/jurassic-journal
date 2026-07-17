@@ -188,11 +188,11 @@ class DinoDetailViewModel @Inject constructor(
                 fun trainingBonus(stat: String): Int = (omegaPoints[stat] ?: 0) * (cfgMap[stat]?.gainPerPoint ?: 0)
                 ComputedStats(
                     health = applyBonuses(
-                        StatCalculator.applyHealthBoost(StatCalculator.scaleStat(stats.baseHealth, level), boosts.health) + trainingBonus("health"),
+                        StatCalculator.applyHealthBoost(stats.baseHealth, boosts.health) + trainingBonus("health"),
                         "health"
                     ),
                     attack = applyBonuses(
-                        StatCalculator.applyAttackBoost(StatCalculator.scaleStat(stats.baseAttack, level), boosts.attack) + trainingBonus("attack"),
+                        StatCalculator.applyAttackBoost(stats.baseAttack, boosts.attack) + trainingBonus("attack"),
                         "attack"
                     ),
                     speed = applyBonuses(

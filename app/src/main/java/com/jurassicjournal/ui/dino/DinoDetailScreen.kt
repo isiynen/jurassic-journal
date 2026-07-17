@@ -684,8 +684,9 @@ private fun OmegaTrainingCard(
                 "crit_chance"     to "CRIT %",
                 "crit_multiplier" to "CRIT DMG",
             )
+            val statOrder = listOf("health", "attack", "speed", "armor", "crit_chance", "crit_multiplier")
 
-            omegaConfigs.forEach { cfg ->
+            omegaConfigs.sortedBy { statOrder.indexOf(it.stat).takeIf { i -> i >= 0 } ?: Int.MAX_VALUE }.forEach { cfg ->
                 val label = statLabels[cfg.stat] ?: cfg.stat.uppercase()
                 val allocated = points[cfg.stat] ?: 0
                 val remaining = totalAvail - totalUsed
