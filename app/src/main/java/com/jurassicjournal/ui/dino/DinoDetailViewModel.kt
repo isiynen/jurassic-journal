@@ -185,23 +185,31 @@ class DinoDetailViewModel @Inject constructor(
         val computed = if (stats != null) {
             if (isOmega) {
                 val cfgMap = detail.omegaTrainingConfigs.associateBy { it.stat }
-                fun trainingBonus(stat: String): Int = (omegaPoints[stat] ?: 0) * (cfgMap[stat]?.gainPerPoint ?: 0)
+                // Training points raise the stat (capped at maxCap) first; boosts multiply the trained total.
+                fun trained(base: Int, stat: String): Int {
+                    val cfg = cfgMap[stat] ?: return base
+                    return StatCalculator.applyOmegaTraining(base, omegaPoints[stat] ?: 0, cfg.gainPerPoint, cfg.maxCap)
+                }
+                fun trainedF(base: Float, stat: String): Float {
+                    val cfg = cfgMap[stat] ?: return base
+                    return minOf(base + (omegaPoints[stat] ?: 0) * cfg.gainPerPoint, cfg.maxCap.toFloat())
+                }
                 ComputedStats(
                     health = applyBonuses(
-                        StatCalculator.applyHealthBoost(stats.baseHealth, boosts.health) + trainingBonus("health"),
+                        StatCalculator.applyHealthBoost(trained(stats.baseHealth, "health"), boosts.health),
                         "health"
                     ),
                     attack = applyBonuses(
-                        StatCalculator.applyAttackBoost(stats.baseAttack, boosts.attack) + trainingBonus("attack"),
+                        StatCalculator.applyAttackBoost(trained(stats.baseAttack, "attack"), boosts.attack),
                         "attack"
                     ),
                     speed = applyBonuses(
-                        StatCalculator.applySpeedBoost(stats.speed, boosts.speed) + trainingBonus("speed"),
+                        StatCalculator.applySpeedBoost(trained(stats.speed, "speed"), boosts.speed),
                         "speed"
                     ),
-                    armor          = stats.armor + trainingBonus("armor"),
-                    critChance     = stats.critChance + trainingBonus("crit_chance"),
-                    critMultiplier = stats.critMultiplier + trainingBonus("crit_multiplier"),
+                    armor          = trainedF(stats.armor, "armor"),
+                    critChance     = trainedF(stats.critChance, "crit_chance"),
+                    critMultiplier = trainedF(stats.critMultiplier, "crit_multiplier"),
                 )
             } else {
                 ComputedStats(
