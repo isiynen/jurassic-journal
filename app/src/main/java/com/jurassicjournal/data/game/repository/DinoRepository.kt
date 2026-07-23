@@ -34,15 +34,15 @@ class DinoRepository @Inject constructor(
     @OptIn(ExperimentalCoroutinesApi::class)
     fun search(
         query: String = "",
-        rarity: Rarity? = null,
-        dinoClass: DinoClass? = null,
+        rarities: Set<Rarity> = emptySet(),
+        dinoClasses: Set<DinoClass> = emptySet(),
         locations: Set<SpawnLocation> = emptySet(),
     ): Flow<List<DinoSearchResult>> =
         activeProfileRepository.activeProfileId.flatMapLatest { profileId ->
             combine(
                 dinoDao.observeDinoMovePairs(
-                    rarity = rarity?.name ?: "",
-                    dinoClass = dinoClass?.name ?: "",
+                    rarity = "",
+                    dinoClass = "",
                 ),
                 newDinoDao.observeNewSlugs(profileId),
                 dinoSpawnLocationDao.observeAll(),
@@ -52,8 +52,12 @@ class DinoRepository @Inject constructor(
                     .mapValues { (_, locs) -> locs.toSet() }
                 val newSlugSet = newSlugs.toSet()
                 val all = rows.groupIntoResults(newSlugSet)
-                val locationFiltered = if (locations.isEmpty()) all
-                else all.filter { result ->
+                val rarityFiltered = if (rarities.isEmpty()) all
+                else all.filter { it.dino.rarity in rarities }
+                val classFiltered = if (dinoClasses.isEmpty()) rarityFiltered
+                else rarityFiltered.filter { it.dino.dinoClass in dinoClasses }
+                val locationFiltered = if (locations.isEmpty()) classFiltered
+                else classFiltered.filter { result ->
                     val dinoLocs = spawnMap[result.dino.id] ?: emptySet()
                     locations.all { it in dinoLocs }
                 }

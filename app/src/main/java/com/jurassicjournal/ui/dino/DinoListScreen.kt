@@ -225,12 +225,14 @@ fun DinoListScreen(
                     item(span = { GridItemSpan(maxLineSpan) }) {
                         Column {
                             RarityFilterRow(
-                                selected = filters.rarity,
-                                onSelect = viewModel::onRarityFilter,
+                                selected = filters.rarities,
+                                onToggle = viewModel::onRarityToggle,
+                                onClear = viewModel::onRarityClear,
                             )
                             ClassFilterRow(
-                                selected = filters.dinoClass,
-                                onSelect = viewModel::onClassFilter,
+                                selected = filters.dinoClasses,
+                                onToggle = viewModel::onClassToggle,
+                                onClear = viewModel::onClassClear,
                             )
                             LocationFilterRow(
                                 selected = filters.locations,
@@ -738,18 +740,22 @@ fun SearchBar(query: String, onQueryChange: (String) -> Unit, modifier: Modifier
 }
 
 @Composable
-fun RarityFilterRow(selected: Rarity?, onSelect: (Rarity?) -> Unit) {
+fun RarityFilterRow(
+    selected: Set<Rarity>,
+    onToggle: (Rarity) -> Unit,
+    onClear: () -> Unit,
+) {
     LazyRow(
         contentPadding = PaddingValues(start = 8.dp, end = 0.dp, top = 4.dp, bottom = 4.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         item {
-            FilterChip(selected = selected == null, onClick = { onSelect(null) }, label = { Text("All") })
+            FilterChip(selected = selected.isEmpty(), onClick = onClear, label = { Text("All") })
         }
         items(Rarity.entries) { rarity ->
             FilterChip(
-                selected = selected == rarity,
-                onClick = { onSelect(if (selected == rarity) null else rarity) },
+                selected = rarity in selected,
+                onClick = { onToggle(rarity) },
                 label = { Text(rarity.name.lowercase().replaceFirstChar { it.uppercase() }) },
                 colors = FilterChipDefaults.filterChipColors(
                     selectedContainerColor = rarityColor(rarity).copy(alpha = 0.25f),
@@ -761,18 +767,22 @@ fun RarityFilterRow(selected: Rarity?, onSelect: (Rarity?) -> Unit) {
 }
 
 @Composable
-fun ClassFilterRow(selected: DinoClass?, onSelect: (DinoClass?) -> Unit) {
+fun ClassFilterRow(
+    selected: Set<DinoClass>,
+    onToggle: (DinoClass) -> Unit,
+    onClear: () -> Unit,
+) {
     LazyRow(
         contentPadding = PaddingValues(start = 8.dp, end = 0.dp, top = 4.dp, bottom = 4.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         item {
-            FilterChip(selected = selected == null, onClick = { onSelect(null) }, label = { Text("All") })
+            FilterChip(selected = selected.isEmpty(), onClick = onClear, label = { Text("All") })
         }
         items(DinoClass.entries) { cls ->
             FilterChip(
-                selected = selected == cls,
-                onClick = { onSelect(if (selected == cls) null else cls) },
+                selected = cls in selected,
+                onClick = { onToggle(cls) },
                 label = { Text(cls.name.lowercase().replace('_', ' ').split(" ")
                     .joinToString(" ") { it.replaceFirstChar { c -> c.uppercase() } }) },
                 colors = FilterChipDefaults.filterChipColors(

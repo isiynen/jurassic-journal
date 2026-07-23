@@ -144,12 +144,14 @@ fun TeamDinoPickerScreen(
                     .padding(horizontal = 16.dp, vertical = 8.dp),
             )
             RarityFilterRow(
-                selected = filters.rarity,
-                onSelect = viewModel::onRarityFilter,
+                selected = filters.rarities,
+                onToggle = viewModel::onRarityToggle,
+                onClear = viewModel::onRarityClear,
             )
             ClassFilterRow(
-                selected = filters.dinoClass,
-                onSelect = viewModel::onClassFilter,
+                selected = filters.dinoClasses,
+                onToggle = viewModel::onClassToggle,
+                onClear = viewModel::onClassClear,
             )
             if (newCount > 0) {
                 NewFilterRow(

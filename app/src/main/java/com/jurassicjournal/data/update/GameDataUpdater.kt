@@ -235,7 +235,7 @@ class GameDataUpdater @Inject constructor(
         // are accepted. A higher SCHEMA means the data requires a newer APK (new image format,
         // schema-breaking change, etc). Bump SCHEMA here AND in release_data.py when introducing
         // incompatible data changes; reset PATCH to 00.
-        const val BUNDLED_VERSION = "data-v9.14"
+        const val BUNDLED_VERSION = "data-v9.16"
 
         // List endpoint (not /releases/latest): we enumerate and pick the highest data tag
         // matching our bundled SCHEMA. /latest is unreliable when APK and data tags coexist.

@@ -58,7 +58,7 @@ class TeamDinoPickerViewModel @Inject constructor(
 
     val results: StateFlow<List<DinoSearchResult>> = _filters
         .flatMapLatest { f ->
-            repository.search(f.query, f.rarity, f.dinoClass).map { list ->
+            repository.search(f.query, f.rarities, f.dinoClasses).map { list ->
                 if (f.newOnly) list.filter { it.isNew } else list
             }
         }
@@ -90,8 +90,16 @@ class TeamDinoPickerViewModel @Inject constructor(
     }
 
     fun onQueryChange(query: String) = _filters.update { it.copy(query = query) }
-    fun onRarityFilter(rarity: com.sufficienteffort.jurassicjournal.data.model.Rarity?) = _filters.update { it.copy(rarity = rarity) }
-    fun onClassFilter(dinoClass: com.sufficienteffort.jurassicjournal.data.model.DinoClass?) = _filters.update { it.copy(dinoClass = dinoClass) }
+    fun onRarityToggle(rarity: com.sufficienteffort.jurassicjournal.data.model.Rarity) = _filters.update { f ->
+        val updated = if (rarity in f.rarities) f.rarities - rarity else f.rarities + rarity
+        f.copy(rarities = updated)
+    }
+    fun onRarityClear() = _filters.update { it.copy(rarities = emptySet()) }
+    fun onClassToggle(dinoClass: com.sufficienteffort.jurassicjournal.data.model.DinoClass) = _filters.update { f ->
+        val updated = if (dinoClass in f.dinoClasses) f.dinoClasses - dinoClass else f.dinoClasses + dinoClass
+        f.copy(dinoClasses = updated)
+    }
+    fun onClassClear() = _filters.update { it.copy(dinoClasses = emptySet()) }
     fun onNewOnlyFilter(enabled: Boolean) = _filters.update { it.copy(newOnly = enabled) }
 
     fun save() {

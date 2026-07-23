@@ -16,14 +16,14 @@ val keystoreProps = Properties().apply {
 
 android {
     namespace = "com.sufficienteffort.jurassicjournal"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.sufficienteffort.jurassicjournal"
         minSdk = 26
-        targetSdk = 35
-        versionCode = 16
-        versionName = "1.7.7"
+        targetSdk = 36
+        versionCode = 18
+        versionName = "1.7.8"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

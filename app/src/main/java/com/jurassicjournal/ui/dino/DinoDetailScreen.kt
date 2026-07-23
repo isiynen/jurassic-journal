@@ -432,6 +432,7 @@ fun DinoDetailScreen(
                     SectionHeader("How to Create")
                     IngredientsSection(
                         ingredientTree = detail.ingredientTree,
+                        ingredientMinLevel = detail.dino.rarity.minLevel() - 1,
                         onDinoClick = onDinoClick,
                     )
                     Spacer(Modifier.height(8.dp))
@@ -1153,6 +1154,7 @@ private fun triggerLabel(trigger: MoveTriggerType): String = when (trigger) {
 @Composable
 private fun IngredientsSection(
     ingredientTree: List<IngredientNode>,
+    ingredientMinLevel: Int,
     onDinoClick: (Long) -> Unit,
 ) {
     Card(
@@ -1167,7 +1169,7 @@ private fun IngredientsSection(
                     modifier = Modifier.padding(vertical = 6.dp),
                     color = MaterialTheme.colorScheme.outlineVariant,
                 )
-                IngredientNodeRow(node = node, depth = 0, onDinoClick = onDinoClick)
+                IngredientNodeRow(node = node, depth = 0, minLevel = ingredientMinLevel, onDinoClick = onDinoClick)
             }
         }
     }
@@ -1177,6 +1179,7 @@ private fun IngredientsSection(
 private fun IngredientNodeRow(
     node: IngredientNode,
     depth: Int,
+    minLevel: Int,
     onDinoClick: (Long) -> Unit,
 ) {
     Column(modifier = Modifier.padding(start = (depth * 20).dp)) {
@@ -1208,10 +1211,19 @@ private fun IngredientNodeRow(
                     fontWeight = FontWeight.SemiBold,
                 )
                 Spacer(Modifier.height(2.dp))
-                BadgeChip(
-                    label = node.dino.rarity.name.lowercase().replaceFirstChar { it.uppercase() },
-                    color = rarityColor(node.dino.rarity),
-                )
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    BadgeChip(
+                        label = node.dino.rarity.name.lowercase().replaceFirstChar { it.uppercase() },
+                        color = rarityColor(node.dino.rarity),
+                    )
+                    BadgeChip(
+                        label = "Lv. $minLevel",
+                        color = MaterialTheme.colorScheme.onSurface,
+                    )
+                }
             }
             if (node.children.isNotEmpty()) {
                 Icon(
@@ -1230,7 +1242,7 @@ private fun IngredientNodeRow(
                 modifier = Modifier.padding(start = 12.dp, top = 2.dp, bottom = 2.dp),
             )
             node.children.forEach { child ->
-                IngredientNodeRow(node = child, depth = depth + 1, onDinoClick = onDinoClick)
+                IngredientNodeRow(node = child, depth = depth + 1, minLevel = node.dino.rarity.minLevel() - 1, onDinoClick = onDinoClick)
             }
         }
     }
