@@ -56,7 +56,7 @@ import com.sufficienteffort.jurassicjournal.data.game.entity.SanctuaryYield
         CatalystRecipe::class,
         EnhancementCatalystCost::class,
     ],
-    version = 9,
+    version = 10,
     exportSchema = true
 )
 @TypeConverters(GameConverters::class)

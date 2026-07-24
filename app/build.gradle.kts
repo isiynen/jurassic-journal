@@ -22,8 +22,8 @@ android {
         applicationId = "com.sufficienteffort.jurassicjournal"
         minSdk = 26
         targetSdk = 36
-        versionCode = 18
-        versionName = "1.7.8"
+        versionCode = 19
+        versionName = "1.7.9"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -45,6 +45,7 @@ android {
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             signingConfig = signingConfigs.getByName("release")
+            ndk { debugSymbolLevel = "SYMBOL_TABLE" }
         }
     }
 

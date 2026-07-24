@@ -137,6 +137,7 @@ fun DinoDetailScreen(
     onBack: () -> Unit,
     onDinoClick: (Long) -> Unit = {},
     onCalculate: (Long) -> Unit = {},
+    onLevelUpCalculate: (Long) -> Unit = {},
     onSanctuaryCalculate: (Long) -> Unit = {},
     onEnhancementEstimate: (Long, Int) -> Unit = { _, _ -> },
     showTeamSelector: Boolean = true,
@@ -424,6 +425,20 @@ fun DinoDetailScreen(
                     SectionHeader("Moves")
                     MovesPanel(detail.movesByTrigger, computed.attack, reactiveMoveLocked)
                     Spacer(Modifier.height(8.dp))
+                }
+            }
+
+            if (!detail.dino.isHybrid) {
+                item {
+                    OutlinedButton(
+                        onClick = { onLevelUpCalculate(detail.dino.id) },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp),
+                    ) {
+                        Text("Level-Up Costs")
+                    }
+                    Spacer(Modifier.height(4.dp))
                 }
             }
 

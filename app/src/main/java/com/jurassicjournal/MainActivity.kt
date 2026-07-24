@@ -39,6 +39,7 @@ import com.sufficienteffort.jurassicjournal.data.update.SyncProgressTracker
 import com.sufficienteffort.jurassicjournal.data.update.UpdateInfo
 import com.sufficienteffort.jurassicjournal.ui.update.UpdateProgressStrip
 import com.sufficienteffort.jurassicjournal.ui.calculator.HybridCalculatorScreen
+import com.sufficienteffort.jurassicjournal.ui.calculator.LevelUpCalculatorScreen
 import com.sufficienteffort.jurassicjournal.ui.enhancement.EnhancementEstimatorScreen
 import com.sufficienteffort.jurassicjournal.ui.dino.DinoDetailScreen
 import com.sufficienteffort.jurassicjournal.ui.dino.DinoListScreen
@@ -229,6 +230,7 @@ private fun JurassicJournalNav() {
                 onBack = { navController.popBackStackSafe() },
                 onDinoClick = { dinoId -> navController.navigateSafe(Screen.DinoDetail(dinoId).route) },
                 onCalculate = { dinoId -> navController.navigateSafe(Screen.HybridCalculator(dinoId).route) },
+                onLevelUpCalculate = { dinoId -> navController.navigateSafe(Screen.LevelUpCalculator(dinoId).route) },
                 onSanctuaryCalculate = { dinoId -> navController.navigateSafe(Screen.SanctuaryCalculator(dinoId).route) },
                 onEnhancementEstimate = { dinoId, current -> navController.navigateSafe(Screen.EnhancementEstimator(dinoId, current).route) },
                 showTeamSelector = !hideTeams,
@@ -257,6 +259,12 @@ private fun JurassicJournalNav() {
             )
         ) {
             EnhancementEstimatorScreen(onBack = { navController.popBackStackSafe() })
+        }
+        composable(
+            route = Screen.LevelUpCalculator.ROUTE,
+            arguments = listOf(navArgument("dinoId") { type = NavType.LongType })
+        ) {
+            LevelUpCalculatorScreen(onBack = { navController.popBackStackSafe() })
         }
     }
 }
