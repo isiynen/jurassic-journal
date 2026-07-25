@@ -22,8 +22,8 @@ android {
         applicationId = "com.sufficienteffort.jurassicjournal"
         minSdk = 26
         targetSdk = 36
-        versionCode = 19
-        versionName = "1.7.9"
+        versionCode = 20
+        versionName = "1.7.10"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

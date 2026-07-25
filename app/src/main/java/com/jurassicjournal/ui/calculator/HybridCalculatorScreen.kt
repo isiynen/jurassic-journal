@@ -165,12 +165,21 @@ fun HybridCalculatorScreen(
                 )
             }
             if (uiState.ingredients.isNotEmpty()) {
-                items(uiState.ingredients.size) { index ->
-                    IngredientDnaRow(
-                        input      = uiState.ingredients[index],
-                        index      = index,
-                        onDnaChange = viewModel::setIngredientDna,
-                    )
+                val firstSubIdx = uiState.ingredients.indexOfFirst { it.depth > 0 }
+                if (firstSubIdx >= 0) {
+                    item { IngredientSubHeader("Direct Ingredients") }
+                    items(firstSubIdx) { index ->
+                        IngredientDnaRow(input = uiState.ingredients[index], index = index, onDnaChange = viewModel::setIngredientDna)
+                    }
+                    item { IngredientSubHeader("Sub-Ingredients") }
+                    items(uiState.ingredients.size - firstSubIdx) { i ->
+                        val absIdx = firstSubIdx + i
+                        IngredientDnaRow(input = uiState.ingredients[absIdx], index = absIdx, onDnaChange = viewModel::setIngredientDna)
+                    }
+                } else {
+                    items(uiState.ingredients.size) { index ->
+                        IngredientDnaRow(input = uiState.ingredients[index], index = index, onDnaChange = viewModel::setIngredientDna)
+                    }
                 }
             }
 
@@ -190,8 +199,20 @@ fun HybridCalculatorScreen(
                         )
                         Spacer(Modifier.height(4.dp))
                     }
-                    items(result.ingredientCosts.size) { index ->
-                        IngredientCostCard(cost = result.ingredientCosts[index])
+                    val firstSubCostIdx = result.ingredientCosts.indexOfFirst { it.depth > 0 }
+                    if (firstSubCostIdx >= 0) {
+                        item { IngredientSubHeader("Direct Ingredients") }
+                        items(firstSubCostIdx) { index ->
+                            IngredientCostCard(cost = result.ingredientCosts[index])
+                        }
+                        item { IngredientSubHeader("Sub-Ingredients") }
+                        items(result.ingredientCosts.size - firstSubCostIdx) { i ->
+                            IngredientCostCard(cost = result.ingredientCosts[firstSubCostIdx + i])
+                        }
+                    } else {
+                        items(result.ingredientCosts.size) { index ->
+                            IngredientCostCard(cost = result.ingredientCosts[index])
+                        }
                     }
                 }
             }
@@ -492,9 +513,20 @@ private fun IngredientDnaRow(
     }
 
     val costPerFuse = HybridCalculatorViewModel.fuseCostForRarity(input.dino.rarity)
+    val displayName = if (input.depth > 0 && input.parentDinoName != null)
+        "${input.parentDinoName} → ${input.dino.name}"
+    else
+        input.dino.name
 
     Card(
-        modifier  = Modifier.padding(horizontal = 16.dp, vertical = 4.dp).fillMaxWidth(),
+        modifier = Modifier
+            .padding(
+                start  = (16 + input.depth * 16).dp,
+                end    = 16.dp,
+                top    = 4.dp,
+                bottom = 4.dp,
+            )
+            .fillMaxWidth(),
         shape     = RoundedCornerShape(12.dp),
         colors    = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         elevation = CardDefaults.cardElevation(2.dp),
@@ -520,7 +552,7 @@ private fun IngredientDnaRow(
             )
             Spacer(Modifier.width(12.dp))
             Column(modifier = Modifier.weight(1f)) {
-                Text(input.dino.name, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.SemiBold)
+                Text(displayName, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.SemiBold)
                 Text(
                     "$costPerFuse DNA per fuse",
                     style = MaterialTheme.typography.labelSmall,
@@ -647,10 +679,31 @@ private fun MaxReachableLevelCard(currentLevel: Int, maxLevel: Int) {
 }
 
 @Composable
+private fun IngredientSubHeader(title: String) {
+    Text(
+        text     = title,
+        style    = MaterialTheme.typography.labelMedium,
+        color    = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.55f),
+        modifier = Modifier.padding(start = 16.dp, top = 8.dp, bottom = 2.dp),
+    )
+}
+
+@Composable
 private fun IngredientCostCard(cost: IngredientCost) {
-    val hasDeficit = cost.dnaDeficit > 0
+    val hasDeficit    = cost.dnaDeficit > 0
+    val displayName   = if (cost.depth > 0 && cost.parentDinoName != null)
+        "${cost.parentDinoName} → ${cost.dino.name}"
+    else
+        cost.dino.name
     Card(
-        modifier  = Modifier.padding(horizontal = 16.dp, vertical = 3.dp).fillMaxWidth(),
+        modifier = Modifier
+            .padding(
+                start  = (16 + cost.depth * 16).dp,
+                end    = 16.dp,
+                top    = 3.dp,
+                bottom = 3.dp,
+            )
+            .fillMaxWidth(),
         shape     = RoundedCornerShape(10.dp),
         colors    = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         elevation = CardDefaults.cardElevation(1.dp),
@@ -673,12 +726,19 @@ private fun IngredientCostCard(cost: IngredientCost) {
             )
             Spacer(Modifier.width(10.dp))
             Column(modifier = Modifier.weight(1f)) {
-                Text(cost.dino.name, style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.SemiBold)
+                Text(displayName, style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.SemiBold)
                 Text(
                     "Need: %,d | Have: %,d".format(cost.totalDnaNeeded, cost.dnaOnHand),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
                 )
+                if (cost.fusesNeededToProduce > 0) {
+                    Text(
+                        "Fuse %,d× (%,d coins)".format(cost.fusesNeededToProduce, cost.fuseCoinCost),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = Color(0xFFFFD700).copy(alpha = 0.85f),
+                    )
+                }
             }
             Column(horizontalAlignment = Alignment.End) {
                 if (hasDeficit) {

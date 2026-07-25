@@ -106,11 +106,11 @@ class LevelUpCalculatorViewModel @Inject constructor(
             val costs  = levelUpCostDao.getForRarity(detail.dino.rarity)
             _dinoData.value = detail.dino to costs
 
-            val minLev     = detail.dino.rarity.minLevel()
-            val savedLevel = (userDinoDao.getByDinoId(profileId, dinoId)?.currentLevel ?: minLev)
-                .coerceAtLeast(minLev)
-            _currentLevel.value = savedLevel
-            _targetLevel.value  = (savedLevel + 1).coerceAtMost(35)
+            val minLev          = detail.dino.rarity.minLevel()
+            val savedUserLevel  = userDinoDao.getByDinoId(profileId, dinoId)?.currentLevel
+            val currentLev      = savedUserLevel?.coerceAtLeast(minLev - 1) ?: (minLev - 1)
+            _currentLevel.value = currentLev
+            _targetLevel.value  = if (savedUserLevel == null) minLev else (currentLev + 1).coerceAtMost(35)
 
             _dnaOnHand.value   = userDnaInventoryDao.get(profileId, dinoId)?.dnaAmount ?: 0
             _coinsOnHand.value = userWalletDao.get(profileId)?.coins ?: 0L

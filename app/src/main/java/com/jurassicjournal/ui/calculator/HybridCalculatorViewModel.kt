@@ -7,6 +7,7 @@ import com.sufficienteffort.jurassicjournal.data.game.dao.LevelUpCostDao
 import com.sufficienteffort.jurassicjournal.data.game.entity.Dino
 import com.sufficienteffort.jurassicjournal.data.game.entity.LevelUpCost
 import com.sufficienteffort.jurassicjournal.data.game.repository.DinoDetailRepository
+import com.sufficienteffort.jurassicjournal.data.game.repository.IngredientNode
 import com.sufficienteffort.jurassicjournal.data.model.Rarity
 import com.sufficienteffort.jurassicjournal.data.model.minLevel
 import com.sufficienteffort.jurassicjournal.data.user.ActiveProfileRepository
@@ -28,15 +29,24 @@ import kotlin.math.ceil
 
 data class IngredientInput(
     val dino: Dino,
+    val depth: Int = 0,
+    val parentDinoId: Long? = null,
+    val parentDinoName: String? = null,
     val dnaOnHand: Int = 0,
 )
 
 data class IngredientCost(
     val dino: Dino,
+    val depth: Int = 0,
+    val parentDinoId: Long? = null,
+    val parentDinoName: String? = null,
     val dnaCostPerFuse: Int,
+    val fusesOfParent: Int,
     val totalDnaNeeded: Long,
     val dnaOnHand: Int,
     val dnaDeficit: Long,
+    val fusesNeededToProduce: Int = 0,
+    val fuseCoinCost: Long = 0L,
 )
 
 data class CalcResult(
@@ -82,6 +92,9 @@ class HybridCalculatorViewModel @Inject constructor(
     private val _ingredients   = MutableStateFlow<List<IngredientInput>>(emptyList())
     private val _coinsOnHand   = MutableStateFlow(0L)
 
+    // Tree structure used for recursive cost calculations; set once in init.
+    private var ingredientTree: List<IngredientNode> = emptyList()
+
     val uiState: StateFlow<HybridCalculatorUiState> = combine(
         combine(_hybridData, _isCreate, _currentLevel) { hd, ic, cl -> Triple(hd, ic, cl) },
         combine(_targetLevel, _currentHybridDna, _ingredients) { tl, cd, ing -> Triple(tl, cd, ing) },
@@ -90,11 +103,11 @@ class HybridCalculatorViewModel @Inject constructor(
         val (hybrid, costs) = hybridData ?: return@combine HybridCalculatorUiState(isLoading = true)
 
         val result = if (targetLevel >= currentLevel) {
-            calculateCosts(isCreate, hybrid.rarity, currentLevel, targetLevel, currentHybridDna, ingredients, costs, coinsOnHand)
+            calculateCosts(isCreate, hybrid.rarity, currentLevel, targetLevel, currentHybridDna, ingredients, ingredientTree, costs, coinsOnHand)
         } else null
 
         val maxReachableLevel = calculateMaxReachableLevel(
-            isCreate, hybrid.rarity, currentLevel, currentHybridDna, ingredients, coinsOnHand, costs,
+            isCreate, hybrid.rarity, currentLevel, currentHybridDna, ingredients, ingredientTree, coinsOnHand, costs,
         )
 
         HybridCalculatorUiState(
@@ -117,6 +130,8 @@ class HybridCalculatorViewModel @Inject constructor(
 
             val detail = detailRepository.getFullDetail(dinoId) ?: return@launch
             val costs  = levelUpCostDao.getForRarity(detail.dino.rarity)
+
+            ingredientTree = detail.ingredientTree
             _hybridData.value = detail.dino to costs
 
             val minLev = detail.dino.rarity.minLevel()
@@ -127,13 +142,16 @@ class HybridCalculatorViewModel @Inject constructor(
 
             _currentHybridDna.value = userDnaInventoryDao.get(profileId, dinoId)?.dnaAmount ?: 0
 
-            val ingredientIds  = detail.ingredientTree.map { it.dino.id }
-            val savedDnaMap    = userDnaInventoryDao.getForDinos(profileId, ingredientIds).associateBy { it.dinoId }
-            _ingredients.value = detail.ingredientTree.map { node ->
-                IngredientInput(
-                    dino      = node.dino,
-                    dnaOnHand = savedDnaMap[node.dino.id]?.dnaAmount ?: 0,
-                )
+            // Flatten full ingredient tree in DFS order, then stable-sort by depth so
+            // all depth-0 nodes precede depth-1 nodes, etc. (BFS display order).
+            val flatDfs = mutableListOf<IngredientInput>()
+            flattenIngredientTree(detail.ingredientTree, 0, null, null, flatDfs)
+            val flatBfs = flatDfs.sortedBy { it.depth }
+
+            val allDinoIds = flatBfs.map { it.dino.id }
+            val savedDnaMap = userDnaInventoryDao.getForDinos(profileId, allDinoIds).associateBy { it.dinoId }
+            _ingredients.value = flatBfs.map { node ->
+                node.copy(dnaOnHand = savedDnaMap[node.dino.id]?.dnaAmount ?: 0)
             }
 
             _coinsOnHand.value = userWalletDao.get(profileId)?.coins ?: 0L
@@ -198,6 +216,119 @@ class HybridCalculatorViewModel @Inject constructor(
         }
     }
 
+    // ── Tree helpers ──────────────────────────────────────────────────────────
+
+    private fun flattenIngredientTree(
+        nodes: List<IngredientNode>,
+        depth: Int,
+        parentDinoId: Long?,
+        parentDinoName: String?,
+        result: MutableList<IngredientInput>,
+    ) {
+        for (node in nodes) {
+            result.add(IngredientInput(
+                dino           = node.dino,
+                depth          = depth,
+                parentDinoId   = parentDinoId,
+                parentDinoName = parentDinoName,
+            ))
+            flattenIngredientTree(node.children, depth + 1, node.dino.id, node.dino.name, result)
+        }
+    }
+
+    // Recursively build the flat ingredient cost list (DFS preorder) and return total
+    // coin cost for all sub-hybrid fuses required to produce the needed DNA.
+    private fun buildIngredientCosts(
+        tree: List<IngredientNode>,
+        fusesOfParent: Int,
+        dnaMap: Map<Long, Int>,
+        depth: Int,
+        parentDinoId: Long?,
+        parentDinoName: String?,
+        result: MutableList<IngredientCost>,
+    ): Long {
+        var totalSubFuseCoins = 0L
+        for (node in tree) {
+            val costPerFuse    = fuseCostForRarity(node.dino.rarity)
+            val totalDnaNeeded = fusesOfParent.toLong() * costPerFuse
+            val dnaOnHand      = dnaMap[node.dino.id] ?: 0
+            val dnaDeficit     = maxOf(0L, totalDnaNeeded - dnaOnHand)
+            val fusesNeededToProduce = if (node.dino.isHybrid && dnaDeficit > 0L)
+                ceil(dnaDeficit / 20.0).toInt()
+            else 0
+            val fuseCoinCost = fusesNeededToProduce.toLong() * fuseCoinCostForRarity(node.dino.rarity)
+            totalSubFuseCoins += fuseCoinCost
+            result.add(IngredientCost(
+                dino                 = node.dino,
+                depth                = depth,
+                parentDinoId         = parentDinoId,
+                parentDinoName       = parentDinoName,
+                dnaCostPerFuse       = costPerFuse,
+                fusesOfParent        = fusesOfParent,
+                totalDnaNeeded       = totalDnaNeeded,
+                dnaOnHand            = dnaOnHand,
+                dnaDeficit           = dnaDeficit,
+                fusesNeededToProduce = fusesNeededToProduce,
+                fuseCoinCost         = fuseCoinCost,
+            ))
+            if (node.children.isNotEmpty()) {
+                totalSubFuseCoins += buildIngredientCosts(
+                    tree           = node.children,
+                    fusesOfParent  = fusesNeededToProduce,
+                    dnaMap         = dnaMap,
+                    depth          = depth + 1,
+                    parentDinoId   = node.dino.id,
+                    parentDinoName = node.dino.name,
+                    result         = result,
+                )
+            }
+        }
+        return totalSubFuseCoins
+    }
+
+    // Returns total coin cost for all sub-hybrid fuses, or null if a non-hybrid ingredient
+    // has insufficient DNA (impossible to produce the needed amount).
+    private fun calcSubFuseCoins(
+        tree: List<IngredientNode>,
+        fusesNeeded: Int,
+        dnaAvail: Map<Long, Long>,
+    ): Long? {
+        if (fusesNeeded == 0) return 0L
+        var totalCoins = 0L
+        for (node in tree) {
+            val needed  = fusesNeeded.toLong() * fuseCostForRarity(node.dino.rarity)
+            val have    = dnaAvail.getOrDefault(node.dino.id, 0L)
+            val deficit = maxOf(0L, needed - have)
+            if (deficit == 0L) continue
+            if (!node.dino.isHybrid) return null
+            val subFuses = ceil(deficit / 20.0).toInt()
+            totalCoins += subFuses.toLong() * fuseCoinCostForRarity(node.dino.rarity)
+            totalCoins += calcSubFuseCoins(node.children, subFuses, dnaAvail) ?: return null
+        }
+        return totalCoins
+    }
+
+    // Mutates dnaAvail to simulate spending ingredient DNA (and producing sub-hybrid DNA
+    // as needed). Only call after calcSubFuseCoins confirms affordability.
+    private fun spendIngredientDna(
+        tree: List<IngredientNode>,
+        fusesNeeded: Int,
+        dnaAvail: MutableMap<Long, Long>,
+    ) {
+        if (fusesNeeded == 0) return
+        for (node in tree) {
+            val needed  = fusesNeeded.toLong() * fuseCostForRarity(node.dino.rarity)
+            val have    = dnaAvail.getOrDefault(node.dino.id, 0L)
+            val deficit = maxOf(0L, needed - have)
+            if (deficit > 0L && node.dino.isHybrid) {
+                val subFuses = ceil(deficit / 20.0).toInt()
+                spendIngredientDna(node.children, subFuses, dnaAvail)
+                dnaAvail[node.dino.id] = have + subFuses * 20L
+            }
+            dnaAvail[node.dino.id] = (dnaAvail.getOrDefault(node.dino.id, 0L)) - needed
+        }
+    }
+
     // ── Calculations ──────────────────────────────────────────────────────────
 
     private fun calculateCosts(
@@ -207,6 +338,7 @@ class HybridCalculatorViewModel @Inject constructor(
         targetLevel: Int,
         currentHybridDna: Int,
         ingredients: List<IngredientInput>,
+        ingredientTree: List<IngredientNode>,
         costs: List<LevelUpCost>,
         coinsOnHand: Long,
     ): CalcResult {
@@ -223,19 +355,23 @@ class HybridCalculatorViewModel @Inject constructor(
             costMap[level]?.coinsCost?.toLong() ?: 0L
         }
         val fuseCoins = fusesNeeded.toLong() * fuseCoinCostForRarity(rarity)
-        val totalCoins = levelUpCoins + fuseCoins
 
-        val ingredientCosts = ingredients.map { input ->
-            val costPerFuse  = fuseCostForRarity(input.dino.rarity)
-            val totalDnaNeeded = fusesNeeded.toLong() * costPerFuse
-            IngredientCost(
-                dino           = input.dino,
-                dnaCostPerFuse = costPerFuse,
-                totalDnaNeeded = totalDnaNeeded,
-                dnaOnHand      = input.dnaOnHand,
-                dnaDeficit     = maxOf(0L, totalDnaNeeded - input.dnaOnHand),
-            )
-        }
+        val dnaMap = ingredients.associate { it.dino.id to it.dnaOnHand }
+
+        val ingredientCostsDfs = mutableListOf<IngredientCost>()
+        val subFuseCoins = buildIngredientCosts(
+            tree           = ingredientTree,
+            fusesOfParent  = fusesNeeded,
+            dnaMap         = dnaMap,
+            depth          = 0,
+            parentDinoId   = null,
+            parentDinoName = null,
+            result         = ingredientCostsDfs,
+        )
+        // Stable-sort by depth so depth-0 costs precede depth-1 costs, etc.
+        val ingredientCosts = ingredientCostsDfs.sortedBy { it.depth }
+
+        val totalCoins = levelUpCoins + fuseCoins + subFuseCoins
 
         return CalcResult(
             hybridDnaStillNeeded = remainingHybridDna,
@@ -246,67 +382,48 @@ class HybridCalculatorViewModel @Inject constructor(
         )
     }
 
-    /**
-     * Iterates level-by-level from currentLevel, spending DNA and coins greedily,
-     * and returns the highest level reachable with the current inventory.
-     */
     private fun calculateMaxReachableLevel(
         isCreate: Boolean,
         rarity: Rarity,
         currentLevel: Int,
         currentHybridDna: Int,
         ingredients: List<IngredientInput>,
+        ingredientTree: List<IngredientNode>,
         coinsOnHand: Long,
         costs: List<LevelUpCost>,
     ): Int {
         val costMap = costs.associateBy { it.fromLevel }
-        var hybridDnaAvail     = currentHybridDna.toLong()
-        val ingredientDnaAvail = ingredients.map { it.dnaOnHand.toLong() }.toMutableList()
-        var coinsAvail         = coinsOnHand
-        var maxLevel           = currentLevel
+        var hybridDnaAvail = currentHybridDna.toLong()
+        val dnaAvail       = ingredients.associate { it.dino.id to it.dnaOnHand.toLong() }.toMutableMap()
+        var coinsAvail     = coinsOnHand
+        var maxLevel       = currentLevel
 
         if (isCreate) {
             val creationDnaNeeded = creationDnaCostForRarity(rarity).toLong()
             val deficit           = maxOf(0L, creationDnaNeeded - hybridDnaAvail)
             val fusesNeeded       = if (deficit > 0L) ceil(deficit / 20.0).toInt() else 0
             val fuseCoinsNeeded   = fusesNeeded.toLong() * fuseCoinCostForRarity(rarity)
-
-            var canAfford = coinsAvail >= fuseCoinsNeeded
-            for (i in ingredients.indices) {
-                val needed = fusesNeeded.toLong() * fuseCostForRarity(ingredients[i].dino.rarity)
-                if (ingredientDnaAvail[i] < needed) { canAfford = false; break }
-            }
-            if (!canAfford) return currentLevel - 1
-
-            coinsAvail -= fuseCoinsNeeded
-            for (i in ingredients.indices) {
-                ingredientDnaAvail[i] -= fusesNeeded.toLong() * fuseCostForRarity(ingredients[i].dino.rarity)
-            }
+            val subCoinCost       = calcSubFuseCoins(ingredientTree, fusesNeeded, dnaAvail) ?: return currentLevel - 1
+            if (coinsAvail < fuseCoinsNeeded + subCoinCost) return currentLevel - 1
+            coinsAvail -= fuseCoinsNeeded + subCoinCost
+            spendIngredientDna(ingredientTree, fusesNeeded, dnaAvail)
             hybridDnaAvail = hybridDnaAvail + fusesNeeded * 20L - creationDnaNeeded
         }
 
         for (fromLevel in currentLevel until 35) {
             val cost = costMap[fromLevel] ?: break
 
-            val hybridDnaNeeded = cost.dnaCost.toLong()
-            val deficit         = maxOf(0L, hybridDnaNeeded - hybridDnaAvail)
-            val fusesNeeded     = if (deficit > 0L) ceil(deficit / 20.0).toInt() else 0
-            val fuseCoinsNeeded = fusesNeeded.toLong() * fuseCoinCostForRarity(rarity)
-            val totalCoinsNeeded = cost.coinsCost + fuseCoinsNeeded
+            val hybridDnaNeeded  = cost.dnaCost.toLong()
+            val deficit          = maxOf(0L, hybridDnaNeeded - hybridDnaAvail)
+            val fusesNeeded      = if (deficit > 0L) ceil(deficit / 20.0).toInt() else 0
+            val fuseCoinsNeeded  = fusesNeeded.toLong() * fuseCoinCostForRarity(rarity)
+            val subCoinCost      = calcSubFuseCoins(ingredientTree, fusesNeeded, dnaAvail) ?: break
+            val totalCoinsNeeded = cost.coinsCost + fuseCoinsNeeded + subCoinCost
             if (coinsAvail < totalCoinsNeeded) break
 
-            var canAfford = true
-            for (i in ingredients.indices) {
-                val needed = fusesNeeded.toLong() * fuseCostForRarity(ingredients[i].dino.rarity)
-                if (ingredientDnaAvail[i] < needed) { canAfford = false; break }
-            }
-            if (!canAfford) break
-
             coinsAvail -= totalCoinsNeeded
-            for (i in ingredients.indices) {
-                ingredientDnaAvail[i] -= fusesNeeded.toLong() * fuseCostForRarity(ingredients[i].dino.rarity)
-            }
-            // leftover hybrid DNA carries forward into next level
+            spendIngredientDna(ingredientTree, fusesNeeded, dnaAvail)
+            // Leftover hybrid DNA carries forward.
             hybridDnaAvail = hybridDnaAvail + fusesNeeded * 20L - hybridDnaNeeded
             maxLevel = fromLevel + 1
         }

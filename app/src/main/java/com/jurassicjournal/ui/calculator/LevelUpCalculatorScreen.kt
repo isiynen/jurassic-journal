@@ -116,7 +116,7 @@ fun LevelUpCalculatorScreen(
                     onTargetLevelChange  = viewModel::setTargetLevel,
                 )
             }
-            item { HintText("Tap a level number to enter directly. \"Unlock\" includes creation DNA cost.") }
+            item { HintText("Tap a level number to type it directly. To set Current to Unlock, type ${uiState.minLevel - 1} — one below level ${uiState.minLevel}, where this rarity starts. Unlock includes the creation DNA cost.") }
 
             item { SectionHeader("Your Inventory") }
             item { HintText("Tap any value to edit. Coins are shared across all calculators.") }
