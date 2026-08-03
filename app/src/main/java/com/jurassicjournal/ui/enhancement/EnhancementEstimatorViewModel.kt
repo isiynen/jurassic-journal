@@ -97,9 +97,9 @@ class EnhancementEstimatorViewModel @Inject constructor(
     companion object {
         private val UNIQUE_COSTS = listOf(
             TierCost(bronze = 360,  silver = 0,    gold = 0,    coins = 100_000, dna = 200),
-            TierCost(bronze = 1300, silver = 430,  gold = 0,    coins = 200_000, dna = 150),
-            TierCost(bronze = 1080, silver = 1620, gold = 0,    coins = 250_000, dna = 200),
-            TierCost(bronze = 0,    silver = 1940, gold = 650,  coins = 300_000, dna = 250),
+            TierCost(bronze = 1620, silver = 270,  gold = 0,    coins = 150_000, dna = 250),
+            TierCost(bronze = 1080, silver = 1620, gold = 0,    coins = 200_000, dna = 300),
+            TierCost(bronze = 0,    silver = 3240, gold = 0,    coins = 250_000, dna = 400),
             TierCost(bronze = 0,    silver = 0,    gold = 2000, coins = 350_000, dna = 500),
         )
         private val APEX_COSTS = listOf(
