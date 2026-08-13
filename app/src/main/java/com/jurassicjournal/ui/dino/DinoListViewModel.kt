@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sufficienteffort.jurassicjournal.data.game.dao.DinoBaseStatDao
 import com.sufficienteffort.jurassicjournal.data.game.dao.DinoResistanceDao
+import com.sufficienteffort.jurassicjournal.data.game.dao.DinoSanctuaryPointDao
+import com.sufficienteffort.jurassicjournal.data.game.entity.DinoSanctuaryPoint
 import com.sufficienteffort.jurassicjournal.data.game.repository.DinoRepository
 import com.sufficienteffort.jurassicjournal.data.game.repository.DinoSearchResult
 import com.sufficienteffort.jurassicjournal.data.model.DinoClass
@@ -32,7 +34,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-enum class StatSortMode { DAMAGE, HEALTH, SPEED, ARMOR, CRIT }
+enum class StatSortMode { DAMAGE, HEALTH, SPEED, ARMOR, CRIT, SANCTUARY, MY_SP }
 
 sealed class DinoListItem {
     data class Header(val label: String) : DinoListItem()
@@ -54,6 +56,7 @@ class DinoListViewModel @Inject constructor(
     private val repository: DinoRepository,
     private val dinoBaseStatDao: DinoBaseStatDao,
     private val dinoResistanceDao: DinoResistanceDao,
+    private val dinoSanctuaryPointDao: DinoSanctuaryPointDao,
     private val userDinoDao: UserDinoDao,
     private val userBoostDao: UserBoostDao,
     private val activeProfileRepository: ActiveProfileRepository,
@@ -77,6 +80,13 @@ class DinoListViewModel @Inject constructor(
     private val allStatsFlow = dinoBaseStatDao.observeAll()
         .map { list -> list.associateBy { it.dinoId } }
 
+    private val allSanctuaryFlow = dinoSanctuaryPointDao.observeAll()
+        .map { list -> list.associateBy { it.dinoId } }
+
+    private val statsAndSanctuaryFlow = combine(allStatsFlow, allSanctuaryFlow) { stats, sanctuary ->
+        stats to sanctuary
+    }
+
     private val allResistancesFlow = dinoResistanceDao.observeAll()
         .map { list -> list.groupBy { it.dinoId } }
 
@@ -96,14 +106,42 @@ class DinoListViewModel @Inject constructor(
     val listItems: StateFlow<List<DinoListItem>> = combine(
         results,
         _filters.map { it.sortMode to it.resistanceSort },
-        allStatsFlow,
+        statsAndSanctuaryFlow,
         userDataFlow,
         allResistancesFlow,
-    ) { filtered, sortPair, statsMap, userData, resistancesMap ->
+    ) { filtered, sortPair, statsAndSanctuary, userData, resistancesMap ->
         val statSort = sortPair.first
         val resistSort = sortPair.second
+        val (statsMap, sanctuaryMap) = statsAndSanctuary
         val (userLevelsMap, boostsByDinoId) = userData
         when {
+            statSort == StatSortMode.SANCTUARY -> {
+                val withSP = filtered.mapNotNull { result ->
+                    val sp = sanctuaryMap[result.dino.id] ?: return@mapNotNull null
+                    val computed = StatCalculator.calculateSp(
+                        sp.spSad, level = 35,
+                        healthBoosts = 0, attackBoosts = 15, speedBoosts = 20,
+                    )
+                    result to computed
+                }
+                buildGroupedList(withSP.sortedByDescending { it.second }, statSort)
+            }
+            statSort == StatSortMode.MY_SP -> {
+                val withSP = filtered.mapNotNull { result ->
+                    val sp = sanctuaryMap[result.dino.id] ?: return@mapNotNull null
+                    val level = userLevelsMap[result.dino.id]?.currentLevel ?: 26
+                    val dinoBoosts = boostsByDinoId[result.dino.id] ?: emptyList()
+                    val speedTiers = dinoBoosts.firstOrNull { it.stat == "speed" }?.boostsApplied ?: 0
+                    val attackTiers = dinoBoosts.firstOrNull { it.stat == "attack" }?.boostsApplied ?: 0
+                    val healthTiers = dinoBoosts.firstOrNull { it.stat == "health" }?.boostsApplied ?: 0
+                    val computed = StatCalculator.calculateSp(
+                        sp.spSad, level,
+                        healthBoosts = healthTiers, attackBoosts = attackTiers, speedBoosts = speedTiers,
+                    )
+                    result to computed
+                }
+                buildGroupedList(withSP.sortedByDescending { it.second }, statSort)
+            }
             statSort != null -> {
                 val withStat = filtered.map { result ->
                     val baseStat = statsMap[result.dino.id]
@@ -129,6 +167,7 @@ class DinoListViewModel @Inject constructor(
                         }
                         StatSortMode.ARMOR -> baseStat.armor.toInt()
                         StatSortMode.CRIT -> baseStat.critChance.toInt()
+                        StatSortMode.SANCTUARY, StatSortMode.MY_SP -> error("unreachable")
                     }
                     result to stat
                 }
@@ -196,11 +235,24 @@ class DinoListViewModel @Inject constructor(
             }
             return items
         }
+        if (sortMode == StatSortMode.SANCTUARY || sortMode == StatSortMode.MY_SP) {
+            val label = if (sortMode == StatSortMode.SANCTUARY) "Max SP" else "My SP"
+            val items = mutableListOf<DinoListItem>()
+            var currentValue = Int.MIN_VALUE
+            for ((result, stat) in sorted) {
+                if (stat != currentValue) {
+                    currentValue = stat
+                    items.add(DinoListItem.Header("$label $stat"))
+                }
+                items.add(DinoListItem.Item(result))
+            }
+            return items
+        }
         val bucketSize = when (sortMode) {
             StatSortMode.DAMAGE -> 200
             StatSortMode.HEALTH -> 500
             StatSortMode.ARMOR, StatSortMode.CRIT -> 5
-            StatSortMode.SPEED -> error("unreachable")
+            StatSortMode.SPEED, StatSortMode.SANCTUARY, StatSortMode.MY_SP -> error("unreachable")
         }
         val items = mutableListOf<DinoListItem>()
         var currentBucket = Int.MIN_VALUE
@@ -215,7 +267,7 @@ class DinoListViewModel @Inject constructor(
                     StatSortMode.HEALTH -> "Health $lo–$hi"
                     StatSortMode.ARMOR -> "Armor $bucket%"
                     StatSortMode.CRIT -> "Crit $bucket%"
-                    StatSortMode.SPEED -> error("unreachable")
+                    StatSortMode.SPEED, StatSortMode.SANCTUARY, StatSortMode.MY_SP -> error("unreachable")
                 }
                 items.add(DinoListItem.Header(label))
             }

@@ -1022,6 +1022,20 @@ fun StatSortRow(selected: StatSortMode?, onSelect: (StatSortMode?) -> Unit) {
                 label = { Text("Crit") },
             )
         }
+        item {
+            FilterChip(
+                selected = selected == StatSortMode.SANCTUARY,
+                onClick = { onSelect(if (selected == StatSortMode.SANCTUARY) null else StatSortMode.SANCTUARY) },
+                label = { Text("Max SP") },
+            )
+        }
+        item {
+            FilterChip(
+                selected = selected == StatSortMode.MY_SP,
+                onClick = { onSelect(if (selected == StatSortMode.MY_SP) null else StatSortMode.MY_SP) },
+                label = { Text("My SP") },
+            )
+        }
     }
 }
 

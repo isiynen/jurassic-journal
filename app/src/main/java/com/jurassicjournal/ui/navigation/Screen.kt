@@ -40,9 +40,14 @@ sealed class Screen(val route: String) {
             const val ROUTE = "enhancement_estimator/{dinoId}/{currentEnhancement}"
         }
     }
-    data class LevelUpCalculator(val dinoId: Long) : Screen("level_up_calculator/$dinoId") {
+    data class LevelUpCalculator(val dinoId: Long, val currentLevel: Int? = null) : Screen(
+        buildString {
+            append("level_up_calculator/$dinoId")
+            if (currentLevel != null) append("?currentLevel=$currentLevel")
+        }
+    ) {
         companion object {
-            const val ROUTE = "level_up_calculator/{dinoId}"
+            const val ROUTE = "level_up_calculator/{dinoId}?currentLevel={currentLevel}"
         }
     }
 }

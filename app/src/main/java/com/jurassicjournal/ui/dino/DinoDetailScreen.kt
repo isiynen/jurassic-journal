@@ -137,7 +137,7 @@ fun DinoDetailScreen(
     onBack: () -> Unit,
     onDinoClick: (Long) -> Unit = {},
     onCalculate: (Long) -> Unit = {},
-    onLevelUpCalculate: (Long) -> Unit = {},
+    onLevelUpCalculate: (Long, Int) -> Unit = { _, _ -> },
     onSanctuaryCalculate: (Long) -> Unit = {},
     onEnhancementEstimate: (Long, Int) -> Unit = { _, _ -> },
     showTeamSelector: Boolean = true,
@@ -431,7 +431,7 @@ fun DinoDetailScreen(
             if (!detail.dino.isHybrid) {
                 item {
                     OutlinedButton(
-                        onClick = { onLevelUpCalculate(detail.dino.id) },
+                        onClick = { onLevelUpCalculate(detail.dino.id, uiState.level) },
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp),

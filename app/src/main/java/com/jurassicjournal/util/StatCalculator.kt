@@ -2,7 +2,7 @@ package com.sufficienteffort.jurassicjournal.util
 
 import kotlin.math.floor
 import kotlin.math.pow
-import kotlin.math.roundToInt
+
 
 /**
  * JWA stat scaling and boost formulas.
@@ -34,10 +34,10 @@ object StatCalculator {
     fun scaleStat(baseAtL26: Int, level: Int): Int {
         require(level in 1..35) { "Level must be 1–35" }
         val multiplier = when {
-            level <= 30 -> Math.pow(1.05, (level - 26).toDouble()).toFloat()
-            else        -> HIGH_LEVEL_MULTIPLIERS[level - 31]
+            level <= 30 -> Math.pow(1.05, (level - 26).toDouble())
+            else        -> HIGH_LEVEL_MULTIPLIERS[level - 31].toDouble()
         }
-        return (baseAtL26 * multiplier).roundToInt()
+        return (baseAtL26 * multiplier).toInt()
     }
 
     /** Maximum total boost tiers available at this creature level. */
@@ -47,11 +47,11 @@ object StatCalculator {
 
     /** Health after applying boost tiers (percentage-based). */
     fun applyHealthBoost(statAtLevel: Int, tiers: Int): Int =
-        (statAtLevel * (1f + tiers * HEALTH_ATTACK_BOOST_PCT)).roundToInt()
+        (statAtLevel * (1.0 + tiers * 0.025)).toInt()
 
     /** Attack after applying boost tiers (percentage-based). */
     fun applyAttackBoost(statAtLevel: Int, tiers: Int): Int =
-        (statAtLevel * (1f + tiers * HEALTH_ATTACK_BOOST_PCT)).roundToInt()
+        (statAtLevel * (1.0 + tiers * 0.025)).toInt()
 
     /** Speed after applying boost tiers (flat additive). */
     fun applySpeedBoost(statAtLevel: Int, tiers: Int): Int =

@@ -53,6 +53,7 @@ class LevelUpCalculatorViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val dinoId: Long = checkNotNull(savedStateHandle["dinoId"])
+    private val navCurrentLevel: Int = savedStateHandle["currentLevel"] ?: -1
     private var profileId: Long = 1L
 
     private val _dinoData     = MutableStateFlow<Pair<Dino, List<LevelUpCost>>?>(null)
@@ -107,10 +108,13 @@ class LevelUpCalculatorViewModel @Inject constructor(
             _dinoData.value = detail.dino to costs
 
             val minLev          = detail.dino.rarity.minLevel()
+            val passedLevel     = if (navCurrentLevel >= minLev) navCurrentLevel else null
             val savedUserLevel  = userDinoDao.getByDinoId(profileId, dinoId)?.currentLevel
-            val currentLev      = savedUserLevel?.coerceAtLeast(minLev - 1) ?: (minLev - 1)
+            val currentLev      = passedLevel?.coerceIn(minLev - 1, 35)
+                ?: savedUserLevel?.coerceAtLeast(minLev - 1)
+                ?: (minLev - 1)
             _currentLevel.value = currentLev
-            _targetLevel.value  = if (savedUserLevel == null) minLev else (currentLev + 1).coerceAtMost(35)
+            _targetLevel.value  = if (currentLev >= minLev) (currentLev + 1).coerceAtMost(35) else minLev
 
             _dnaOnHand.value   = userDnaInventoryDao.get(profileId, dinoId)?.dnaAmount ?: 0
             _coinsOnHand.value = userWalletDao.get(profileId)?.coins ?: 0L

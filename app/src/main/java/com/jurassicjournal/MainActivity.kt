@@ -230,7 +230,7 @@ private fun JurassicJournalNav() {
                 onBack = { navController.popBackStackSafe() },
                 onDinoClick = { dinoId -> navController.navigateSafe(Screen.DinoDetail(dinoId).route) },
                 onCalculate = { dinoId -> navController.navigateSafe(Screen.HybridCalculator(dinoId).route) },
-                onLevelUpCalculate = { dinoId -> navController.navigateSafe(Screen.LevelUpCalculator(dinoId).route) },
+                onLevelUpCalculate = { dinoId, level -> navController.navigateSafe(Screen.LevelUpCalculator(dinoId, level).route) },
                 onSanctuaryCalculate = { dinoId -> navController.navigateSafe(Screen.SanctuaryCalculator(dinoId).route) },
                 onEnhancementEstimate = { dinoId, current -> navController.navigateSafe(Screen.EnhancementEstimator(dinoId, current).route) },
                 showTeamSelector = !hideTeams,
@@ -262,7 +262,10 @@ private fun JurassicJournalNav() {
         }
         composable(
             route = Screen.LevelUpCalculator.ROUTE,
-            arguments = listOf(navArgument("dinoId") { type = NavType.LongType })
+            arguments = listOf(
+                navArgument("dinoId") { type = NavType.LongType },
+                navArgument("currentLevel") { type = NavType.IntType; defaultValue = -1 },
+            )
         ) {
             LevelUpCalculatorScreen(onBack = { navController.popBackStackSafe() })
         }
