@@ -56,6 +56,7 @@ import com.sufficienteffort.jurassicjournal.ui.components.RepeatingButton
 import com.sufficienteffort.jurassicjournal.ui.components.ResultRow
 import com.sufficienteffort.jurassicjournal.ui.components.SectionDivider
 import com.sufficienteffort.jurassicjournal.ui.components.SectionHeader
+import com.sufficienteffort.jurassicjournal.data.model.maxDna
 import com.sufficienteffort.jurassicjournal.ui.components.rarityColor
 import com.sufficienteffort.jurassicjournal.ui.components.rarityLabel
 
@@ -129,6 +130,7 @@ fun LevelUpCalculatorScreen(
             item {
                 DnaOnHandRowLu(
                     value         = uiState.dnaOnHand,
+                    maxDna        = dino.rarity.maxDna(),
                     onValueChange = viewModel::setDnaOnHand,
                 )
             }
@@ -320,14 +322,14 @@ private fun CoinsOnHandRowLu(value: Long, onValueChange: (Long) -> Unit) {
 }
 
 @Composable
-private fun DnaOnHandRowLu(value: Int, onValueChange: (Int) -> Unit) {
+private fun DnaOnHandRowLu(value: Int, maxDna: Int, onValueChange: (Int) -> Unit) {
     var showDialog by remember { mutableStateOf(false) }
     if (showDialog) {
         NumberInputDialog(
             title     = "DNA on Hand",
             current   = value,
             min       = 0,
-            max       = 9_999_999,
+            max       = maxDna,
             onConfirm = { onValueChange(it); showDialog = false },
             onDismiss = { showDialog = false },
         )

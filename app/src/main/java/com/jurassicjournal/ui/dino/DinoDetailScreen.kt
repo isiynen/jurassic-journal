@@ -84,6 +84,7 @@ import com.sufficienteffort.jurassicjournal.data.model.ProgressionSystem
 import com.sufficienteffort.jurassicjournal.data.model.ResistanceType
 import com.sufficienteffort.jurassicjournal.data.model.SpawnLocation
 import com.sufficienteffort.jurassicjournal.data.model.defaultLevel
+import com.sufficienteffort.jurassicjournal.data.model.maxDna
 import com.sufficienteffort.jurassicjournal.data.model.minLevel
 import com.sufficienteffort.jurassicjournal.data.user.entity.Team
 import com.sufficienteffort.jurassicjournal.ui.team.DinoTeamViewModel
@@ -368,6 +369,7 @@ fun DinoDetailScreen(
                 item {
                     DnaOnHandCard(
                         dnaOnHand = uiState.dnaOnHand,
+                        maxDna = detail.dino.rarity.maxDna(),
                         onValueChange = viewModel::setDnaOnHand,
                     )
                 }
@@ -569,7 +571,8 @@ private fun StatsPanel(
             StatRow("⚔ Damage", computed.attack.toString())
             StatRow("⚡ Speed",  computed.speed.toString())
             StatRow("🛡 Armor",  "${computed.armor.toInt()}%")
-            StatRow("🎯 Crit",   "${computed.critChance.toInt()}%")
+            StatRow("🎯 Crit Chance",      "${computed.critChance.toInt()}%")
+            StatRow("💥 Crit Multiplier", "${computed.critMultiplier.toInt()}%")
 
             Spacer(Modifier.height(16.dp))
             HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
@@ -1332,14 +1335,14 @@ private fun SanctuarySpEstimate(sp: DinoSanctuaryPoint, level: Int, boosts: Boos
 // ── DNA on Hand Card ──────────────────────────────────────────────────────────
 
 @Composable
-private fun DnaOnHandCard(dnaOnHand: Int, onValueChange: (Int) -> Unit) {
+private fun DnaOnHandCard(dnaOnHand: Int, maxDna: Int, onValueChange: (Int) -> Unit) {
     var showDialog by remember { mutableStateOf(false) }
     if (showDialog) {
         NumberInputDialog(
             title = "DNA on Hand",
             current = dnaOnHand,
             min = 0,
-            max = 9_999_999,
+            max = maxDna,
             onConfirm = { onValueChange(it); showDialog = false },
             onDismiss = { showDialog = false },
         )

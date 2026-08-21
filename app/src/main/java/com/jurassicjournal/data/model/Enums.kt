@@ -7,6 +7,16 @@ enum class Rarity {
 /** Default calculator level: 26 (server display default), raised where minLevel exceeds it. */
 fun Rarity.defaultLevel(): Int = maxOf(26, minLevel())
 
+fun Rarity.maxDna(): Int = when (this) {
+    Rarity.COMMON    -> 850_000
+    Rarity.RARE      -> 250_000
+    Rarity.EPIC      ->  85_000
+    Rarity.LEGENDARY ->  25_000
+    Rarity.UNIQUE    ->   8_000
+    Rarity.APEX      ->   3_000
+    Rarity.OMEGA     ->  60_000
+}
+
 fun Rarity.minLevel(): Int = when (this) {
     Rarity.COMMON    -> 1
     Rarity.RARE      -> 6

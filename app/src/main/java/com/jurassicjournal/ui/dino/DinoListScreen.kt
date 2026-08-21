@@ -84,7 +84,6 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -135,7 +134,6 @@ fun DinoListScreen(
     val coroutineScope = rememberCoroutineScope()
     val currentProfileId by rememberUpdatedState(barState.activeProfileId)
     var scrolledForProfileId by remember { mutableLongStateOf(-1L) }
-    var showSupportDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(listItems) {
         if (currentProfileId != scrolledForProfileId) {
@@ -164,12 +162,6 @@ fun DinoListScreen(
                     )
                 },
                 actions = {
-                    IconButton(onClick = { showSupportDialog = true }) {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_coffee),
-                            contentDescription = "Support the developer",
-                        )
-                    }
                     TeamDropdown(
                         teams = barState.teams,
                         onTeamClick = onTeamClick,
@@ -310,9 +302,7 @@ fun DinoListScreen(
         }
     }
 
-    if (showSupportDialog) {
-        SupportDialog(onDismiss = { showSupportDialog = false })
-    }
+
 }
 
 // ── Grid name formatter (display only — does not touch DB values) ─────────────
@@ -588,43 +578,6 @@ fun DinoFastScrollbar(
 
 // ── Dialogs / dropdowns (unchanged) ──────────────────────────────────────────
 
-@Composable
-private fun SupportDialog(onDismiss: () -> Unit) {
-    val uriHandler = LocalUriHandler.current
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        icon = {
-            Icon(
-                painter = painterResource(R.drawable.ic_coffee),
-                contentDescription = null,
-                modifier = Modifier.size(32.dp),
-            )
-        },
-        title = { Text("Support Jurassic Journal") },
-        text = {
-            Text(
-                "Jurassic Journal is a solo project built and maintained alongside real life. " +
-                "JWA ships new dinos, moves, and balance changes constantly — every update means " +
-                "gathering new data, running the pipeline, fixing edge cases, and keeping the UI in sync.\n\n" +
-                "If this app saves you time or makes your JWA experience better, a small donation " +
-                "goes a long way toward justifying those hours."
-            )
-        },
-        confirmButton = {
-            TextButton(onClick = {
-                uriHandler.openUri("https://ko-fi.com/jurassicjournal")
-                onDismiss()
-            }) {
-                Text("Buy me a coffee")
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text("Maybe later")
-            }
-        },
-    )
-}
 
 @Composable
 private fun ProfileDropdown(

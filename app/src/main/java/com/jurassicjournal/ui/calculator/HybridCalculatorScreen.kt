@@ -63,6 +63,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.input.pointer.pointerInput
 import com.sufficienteffort.jurassicjournal.data.model.Rarity
+import com.sufficienteffort.jurassicjournal.data.model.maxDna
 import com.sufficienteffort.jurassicjournal.data.model.minLevel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -161,6 +162,7 @@ fun HybridCalculatorScreen(
                 DnaProgressRow(
                     label         = "Hybrid DNA already accumulated",
                     value         = uiState.currentHybridDna,
+                    maxDna        = hybrid.rarity.maxDna(),
                     onValueChange = viewModel::setCurrentHybridDna,
                 )
             }
@@ -456,6 +458,7 @@ private fun CoinsOnHandRow(
 private fun DnaProgressRow(
     label: String,
     value: Int,
+    maxDna: Int,
     onValueChange: (Int) -> Unit,
 ) {
     var showDialog by remember { mutableStateOf(false) }
@@ -464,7 +467,7 @@ private fun DnaProgressRow(
             title     = label,
             current   = value,
             min       = 0,
-            max       = 9_999_999,
+            max       = maxDna,
             onConfirm = { onValueChange(it); showDialog = false },
             onDismiss = { showDialog = false },
         )
@@ -506,7 +509,7 @@ private fun IngredientDnaRow(
             title     = "${input.dino.name} DNA on hand",
             current   = input.dnaOnHand,
             min       = 0,
-            max       = 9_999_999,
+            max       = input.dino.rarity.maxDna(),
             onConfirm = { onDnaChange(index, it); showDialog = false },
             onDismiss = { showDialog = false },
         )
