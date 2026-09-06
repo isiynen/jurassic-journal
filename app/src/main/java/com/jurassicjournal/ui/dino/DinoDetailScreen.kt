@@ -153,6 +153,7 @@ fun DinoDetailScreen(
     var showFullResetDialog by remember { mutableStateOf(false) }
     var showExitDialog by remember { mutableStateOf(false) }
     var showCatalogueDialog by remember { mutableStateOf(false) }
+    var showSanctuaryUnsavedDialog by remember { mutableStateOf(false) }
 
     // Intercept hardware/gesture back when there are unsaved changes
     BackHandler(enabled = uiState.hasUnsavedChanges) {
@@ -239,6 +240,31 @@ fun DinoDetailScreen(
                         showExitDialog = false
                         viewModel.save()
                         onBack()
+                    }) { Text("Save") }
+                }
+            },
+            dismissButton = null,
+        )
+    }
+
+    // Unsaved-changes guard before navigating to sanctuary planning
+    if (showSanctuaryUnsavedDialog) {
+        val dinoId = uiState.detail?.dino?.id
+        AlertDialog(
+            onDismissRequest = { showSanctuaryUnsavedDialog = false },
+            title = { Text("Unsaved Changes") },
+            text = { Text("You have unsaved changes. Would you like to save before planning sanctuary interactions?") },
+            confirmButton = {
+                Row {
+                    TextButton(onClick = { showSanctuaryUnsavedDialog = false }) { Text("Cancel") }
+                    TextButton(onClick = {
+                        showSanctuaryUnsavedDialog = false
+                        if (dinoId != null) onSanctuaryCalculate(dinoId)
+                    }) { Text("Discard") }
+                    TextButton(onClick = {
+                        showSanctuaryUnsavedDialog = false
+                        viewModel.save()
+                        if (dinoId != null) onSanctuaryCalculate(dinoId)
                     }) { Text("Save") }
                 }
             },
@@ -482,7 +508,10 @@ fun DinoDetailScreen(
                     SanctuarySpEstimate(sp, uiState.level, uiState.boosts)
                     Spacer(Modifier.height(8.dp))
                     OutlinedButton(
-                        onClick = { onSanctuaryCalculate(detail.dino.id) },
+                        onClick = {
+                            if (uiState.hasUnsavedChanges) showSanctuaryUnsavedDialog = true
+                            else onSanctuaryCalculate(detail.dino.id)
+                        },
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp),

@@ -46,7 +46,7 @@ object DatabaseModule {
         Room.databaseBuilder(context, GameDatabase::class.java, "game_database")
             .createFromAsset("game_database.db")
             .addMigrations(GameDatabaseMigrations.MIGRATION_8_9, GameDatabaseMigrations.MIGRATION_9_10)
-            .fallbackToDestructiveMigration()
+            .fallbackToDestructiveMigration(dropAllTables = true)
             .build()
 
     @Provides

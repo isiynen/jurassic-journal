@@ -7,11 +7,15 @@ import com.sufficienteffort.jurassicjournal.data.game.dao.DinoDao
 import com.sufficienteffort.jurassicjournal.data.game.dao.DinoSanctuaryPointDao
 import com.sufficienteffort.jurassicjournal.data.game.entity.Dino
 import com.sufficienteffort.jurassicjournal.data.model.minLevel
+import com.sufficienteffort.jurassicjournal.data.user.ActiveProfileRepository
+import com.sufficienteffort.jurassicjournal.data.user.dao.UserBoostDao
+import com.sufficienteffort.jurassicjournal.data.user.dao.UserDinoDao
 import com.sufficienteffort.jurassicjournal.util.StatCalculator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -37,6 +41,9 @@ class SanctuaryCalculatorViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val dinoDao: DinoDao,
     private val sanctuaryPointDao: DinoSanctuaryPointDao,
+    private val activeProfileRepository: ActiveProfileRepository,
+    private val userDinoDao: UserDinoDao,
+    private val userBoostDao: UserBoostDao,
 ) : ViewModel() {
 
     private val dinoId: Long = checkNotNull(savedStateHandle["dinoId"])
@@ -50,15 +57,28 @@ class SanctuaryCalculatorViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
+            val profileId = activeProfileRepository.activeProfileId.first()
             val dino = dinoDao.getById(dinoId) ?: return@launch
             spSad = sanctuaryPointDao.getForDino(dinoId)?.spSad
-            val startLevel = maxOf(dino.rarity.minLevel(), 26)
-            _uiState.update { state ->
-                state.copy(
+
+            val minLev = dino.rarity.minLevel()
+            val userDino = userDinoDao.getByDinoId(profileId, dinoId)
+            val startLevel = (userDino?.currentLevel ?: maxOf(minLev, 26)).coerceAtLeast(minLev)
+
+            val savedBoostList = userBoostDao.getForDino(profileId, dinoId)
+            val startBoosts = SanctuaryBoostConfig(
+                speed  = savedBoostList.firstOrNull { it.stat == "speed"  }?.boostsApplied ?: 0,
+                attack = savedBoostList.firstOrNull { it.stat == "attack" }?.boostsApplied ?: 0,
+                health = savedBoostList.firstOrNull { it.stat == "health" }?.boostsApplied ?: 0,
+            )
+
+            _uiState.update {
+                it.copy(
                     isLoading = false,
                     dino = dino,
                     level = startLevel,
-                    estimatedSpPerAction = spSad?.let { computeSp(it, startLevel, state.boosts) },
+                    boosts = startBoosts,
+                    estimatedSpPerAction = spSad?.let { sad -> computeSp(sad, startLevel, startBoosts) },
                 )
             }
         }
