@@ -515,7 +515,7 @@ private fun IngredientDnaRow(
         )
     }
 
-    val costPerFuse = HybridCalculatorViewModel.fuseCostForRarity(input.dino.rarity)
+    val costPerFuse = HybridCalculatorViewModel.fuseDnaCost(input.dino.rarity, input.parentRarity)
     val displayName = if (input.depth > 0 && input.parentDinoName != null)
         "${input.parentDinoName} → ${input.dino.name}"
     else

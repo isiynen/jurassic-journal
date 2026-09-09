@@ -33,6 +33,7 @@ data class IngredientInput(
     val parentDinoId: Long? = null,
     val parentDinoName: String? = null,
     val dnaOnHand: Int = 0,
+    val parentRarity: Rarity = Rarity.COMMON,
 )
 
 data class IngredientCost(
@@ -145,7 +146,7 @@ class HybridCalculatorViewModel @Inject constructor(
             // Flatten full ingredient tree in DFS order, then stable-sort by depth so
             // all depth-0 nodes precede depth-1 nodes, etc. (BFS display order).
             val flatDfs = mutableListOf<IngredientInput>()
-            flattenIngredientTree(detail.ingredientTree, 0, null, null, flatDfs)
+            flattenIngredientTree(detail.ingredientTree, 0, null, null, detail.dino.rarity, flatDfs)
             val flatBfs = flatDfs.sortedBy { it.depth }
 
             val allDinoIds = flatBfs.map { it.dino.id }
@@ -223,6 +224,7 @@ class HybridCalculatorViewModel @Inject constructor(
         depth: Int,
         parentDinoId: Long?,
         parentDinoName: String?,
+        parentRarity: Rarity,
         result: MutableList<IngredientInput>,
     ) {
         for (node in nodes) {
@@ -231,8 +233,9 @@ class HybridCalculatorViewModel @Inject constructor(
                 depth          = depth,
                 parentDinoId   = parentDinoId,
                 parentDinoName = parentDinoName,
+                parentRarity   = parentRarity,
             ))
-            flattenIngredientTree(node.children, depth + 1, node.dino.id, node.dino.name, result)
+            flattenIngredientTree(node.children, depth + 1, node.dino.id, node.dino.name, node.dino.rarity, result)
         }
     }
 
@@ -245,11 +248,12 @@ class HybridCalculatorViewModel @Inject constructor(
         depth: Int,
         parentDinoId: Long?,
         parentDinoName: String?,
+        parentRarity: Rarity,
         result: MutableList<IngredientCost>,
     ): Long {
         var totalSubFuseCoins = 0L
         for (node in tree) {
-            val costPerFuse    = fuseCostForRarity(node.dino.rarity)
+            val costPerFuse    = fuseDnaCost(node.dino.rarity, parentRarity)
             val totalDnaNeeded = fusesOfParent.toLong() * costPerFuse
             val dnaOnHand      = dnaMap[node.dino.id] ?: 0
             val dnaDeficit     = maxOf(0L, totalDnaNeeded - dnaOnHand)
@@ -279,6 +283,7 @@ class HybridCalculatorViewModel @Inject constructor(
                     depth          = depth + 1,
                     parentDinoId   = node.dino.id,
                     parentDinoName = node.dino.name,
+                    parentRarity   = node.dino.rarity,
                     result         = result,
                 )
             }
@@ -292,18 +297,19 @@ class HybridCalculatorViewModel @Inject constructor(
         tree: List<IngredientNode>,
         fusesNeeded: Int,
         dnaAvail: Map<Long, Long>,
+        parentRarity: Rarity,
     ): Long? {
         if (fusesNeeded == 0) return 0L
         var totalCoins = 0L
         for (node in tree) {
-            val needed  = fusesNeeded.toLong() * fuseCostForRarity(node.dino.rarity)
+            val needed  = fusesNeeded.toLong() * fuseDnaCost(node.dino.rarity, parentRarity)
             val have    = dnaAvail.getOrDefault(node.dino.id, 0L)
             val deficit = maxOf(0L, needed - have)
             if (deficit == 0L) continue
             if (!node.dino.isHybrid) return null
             val subFuses = ceil(deficit / 20.0).toInt()
             totalCoins += subFuses.toLong() * fuseCoinCostForRarity(node.dino.rarity)
-            totalCoins += calcSubFuseCoins(node.children, subFuses, dnaAvail) ?: return null
+            totalCoins += calcSubFuseCoins(node.children, subFuses, dnaAvail, node.dino.rarity) ?: return null
         }
         return totalCoins
     }
@@ -314,15 +320,16 @@ class HybridCalculatorViewModel @Inject constructor(
         tree: List<IngredientNode>,
         fusesNeeded: Int,
         dnaAvail: MutableMap<Long, Long>,
+        parentRarity: Rarity,
     ) {
         if (fusesNeeded == 0) return
         for (node in tree) {
-            val needed  = fusesNeeded.toLong() * fuseCostForRarity(node.dino.rarity)
+            val needed  = fusesNeeded.toLong() * fuseDnaCost(node.dino.rarity, parentRarity)
             val have    = dnaAvail.getOrDefault(node.dino.id, 0L)
             val deficit = maxOf(0L, needed - have)
             if (deficit > 0L && node.dino.isHybrid) {
                 val subFuses = ceil(deficit / 20.0).toInt()
-                spendIngredientDna(node.children, subFuses, dnaAvail)
+                spendIngredientDna(node.children, subFuses, dnaAvail, node.dino.rarity)
                 dnaAvail[node.dino.id] = have + subFuses * 20L
             }
             dnaAvail[node.dino.id] = (dnaAvail.getOrDefault(node.dino.id, 0L)) - needed
@@ -366,6 +373,7 @@ class HybridCalculatorViewModel @Inject constructor(
             depth          = 0,
             parentDinoId   = null,
             parentDinoName = null,
+            parentRarity   = rarity,
             result         = ingredientCostsDfs,
         )
         // Stable-sort by depth so depth-0 costs precede depth-1 costs, etc.
@@ -403,10 +411,10 @@ class HybridCalculatorViewModel @Inject constructor(
             val deficit           = maxOf(0L, creationDnaNeeded - hybridDnaAvail)
             val fusesNeeded       = if (deficit > 0L) ceil(deficit / 20.0).toInt() else 0
             val fuseCoinsNeeded   = fusesNeeded.toLong() * fuseCoinCostForRarity(rarity)
-            val subCoinCost       = calcSubFuseCoins(ingredientTree, fusesNeeded, dnaAvail) ?: return currentLevel - 1
+            val subCoinCost       = calcSubFuseCoins(ingredientTree, fusesNeeded, dnaAvail, rarity) ?: return currentLevel - 1
             if (coinsAvail < fuseCoinsNeeded + subCoinCost) return currentLevel - 1
             coinsAvail -= fuseCoinsNeeded + subCoinCost
-            spendIngredientDna(ingredientTree, fusesNeeded, dnaAvail)
+            spendIngredientDna(ingredientTree, fusesNeeded, dnaAvail, rarity)
             hybridDnaAvail = hybridDnaAvail + fusesNeeded * 20L - creationDnaNeeded
         }
 
@@ -417,12 +425,12 @@ class HybridCalculatorViewModel @Inject constructor(
             val deficit          = maxOf(0L, hybridDnaNeeded - hybridDnaAvail)
             val fusesNeeded      = if (deficit > 0L) ceil(deficit / 20.0).toInt() else 0
             val fuseCoinsNeeded  = fusesNeeded.toLong() * fuseCoinCostForRarity(rarity)
-            val subCoinCost      = calcSubFuseCoins(ingredientTree, fusesNeeded, dnaAvail) ?: break
+            val subCoinCost      = calcSubFuseCoins(ingredientTree, fusesNeeded, dnaAvail, rarity) ?: break
             val totalCoinsNeeded = cost.coinsCost + fuseCoinsNeeded + subCoinCost
             if (coinsAvail < totalCoinsNeeded) break
 
             coinsAvail -= totalCoinsNeeded
-            spendIngredientDna(ingredientTree, fusesNeeded, dnaAvail)
+            spendIngredientDna(ingredientTree, fusesNeeded, dnaAvail, rarity)
             // Leftover hybrid DNA carries forward.
             hybridDnaAvail = hybridDnaAvail + fusesNeeded * 20L - hybridDnaNeeded
             maxLevel = fromLevel + 1
@@ -432,14 +440,23 @@ class HybridCalculatorViewModel @Inject constructor(
     }
 
     companion object {
-        fun fuseCostForRarity(rarity: Rarity): Int = when (rarity) {
-            Rarity.COMMON    -> 50
-            Rarity.RARE      -> 100
-            Rarity.EPIC      -> 150
-            Rarity.LEGENDARY -> 200
-            Rarity.UNIQUE    -> 250
-            else             -> 0
+        private fun fusionTier(rarity: Rarity): Int = when (rarity) {
+            Rarity.COMMON    -> 0
+            Rarity.RARE      -> 1
+            Rarity.EPIC      -> 2
+            Rarity.LEGENDARY -> 3
+            Rarity.UNIQUE    -> 4
+            Rarity.APEX      -> 5
+            else             -> -1
         }
+
+        fun fuseDnaCost(ingredientRarity: Rarity, targetRarity: Rarity): Int =
+            when (fusionTier(targetRarity) - fusionTier(ingredientRarity)) {
+                1    -> 50
+                2    -> 200
+                3    -> 500
+                else -> 0
+            }
 
         fun creationDnaCostForRarity(rarity: Rarity): Int = when (rarity) {
             Rarity.RARE      -> 100
