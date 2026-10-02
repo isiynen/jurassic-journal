@@ -15,8 +15,5 @@ interface OmegaTrainingAllocationDao {
     suspend fun getForProfile(profileId: Long): List<OmegaTrainingAllocation>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun upsert(allocation: OmegaTrainingAllocation)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(items: List<OmegaTrainingAllocation>)
 }

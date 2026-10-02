@@ -1,81 +1,63 @@
 package com.sufficienteffort.jurassicjournal.ui.calculator
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
-import com.sufficienteffort.jurassicjournal.data.update.dinoImageModel
-import com.sufficienteffort.jurassicjournal.data.game.entity.Dino
-import androidx.compose.foundation.gestures.awaitFirstDown
-import androidx.compose.foundation.gestures.waitForUpOrCancellation
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.ui.input.pointer.pointerInput
-import com.sufficienteffort.jurassicjournal.data.model.Rarity
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.sufficienteffort.jurassicjournal.data.model.maxDna
 import com.sufficienteffort.jurassicjournal.data.model.minLevel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import com.sufficienteffort.jurassicjournal.ui.components.RepeatingButton
-import com.sufficienteffort.jurassicjournal.ui.components.SectionHeader
+import com.sufficienteffort.jurassicjournal.ui.components.CoinsOnHandRow
+import com.sufficienteffort.jurassicjournal.ui.components.DinoHeaderCard
+import com.sufficienteffort.jurassicjournal.ui.components.DinoThumbnail
+import com.sufficienteffort.jurassicjournal.ui.components.DnaOnHandRow
 import com.sufficienteffort.jurassicjournal.ui.components.HintText
+import com.sufficienteffort.jurassicjournal.ui.components.JJCard
+import com.sufficienteffort.jurassicjournal.ui.components.LabeledStepper
+import com.sufficienteffort.jurassicjournal.ui.components.NumberInputDialog
 import com.sufficienteffort.jurassicjournal.ui.components.ResultRow
 import com.sufficienteffort.jurassicjournal.ui.components.SectionDivider
-import com.sufficienteffort.jurassicjournal.ui.components.NumberInputDialog
-import com.sufficienteffort.jurassicjournal.ui.components.LongInputDialog
-import com.sufficienteffort.jurassicjournal.ui.components.rarityLabel
-import com.sufficienteffort.jurassicjournal.ui.components.rarityColor
+import com.sufficienteffort.jurassicjournal.ui.components.SectionHeader
+import com.sufficienteffort.jurassicjournal.ui.theme.CoinGold
+import com.sufficienteffort.jurassicjournal.ui.theme.SuccessGreen
+import com.sufficienteffort.jurassicjournal.ui.theme.SuccessGreenDark
+import com.sufficienteffort.jurassicjournal.util.CalcResult
+import com.sufficienteffort.jurassicjournal.util.HybridCostCalculator
+import com.sufficienteffort.jurassicjournal.util.IngredientCost
+import com.sufficienteffort.jurassicjournal.util.IngredientInput
+import com.sufficienteffort.jurassicjournal.util.StatCalculator
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -91,8 +73,7 @@ fun HybridCalculatorScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = if (uiState.hybrid != null) "${uiState.hybrid!!.name} — Calculator"
-                               else "Calculator",
+                        text = uiState.hybrid?.let { "${it.name} — Calculator" } ?: "Calculator",
                         style = MaterialTheme.typography.titleMedium,
                     )
                 },
@@ -116,76 +97,55 @@ fun HybridCalculatorScreen(
         }
 
         val hybrid = uiState.hybrid ?: return@Scaffold
+        // Ingredients arrive depth-sorted; index is the position the ViewModel expects back.
+        val (direct, sub) = uiState.ingredients.withIndex().partition { it.value.depth == 0 }
 
         LazyColumn(
             modifier = Modifier.fillMaxSize().padding(innerPadding),
-            contentPadding = androidx.compose.foundation.layout.PaddingValues(bottom = 32.dp),
+            contentPadding = PaddingValues(bottom = 32.dp),
         ) {
-            // ── Hybrid header ────────────────────────────────────────────────
-            item {
-                HybridHeaderCard(hybrid = hybrid, onClick = { onDinoClick(hybrid.id) })
-            }
+            item { DinoHeaderCard(dino = hybrid, onClick = { onDinoClick(hybrid.id) }) }
 
-            // ── Mode ─────────────────────────────────────────────────────────
             item { SectionHeader("Mode") }
-            item {
-                ModeCard(
-                    isCreate       = uiState.isCreate,
-                    onIsCreateChange = viewModel::setIsCreate,
-                )
-            }
+            item { ModeCard(isCreate = uiState.isCreate, onIsCreateChange = viewModel::setIsCreate) }
 
-            // ── Level range ──────────────────────────────────────────────────
             item { SectionHeader("Level Range") }
             item {
                 LevelRangeCard(
-                    isCreate          = uiState.isCreate,
-                    currentLevel      = uiState.currentLevel,
-                    targetLevel       = uiState.targetLevel,
-                    minLevel          = hybrid.rarity.minLevel(),
+                    isCreate             = uiState.isCreate,
+                    currentLevel         = uiState.currentLevel,
+                    targetLevel          = uiState.targetLevel,
+                    minLevel             = hybrid.rarity.minLevel(),
                     onCurrentLevelChange = viewModel::setCurrentLevel,
                     onTargetLevelChange  = viewModel::setTargetLevel,
                 )
             }
             item { HintText("Tap a level number to enter directly.") }
 
-            // ── Inventory ────────────────────────────────────────────────────
             item { SectionHeader("Your Inventory") }
             item { HintText("Tap any value to edit. Coins are shared across all calculators.") }
+            item { CoinsOnHandRow(value = uiState.coinsOnHand, onValueChange = viewModel::setCoinsOnHand) }
             item {
-                CoinsOnHandRow(
-                    value         = uiState.coinsOnHand,
-                    onValueChange = viewModel::setCoinsOnHand,
-                )
-            }
-            item {
-                DnaProgressRow(
+                DnaOnHandRow(
                     label         = "Hybrid DNA already accumulated",
                     value         = uiState.currentHybridDna,
                     maxDna        = hybrid.rarity.maxDna(),
                     onValueChange = viewModel::setCurrentHybridDna,
                 )
             }
-            if (uiState.ingredients.isNotEmpty()) {
-                val firstSubIdx = uiState.ingredients.indexOfFirst { it.depth > 0 }
-                if (firstSubIdx >= 0) {
-                    item { IngredientSubHeader("Direct Ingredients") }
-                    items(firstSubIdx) { index ->
-                        IngredientDnaRow(input = uiState.ingredients[index], index = index, onDnaChange = viewModel::setIngredientDna)
-                    }
+            if (direct.isNotEmpty()) {
+                if (sub.isNotEmpty()) item { IngredientSubHeader("Direct Ingredients") }
+                items(direct, key = { "in_${it.value.dino.id}" }) { (index, input) ->
+                    IngredientDnaRow(input = input, onDnaChange = { viewModel.setIngredientDna(index, it) })
+                }
+                if (sub.isNotEmpty()) {
                     item { IngredientSubHeader("Sub-Ingredients") }
-                    items(uiState.ingredients.size - firstSubIdx) { i ->
-                        val absIdx = firstSubIdx + i
-                        IngredientDnaRow(input = uiState.ingredients[absIdx], index = absIdx, onDnaChange = viewModel::setIngredientDna)
-                    }
-                } else {
-                    items(uiState.ingredients.size) { index ->
-                        IngredientDnaRow(input = uiState.ingredients[index], index = index, onDnaChange = viewModel::setIngredientDna)
+                    items(sub, key = { "in_${it.value.dino.id}" }) { (index, input) ->
+                        IngredientDnaRow(input = input, onDnaChange = { viewModel.setIngredientDna(index, it) })
                     }
                 }
             }
 
-            // ── Target cost breakdown ────────────────────────────────────────
             uiState.result?.let { result ->
                 val costHeaderPrefix = if (uiState.isCreate) "Estimated Cost to Create" else "Estimated Cost to Level Up"
                 item { SectionHeader("$costHeaderPrefix (Lv ${uiState.currentLevel} → ${uiState.targetLevel})") }
@@ -201,81 +161,25 @@ fun HybridCalculatorScreen(
                         )
                         Spacer(Modifier.height(4.dp))
                     }
-                    val firstSubCostIdx = result.ingredientCosts.indexOfFirst { it.depth > 0 }
-                    if (firstSubCostIdx >= 0) {
-                        item { IngredientSubHeader("Direct Ingredients") }
-                        items(firstSubCostIdx) { index ->
-                            IngredientCostCard(cost = result.ingredientCosts[index])
-                        }
+                    val (directCosts, subCosts) = result.ingredientCosts.partition { it.depth == 0 }
+                    if (subCosts.isNotEmpty()) item { IngredientSubHeader("Direct Ingredients") }
+                    items(directCosts) { IngredientCostCard(cost = it) }
+                    if (subCosts.isNotEmpty()) {
                         item { IngredientSubHeader("Sub-Ingredients") }
-                        items(result.ingredientCosts.size - firstSubCostIdx) { i ->
-                            IngredientCostCard(cost = result.ingredientCosts[firstSubCostIdx + i])
-                        }
-                    } else {
-                        items(result.ingredientCosts.size) { index ->
-                            IngredientCostCard(cost = result.ingredientCosts[index])
-                        }
+                        items(subCosts) { IngredientCostCard(cost = it) }
                     }
                 }
             }
 
-            // ── Max reachable level ──────────────────────────────────────────
             uiState.maxReachableLevel?.let { maxLevel ->
                 item { SectionHeader("How Far Can You Go?") }
                 item {
                     if (maxLevel < uiState.currentLevel) {
                         CannotCreateCard()
                     } else {
-                        MaxReachableLevelCard(
-                            currentLevel = uiState.currentLevel,
-                            maxLevel     = maxLevel,
-                        )
+                        MaxReachableLevelCard(currentLevel = uiState.currentLevel, maxLevel = maxLevel)
                     }
                 }
-            }
-        }
-    }
-}
-
-// ── Hybrid header card ────────────────────────────────────────────────────────
-
-@Composable
-private fun HybridHeaderCard(hybrid: Dino, onClick: () -> Unit) {
-    Card(
-        modifier = Modifier
-            .padding(horizontal = 16.dp, vertical = 8.dp)
-            .fillMaxWidth()
-            .clickable(onClick = onClick),
-        shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-        elevation = CardDefaults.cardElevation(2.dp),
-    ) {
-        Row(
-            modifier = Modifier.padding(12.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(dinoImageModel(LocalContext.current, hybrid.imagePath))
-                    .crossfade(false)
-                    .build(),
-                contentDescription = hybrid.name,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .size(56.dp)
-                    .clip(RoundedCornerShape(8.dp))
-                    .background(MaterialTheme.colorScheme.surfaceVariant),
-            )
-            Spacer(Modifier.width(12.dp))
-            Column {
-                Text(hybrid.name, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-                Spacer(Modifier.height(2.dp))
-                Text(
-                    text = rarityLabel(hybrid.rarity),
-                    style = MaterialTheme.typography.labelSmall,
-                    color = rarityColor(hybrid.rarity),
-                    fontWeight = FontWeight.SemiBold,
-                )
             }
         }
     }
@@ -284,16 +188,8 @@ private fun HybridHeaderCard(hybrid: Dino, onClick: () -> Unit) {
 // ── Mode card ─────────────────────────────────────────────────────────────────
 
 @Composable
-private fun ModeCard(
-    isCreate: Boolean,
-    onIsCreateChange: (Boolean) -> Unit,
-) {
-    Card(
-        modifier  = Modifier.padding(horizontal = 16.dp, vertical = 4.dp).fillMaxWidth(),
-        shape     = RoundedCornerShape(12.dp),
-        colors    = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-        elevation = CardDefaults.cardElevation(2.dp),
-    ) {
+private fun ModeCard(isCreate: Boolean, onIsCreateChange: (Boolean) -> Unit) {
+    JJCard {
         Row(
             modifier = Modifier.fillMaxWidth().padding(16.dp),
             horizontalArrangement = Arrangement.SpaceEvenly,
@@ -305,12 +201,12 @@ private fun ModeCard(
 }
 
 @Composable
-private fun ModeCheckbox(label: String, checked: Boolean, onSelect: () -> Unit) {
+internal fun ModeCheckbox(label: String, checked: Boolean, onSelect: () -> Unit) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier          = Modifier.clickable(onClick = onSelect),
     ) {
-        androidx.compose.material3.Checkbox(checked = checked, onCheckedChange = { onSelect() })
+        Checkbox(checked = checked, onCheckedChange = { onSelect() })
         Spacer(Modifier.width(4.dp))
         Text(label, style = MaterialTheme.typography.bodyMedium)
     }
@@ -327,182 +223,57 @@ private fun LevelRangeCard(
     onCurrentLevelChange: (Int) -> Unit,
     onTargetLevelChange: (Int) -> Unit,
 ) {
-    Card(
-        modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp).fillMaxWidth(),
-        shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-        elevation = CardDefaults.cardElevation(2.dp),
-    ) {
+    JJCard {
         Row(
             modifier = Modifier.padding(16.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            LevelStepper(
-                label       = "Current",
-                value       = currentLevel,
-                min         = minLevel,
-                max         = 34,
-                enabled     = !isCreate,
+            LabeledStepper(
+                label         = "Current",
+                value         = currentLevel,
+                min           = minLevel,
+                max           = StatCalculator.MAX_LEVEL - 1,
+                enabled       = !isCreate,
+                dialogTitle   = "Enter Current Level",
                 onValueChange = onCurrentLevelChange,
-                modifier    = Modifier.weight(1f),
+                modifier      = Modifier.weight(1f),
             )
-            Text(
-                "→",
-                style = MaterialTheme.typography.headlineMedium,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f),
-                modifier = Modifier.padding(horizontal = 8.dp),
-            )
-            LevelStepper(
-                label       = "Target",
-                value       = targetLevel,
-                min         = if (isCreate) currentLevel else currentLevel + 1,
-                max         = 35,
+            LevelArrow()
+            LabeledStepper(
+                label         = "Target",
+                value         = targetLevel,
+                min           = if (isCreate) currentLevel else currentLevel + 1,
+                max           = StatCalculator.MAX_LEVEL,
+                dialogTitle   = "Enter Target Level",
                 onValueChange = onTargetLevelChange,
-                modifier    = Modifier.weight(1f),
+                modifier      = Modifier.weight(1f),
             )
         }
     }
 }
 
+/** The "→" between a Current and Target stepper. */
 @Composable
-private fun LevelStepper(
-    label: String,
-    value: Int,
-    min: Int,
-    max: Int,
-    onValueChange: (Int) -> Unit,
-    modifier: Modifier = Modifier,
-    enabled: Boolean = true,
-) {
-    var showDialog by remember { mutableStateOf(false) }
-
-    if (showDialog) {
-        NumberInputDialog(
-            title     = "Enter $label Level",
-            current   = value,
-            min       = min,
-            max       = max,
-            onConfirm = { onValueChange(it); showDialog = false },
-            onDismiss = { showDialog = false },
-        )
-    }
-
-    Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(label, style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f))
-        Spacer(Modifier.height(4.dp))
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            RepeatingButton(
-                onClick  = { if (value > min) onValueChange(value - 1) },
-                enabled  = enabled && value > min,
-                modifier = Modifier.size(32.dp),
-            ) { Text("−", style = MaterialTheme.typography.titleMedium) }
-            Text(
-                text     = value.toString(),
-                style    = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold,
-                color    = if (enabled) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f),
-                modifier = Modifier.clickable(enabled = enabled) { showDialog = true }.padding(horizontal = 8.dp),
-                textAlign = TextAlign.Center,
-            )
-            RepeatingButton(
-                onClick  = { if (value < max) onValueChange(value + 1) },
-                enabled  = enabled && value < max,
-                modifier = Modifier.size(32.dp),
-            ) { Text("+", style = MaterialTheme.typography.titleMedium) }
-        }
-    }
+internal fun LevelArrow() {
+    Text(
+        "→",
+        style = MaterialTheme.typography.headlineMedium,
+        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f),
+        modifier = Modifier.padding(horizontal = 8.dp),
+    )
 }
 
-// ── Inventory rows ────────────────────────────────────────────────────────────
+// ── Ingredient rows ───────────────────────────────────────────────────────────
+
+/** Left indent grows with ingredient depth. */
+private fun Modifier.ingredientMargin(depth: Int, vertical: androidx.compose.ui.unit.Dp) =
+    padding(start = (16 + depth * 16).dp, end = 16.dp, top = vertical, bottom = vertical).fillMaxWidth()
+
+private fun displayName(dinoName: String, depth: Int, parentName: String?): String =
+    if (depth > 0 && parentName != null) "$parentName → $dinoName" else dinoName
 
 @Composable
-private fun CoinsOnHandRow(
-    value: Long,
-    onValueChange: (Long) -> Unit,
-) {
-    var showDialog by remember { mutableStateOf(false) }
-    if (showDialog) {
-        LongInputDialog(
-            title     = "Coins on Hand",
-            current   = value,
-            onConfirm = { onValueChange(it); showDialog = false },
-            onDismiss = { showDialog = false },
-        )
-    }
-    Card(
-        modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp).fillMaxWidth(),
-        shape    = RoundedCornerShape(12.dp),
-        colors   = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-        elevation = CardDefaults.cardElevation(2.dp),
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable { showDialog = true }
-                .padding(horizontal = 16.dp, vertical = 14.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment     = Alignment.CenterVertically,
-        ) {
-            Text("Coins on Hand", style = MaterialTheme.typography.bodyMedium, modifier = Modifier.weight(1f))
-            Text(
-                "%,d coins".format(value),
-                style      = MaterialTheme.typography.titleSmall,
-                fontWeight = FontWeight.SemiBold,
-                color      = Color(0xFFFFD700),
-            )
-        }
-    }
-}
-
-@Composable
-private fun DnaProgressRow(
-    label: String,
-    value: Int,
-    maxDna: Int,
-    onValueChange: (Int) -> Unit,
-) {
-    var showDialog by remember { mutableStateOf(false) }
-    if (showDialog) {
-        NumberInputDialog(
-            title     = label,
-            current   = value,
-            min       = 0,
-            max       = maxDna,
-            onConfirm = { onValueChange(it); showDialog = false },
-            onDismiss = { showDialog = false },
-        )
-    }
-    Card(
-        modifier  = Modifier.padding(horizontal = 16.dp, vertical = 4.dp).fillMaxWidth(),
-        shape     = RoundedCornerShape(12.dp),
-        colors    = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-        elevation = CardDefaults.cardElevation(2.dp),
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable { showDialog = true }
-                .padding(horizontal = 16.dp, vertical = 14.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment     = Alignment.CenterVertically,
-        ) {
-            Text(label, style = MaterialTheme.typography.bodyMedium, modifier = Modifier.weight(1f))
-            Text(
-                "%,d DNA".format(value),
-                style      = MaterialTheme.typography.titleSmall,
-                fontWeight = FontWeight.SemiBold,
-                color      = MaterialTheme.colorScheme.primary,
-            )
-        }
-    }
-}
-
-@Composable
-private fun IngredientDnaRow(
-    input: IngredientInput,
-    index: Int,
-    onDnaChange: (Int, Int) -> Unit,
-) {
+private fun IngredientDnaRow(input: IngredientInput, onDnaChange: (Int) -> Unit) {
     var showDialog by remember { mutableStateOf(false) }
     if (showDialog) {
         NumberInputDialog(
@@ -510,52 +281,26 @@ private fun IngredientDnaRow(
             current   = input.dnaOnHand,
             min       = 0,
             max       = input.dino.rarity.maxDna(),
-            onConfirm = { onDnaChange(index, it); showDialog = false },
+            onConfirm = { onDnaChange(it); showDialog = false },
             onDismiss = { showDialog = false },
         )
     }
 
-    val costPerFuse = HybridCalculatorViewModel.fuseDnaCost(input.dino.rarity, input.parentRarity)
-    val displayName = if (input.depth > 0 && input.parentDinoName != null)
-        "${input.parentDinoName} → ${input.dino.name}"
-    else
-        input.dino.name
+    val costPerFuse = HybridCostCalculator.fuseDnaCost(input.dino.rarity, input.parentRarity)
 
-    Card(
-        modifier = Modifier
-            .padding(
-                start  = (16 + input.depth * 16).dp,
-                end    = 16.dp,
-                top    = 4.dp,
-                bottom = 4.dp,
-            )
-            .fillMaxWidth(),
-        shape     = RoundedCornerShape(12.dp),
-        colors    = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-        elevation = CardDefaults.cardElevation(2.dp),
-    ) {
+    JJCard(modifier = Modifier.ingredientMargin(input.depth, 4.dp), onClick = { showDialog = true }) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable { showDialog = true }
-                .padding(12.dp),
+            modifier = Modifier.fillMaxWidth().padding(12.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(dinoImageModel(LocalContext.current, input.dino.imagePath))
-                    .crossfade(false)
-                    .build(),
-                contentDescription = input.dino.name,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .size(44.dp)
-                    .clip(RoundedCornerShape(6.dp))
-                    .background(MaterialTheme.colorScheme.surfaceVariant),
-            )
+            DinoThumbnail(imagePath = input.dino.imagePath, contentDescription = input.dino.name, size = 44.dp)
             Spacer(Modifier.width(12.dp))
             Column(modifier = Modifier.weight(1f)) {
-                Text(displayName, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.SemiBold)
+                Text(
+                    displayName(input.dino.name, input.depth, input.parentDinoName),
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontWeight = FontWeight.SemiBold,
+                )
                 Text(
                     "$costPerFuse DNA per fuse",
                     style = MaterialTheme.typography.labelSmall,
@@ -572,22 +317,82 @@ private fun IngredientDnaRow(
     }
 }
 
+@Composable
+private fun IngredientSubHeader(title: String) {
+    Text(
+        text     = title,
+        style    = MaterialTheme.typography.labelMedium,
+        color    = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.55f),
+        modifier = Modifier.padding(start = 16.dp, top = 8.dp, bottom = 2.dp),
+    )
+}
+
+@Composable
+private fun IngredientCostCard(cost: IngredientCost) {
+    JJCard(modifier = Modifier.ingredientMargin(cost.depth, 3.dp), elevation = 1.dp, cornerRadius = 10.dp) {
+        Row(
+            modifier = Modifier.padding(12.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            DinoThumbnail(imagePath = cost.dino.imagePath, contentDescription = cost.dino.name, size = 36.dp)
+            Spacer(Modifier.width(10.dp))
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    displayName(cost.dino.name, cost.depth, cost.parentDinoName),
+                    style = MaterialTheme.typography.bodySmall,
+                    fontWeight = FontWeight.SemiBold,
+                )
+                Text(
+                    "Need: %,d | Have: %,d".format(cost.totalDnaNeeded, cost.dnaOnHand),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                )
+                if (cost.fusesNeededToProduce > 0) {
+                    Text(
+                        "Fuse %,d× (%,d coins)".format(cost.fusesNeededToProduce, cost.fuseCoinCost),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = CoinGold.copy(alpha = 0.85f),
+                    )
+                }
+            }
+            Column(horizontalAlignment = Alignment.End) {
+                if (cost.dnaDeficit > 0) {
+                    Text(
+                        "-%,d".format(cost.dnaDeficit),
+                        style      = MaterialTheme.typography.titleSmall,
+                        fontWeight = FontWeight.Bold,
+                        color      = MaterialTheme.colorScheme.error,
+                    )
+                    Text(
+                        "deficit",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.error.copy(alpha = 0.7f),
+                    )
+                } else {
+                    Text(
+                        "Ready",
+                        style      = MaterialTheme.typography.titleSmall,
+                        fontWeight = FontWeight.SemiBold,
+                        color      = MaterialTheme.colorScheme.primary,
+                    )
+                }
+            }
+        }
+    }
+}
+
 // ── Result cards ──────────────────────────────────────────────────────────────
 
 @Composable
 private fun ResultSummaryCard(result: CalcResult) {
-    Card(
-        modifier  = Modifier.padding(horizontal = 16.dp, vertical = 4.dp).fillMaxWidth(),
-        shape     = RoundedCornerShape(12.dp),
-        colors    = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f)
-        ),
-        elevation = CardDefaults.cardElevation(0.dp),
+    JJCard(
+        containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f),
+        elevation = 0.dp,
     ) {
         Column(Modifier.padding(16.dp)) {
             ResultRow("Hybrid DNA still needed", "%,d DNA".format(result.hybridDnaStillNeeded))
             SectionDivider()
-            ResultRow("Estimated fuses (avg 20 DNA each)", "%,d".format(result.fusesNeeded))
+            ResultRow("Estimated fuses (avg ${HybridCostCalculator.DNA_PER_FUSE} DNA each)", "%,d".format(result.fusesNeeded))
             SectionDivider()
             ResultRow("Coins needed", "%,d".format(result.coinsNeeded))
             if (result.coinDeficit > 0) {
@@ -604,11 +409,9 @@ private fun ResultSummaryCard(result: CalcResult) {
 
 @Composable
 private fun CannotCreateCard() {
-    Card(
-        modifier  = Modifier.padding(horizontal = 16.dp, vertical = 4.dp).fillMaxWidth(),
-        shape     = RoundedCornerShape(12.dp),
-        colors    = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.5f)),
-        elevation = CardDefaults.cardElevation(0.dp),
+    JJCard(
+        containerColor = MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.5f),
+        elevation = 0.dp,
     ) {
         Column(Modifier.padding(16.dp)) {
             Text(
@@ -630,28 +433,24 @@ private fun CannotCreateCard() {
 @Composable
 private fun MaxReachableLevelCard(currentLevel: Int, maxLevel: Int) {
     val levelsGained = maxLevel - currentLevel
+    val atMax = maxLevel >= StatCalculator.MAX_LEVEL
     val containerColor = when {
-        maxLevel >= 35      -> Color(0xFF1B5E20).copy(alpha = 0.15f)
-        levelsGained > 0    -> MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f)
-        else                -> MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.5f)
+        atMax            -> SuccessGreenDark.copy(alpha = 0.15f)
+        levelsGained > 0 -> MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f)
+        else             -> MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.5f)
     }
     val levelColor = when {
-        maxLevel >= 35   -> Color(0xFF4CAF50)
+        atMax            -> SuccessGreen
         levelsGained > 0 -> MaterialTheme.colorScheme.primary
         else             -> MaterialTheme.colorScheme.error
     }
     val subtitle = when {
-        maxLevel >= 35   -> "You have everything needed for max level!"
+        atMax            -> "You have everything needed for max level!"
         levelsGained > 0 -> "+$levelsGained level${if (levelsGained > 1) "s" else ""} with your current inventory"
         else             -> "Not enough resources to advance — add your inventory above"
     }
 
-    Card(
-        modifier  = Modifier.padding(horizontal = 16.dp, vertical = 4.dp).fillMaxWidth(),
-        shape     = RoundedCornerShape(12.dp),
-        colors    = CardDefaults.cardColors(containerColor = containerColor),
-        elevation = CardDefaults.cardElevation(0.dp),
-    ) {
+    JJCard(containerColor = containerColor, elevation = 0.dp) {
         Row(
             modifier              = Modifier.padding(16.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -677,94 +476,6 @@ private fun MaxReachableLevelCard(currentLevel: Int, maxLevel: Int) {
                 fontWeight = FontWeight.Bold,
                 color      = levelColor,
             )
-        }
-    }
-}
-
-@Composable
-private fun IngredientSubHeader(title: String) {
-    Text(
-        text     = title,
-        style    = MaterialTheme.typography.labelMedium,
-        color    = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.55f),
-        modifier = Modifier.padding(start = 16.dp, top = 8.dp, bottom = 2.dp),
-    )
-}
-
-@Composable
-private fun IngredientCostCard(cost: IngredientCost) {
-    val hasDeficit    = cost.dnaDeficit > 0
-    val displayName   = if (cost.depth > 0 && cost.parentDinoName != null)
-        "${cost.parentDinoName} → ${cost.dino.name}"
-    else
-        cost.dino.name
-    Card(
-        modifier = Modifier
-            .padding(
-                start  = (16 + cost.depth * 16).dp,
-                end    = 16.dp,
-                top    = 3.dp,
-                bottom = 3.dp,
-            )
-            .fillMaxWidth(),
-        shape     = RoundedCornerShape(10.dp),
-        colors    = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-        elevation = CardDefaults.cardElevation(1.dp),
-    ) {
-        Row(
-            modifier = Modifier.padding(12.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(dinoImageModel(LocalContext.current, cost.dino.imagePath))
-                    .crossfade(false)
-                    .build(),
-                contentDescription = cost.dino.name,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .size(36.dp)
-                    .clip(RoundedCornerShape(6.dp))
-                    .background(MaterialTheme.colorScheme.surfaceVariant),
-            )
-            Spacer(Modifier.width(10.dp))
-            Column(modifier = Modifier.weight(1f)) {
-                Text(displayName, style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.SemiBold)
-                Text(
-                    "Need: %,d | Have: %,d".format(cost.totalDnaNeeded, cost.dnaOnHand),
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
-                )
-                if (cost.fusesNeededToProduce > 0) {
-                    Text(
-                        "Fuse %,d× (%,d coins)".format(cost.fusesNeededToProduce, cost.fuseCoinCost),
-                        style = MaterialTheme.typography.labelSmall,
-                        color = Color(0xFFFFD700).copy(alpha = 0.85f),
-                    )
-                }
-            }
-            Column(horizontalAlignment = Alignment.End) {
-                if (hasDeficit) {
-                    Text(
-                        "-%,d".format(cost.dnaDeficit),
-                        style      = MaterialTheme.typography.titleSmall,
-                        fontWeight = FontWeight.Bold,
-                        color      = MaterialTheme.colorScheme.error,
-                    )
-                    Text(
-                        "deficit",
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.error.copy(alpha = 0.7f),
-                    )
-                } else {
-                    Text(
-                        "Ready",
-                        style      = MaterialTheme.typography.titleSmall,
-                        fontWeight = FontWeight.SemiBold,
-                        color      = MaterialTheme.colorScheme.primary,
-                    )
-                }
-            }
         }
     }
 }

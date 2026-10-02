@@ -5,26 +5,23 @@ import androidx.lifecycle.viewModelScope
 import com.sufficienteffort.jurassicjournal.data.game.dao.DinoBaseStatDao
 import com.sufficienteffort.jurassicjournal.data.game.dao.DinoResistanceDao
 import com.sufficienteffort.jurassicjournal.data.game.dao.DinoSanctuaryPointDao
-import com.sufficienteffort.jurassicjournal.data.game.entity.DinoSanctuaryPoint
 import com.sufficienteffort.jurassicjournal.data.game.repository.DinoRepository
 import com.sufficienteffort.jurassicjournal.data.game.repository.DinoSearchResult
+import com.sufficienteffort.jurassicjournal.data.model.BoostState
 import com.sufficienteffort.jurassicjournal.data.model.DinoClass
-import com.sufficienteffort.jurassicjournal.data.model.ProgressionSystem
 import com.sufficienteffort.jurassicjournal.data.model.Rarity
 import com.sufficienteffort.jurassicjournal.data.model.ResistanceType
 import com.sufficienteffort.jurassicjournal.data.model.SpawnLocation
-import com.sufficienteffort.jurassicjournal.data.model.displayName
 import com.sufficienteffort.jurassicjournal.data.user.ActiveProfileRepository
 import com.sufficienteffort.jurassicjournal.data.user.dao.UserBoostDao
 import com.sufficienteffort.jurassicjournal.data.user.dao.UserDinoDao
-import com.sufficienteffort.jurassicjournal.util.StatCalculator
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOn
@@ -34,13 +31,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-enum class StatSortMode { DAMAGE, HEALTH, SPEED, ARMOR, CRIT, SANCTUARY, MY_SP }
-
-sealed class DinoListItem {
-    data class Header(val label: String) : DinoListItem()
-    data class Item(val result: DinoSearchResult) : DinoListItem()
-}
-
+/** Search + filter inputs shared by the dino list and the team dino picker. */
 data class FilterState(
     val query: String = "",
     val rarities: Set<Rarity> = emptySet(),
@@ -49,8 +40,15 @@ data class FilterState(
     val locations: Set<SpawnLocation> = emptySet(),
     val sortMode: StatSortMode? = null,
     val resistanceSort: ResistanceType? = null,
-)
+) {
+    fun toggleRarity(r: Rarity) = copy(rarities = rarities.toggled(r))
+    fun toggleClass(c: DinoClass) = copy(dinoClasses = dinoClasses.toggled(c))
+    fun toggleLocation(l: SpawnLocation) = copy(locations = locations.toggled(l))
 
+    private fun <T> Set<T>.toggled(item: T): Set<T> = if (item in this) this - item else this + item
+}
+
+@OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class DinoListViewModel @Inject constructor(
     private val repository: DinoRepository,
@@ -68,7 +66,6 @@ class DinoListViewModel @Inject constructor(
     val newCount: StateFlow<Int> = repository.observeNewCount()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), 0)
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     private val results: StateFlow<List<DinoSearchResult>> = _filters
         .flatMapLatest { f ->
             repository.search(f.query, f.rarities, f.dinoClasses, f.locations).map { list ->
@@ -77,113 +74,36 @@ class DinoListViewModel @Inject constructor(
         }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
 
-    private val allStatsFlow = dinoBaseStatDao.observeAll()
-        .map { list -> list.associateBy { it.dinoId } }
+    private val gameDataFlow = combine(
+        dinoBaseStatDao.observeAll().map { list -> list.associateBy { it.dinoId } },
+        dinoSanctuaryPointDao.observeAll().map { list -> list.associateBy { it.dinoId } },
+        dinoResistanceDao.observeAll().map { list -> list.groupBy { it.dinoId } },
+    ) { stats, sanctuary, resistances -> Triple(stats, sanctuary, resistances) }
 
-    private val allSanctuaryFlow = dinoSanctuaryPointDao.observeAll()
-        .map { list -> list.associateBy { it.dinoId } }
-
-    private val statsAndSanctuaryFlow = combine(allStatsFlow, allSanctuaryFlow) { stats, sanctuary ->
-        stats to sanctuary
-    }
-
-    private val allResistancesFlow = dinoResistanceDao.observeAll()
-        .map { list -> list.groupBy { it.dinoId } }
-
-    @OptIn(ExperimentalCoroutinesApi::class)
     private val userDataFlow = activeProfileRepository.activeProfileId
         .flatMapLatest { profileId ->
             combine(
                 userDinoDao.observeForProfile(profileId),
                 userBoostDao.observeForProfile(profileId),
             ) { dinos, boosts ->
-                val levelsMap = dinos.associateBy { it.dinoId }
-                val boostsByDinoId = boosts.groupBy { it.dinoId }
-                levelsMap to boostsByDinoId
+                val boostsByDino = boosts.groupBy { it.dinoId }
+                val levelByDino = dinos.associate { it.dinoId to it.currentLevel }
+                (levelByDino.keys + boostsByDino.keys).associateWith { id ->
+                    DinoSorter.UserDinoData(
+                        level = levelByDino[id],
+                        boosts = BoostState.fromRows(boostsByDino[id] ?: emptyList()),
+                    )
+                }
             }
         }
 
     val listItems: StateFlow<List<DinoListItem>> = combine(
         results,
         _filters.map { it.sortMode to it.resistanceSort },
-        statsAndSanctuaryFlow,
+        gameDataFlow,
         userDataFlow,
-        allResistancesFlow,
-    ) { filtered, sortPair, statsAndSanctuary, userData, resistancesMap ->
-        val statSort = sortPair.first
-        val resistSort = sortPair.second
-        val (statsMap, sanctuaryMap) = statsAndSanctuary
-        val (userLevelsMap, boostsByDinoId) = userData
-        when {
-            statSort == StatSortMode.SANCTUARY -> {
-                val withSP = filtered.mapNotNull { result ->
-                    val sp = sanctuaryMap[result.dino.id] ?: return@mapNotNull null
-                    val computed = StatCalculator.calculateSp(
-                        sp.spSad, level = 35,
-                        healthBoosts = 0, attackBoosts = 15, speedBoosts = 20,
-                    )
-                    result to computed
-                }
-                buildGroupedList(withSP.sortedByDescending { it.second }, statSort)
-            }
-            statSort == StatSortMode.MY_SP -> {
-                val withSP = filtered.mapNotNull { result ->
-                    val sp = sanctuaryMap[result.dino.id] ?: return@mapNotNull null
-                    val level = userLevelsMap[result.dino.id]?.currentLevel ?: 26
-                    val dinoBoosts = boostsByDinoId[result.dino.id] ?: emptyList()
-                    val speedTiers = dinoBoosts.firstOrNull { it.stat == "speed" }?.boostsApplied ?: 0
-                    val attackTiers = dinoBoosts.firstOrNull { it.stat == "attack" }?.boostsApplied ?: 0
-                    val healthTiers = dinoBoosts.firstOrNull { it.stat == "health" }?.boostsApplied ?: 0
-                    val computed = StatCalculator.calculateSp(
-                        sp.spSad, level,
-                        healthBoosts = healthTiers, attackBoosts = attackTiers, speedBoosts = speedTiers,
-                    )
-                    result to computed
-                }
-                buildGroupedList(withSP.sortedByDescending { it.second }, statSort)
-            }
-            statSort != null -> {
-                val withStat = filtered.map { result ->
-                    val baseStat = statsMap[result.dino.id]
-                    val isOmega = result.dino.progressionSystem == ProgressionSystem.TRAINING_POINT
-                    val level = if (isOmega) 26 else userLevelsMap[result.dino.id]?.currentLevel ?: 26
-                    val dinoBoosts = boostsByDinoId[result.dino.id] ?: emptyList()
-                    val stat = if (baseStat == null) 0 else when (statSort) {
-                        StatSortMode.DAMAGE -> {
-                            val scaled = if (isOmega) baseStat.baseAttack
-                                         else StatCalculator.scaleStat(baseStat.baseAttack, level)
-                            val tiers = dinoBoosts.firstOrNull { it.stat == "attack" }?.boostsApplied ?: 0
-                            StatCalculator.applyAttackBoost(scaled, tiers)
-                        }
-                        StatSortMode.HEALTH -> {
-                            val scaled = if (isOmega) baseStat.baseHealth
-                                         else StatCalculator.scaleStat(baseStat.baseHealth, level)
-                            val tiers = dinoBoosts.firstOrNull { it.stat == "health" }?.boostsApplied ?: 0
-                            StatCalculator.applyHealthBoost(scaled, tiers)
-                        }
-                        StatSortMode.SPEED -> {
-                            val tiers = dinoBoosts.firstOrNull { it.stat == "speed" }?.boostsApplied ?: 0
-                            StatCalculator.applySpeedBoost(baseStat.speed, tiers)
-                        }
-                        StatSortMode.ARMOR -> baseStat.armor.toInt()
-                        StatSortMode.CRIT -> baseStat.critChance.toInt()
-                        StatSortMode.SANCTUARY, StatSortMode.MY_SP -> error("unreachable")
-                    }
-                    result to stat
-                }
-                buildGroupedList(withStat.sortedByDescending { it.second }, statSort)
-            }
-            resistSort != null -> {
-                val withResist = filtered.map { result ->
-                    val pct = resistancesMap[result.dino.id]
-                        ?.firstOrNull { it.resistType == resistSort }
-                        ?.percentage ?: 0
-                    result to pct
-                }
-                buildResistanceGroupedList(withResist.sortedByDescending { it.second }, resistSort)
-            }
-            else -> filtered.map { DinoListItem.Item(it) }
-        }
+    ) { filtered, (statSort, resistSort), (stats, sanctuary, resistances), userData ->
+        DinoSorter.sort(filtered, statSort, resistSort, stats, sanctuary, userData, resistances)
     }.flowOn(Dispatchers.Default)
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
 
@@ -199,97 +119,14 @@ class DinoListViewModel @Inject constructor(
     }
 
     fun onQueryChange(query: String) = _filters.update { it.copy(query = query) }
-    fun onRarityToggle(rarity: Rarity) = _filters.update { f ->
-        val updated = if (rarity in f.rarities) f.rarities - rarity else f.rarities + rarity
-        f.copy(rarities = updated)
-    }
+    fun onRarityToggle(rarity: Rarity) = _filters.update { it.toggleRarity(rarity) }
     fun onRarityClear() = _filters.update { it.copy(rarities = emptySet()) }
-    fun onClassToggle(dinoClass: DinoClass) = _filters.update { f ->
-        val updated = if (dinoClass in f.dinoClasses) f.dinoClasses - dinoClass else f.dinoClasses + dinoClass
-        f.copy(dinoClasses = updated)
-    }
+    fun onClassToggle(dinoClass: DinoClass) = _filters.update { it.toggleClass(dinoClass) }
     fun onClassClear() = _filters.update { it.copy(dinoClasses = emptySet()) }
     fun onNewOnlyFilter(enabled: Boolean) = _filters.update { it.copy(newOnly = enabled) }
-    fun onLocationToggle(location: SpawnLocation) = _filters.update { f ->
-        val updated = if (location in f.locations) f.locations - location else f.locations + location
-        f.copy(locations = updated)
-    }
+    fun onLocationToggle(location: SpawnLocation) = _filters.update { it.toggleLocation(location) }
     fun onLocationClear() = _filters.update { it.copy(locations = emptySet()) }
     fun onSortMode(mode: StatSortMode?) = _filters.update { it.copy(sortMode = mode, resistanceSort = null) }
     fun onResistanceSort(type: ResistanceType?) = _filters.update { it.copy(resistanceSort = type, sortMode = null) }
     fun resetFilters() = _filters.update { FilterState() }
-
-    private fun buildGroupedList(
-        sorted: List<Pair<DinoSearchResult, Int>>,
-        sortMode: StatSortMode,
-    ): List<DinoListItem> {
-        if (sortMode == StatSortMode.SPEED) {
-            val items = mutableListOf<DinoListItem>()
-            var currentSpeed = Int.MIN_VALUE
-            for ((result, stat) in sorted) {
-                if (stat != currentSpeed) {
-                    currentSpeed = stat
-                    items.add(DinoListItem.Header("Speed $stat"))
-                }
-                items.add(DinoListItem.Item(result))
-            }
-            return items
-        }
-        if (sortMode == StatSortMode.SANCTUARY || sortMode == StatSortMode.MY_SP) {
-            val label = if (sortMode == StatSortMode.SANCTUARY) "Max SP" else "My SP"
-            val items = mutableListOf<DinoListItem>()
-            var currentValue = Int.MIN_VALUE
-            for ((result, stat) in sorted) {
-                if (stat != currentValue) {
-                    currentValue = stat
-                    items.add(DinoListItem.Header("$label $stat"))
-                }
-                items.add(DinoListItem.Item(result))
-            }
-            return items
-        }
-        val bucketSize = when (sortMode) {
-            StatSortMode.DAMAGE -> 200
-            StatSortMode.HEALTH -> 500
-            StatSortMode.ARMOR, StatSortMode.CRIT -> 5
-            StatSortMode.SPEED, StatSortMode.SANCTUARY, StatSortMode.MY_SP -> error("unreachable")
-        }
-        val items = mutableListOf<DinoListItem>()
-        var currentBucket = Int.MIN_VALUE
-        for ((result, stat) in sorted) {
-            val bucket = (stat / bucketSize) * bucketSize
-            if (bucket != currentBucket) {
-                currentBucket = bucket
-                val lo = if (bucket == 0) 1 else bucket
-                val hi = bucket + bucketSize - 1
-                val label = when (sortMode) {
-                    StatSortMode.DAMAGE -> "Damage $lo–$hi"
-                    StatSortMode.HEALTH -> "Health $lo–$hi"
-                    StatSortMode.ARMOR -> "Armor $bucket%"
-                    StatSortMode.CRIT -> "Crit $bucket%"
-                    StatSortMode.SPEED, StatSortMode.SANCTUARY, StatSortMode.MY_SP -> error("unreachable")
-                }
-                items.add(DinoListItem.Header(label))
-            }
-            items.add(DinoListItem.Item(result))
-        }
-        return items
-    }
-
-    private fun buildResistanceGroupedList(
-        sorted: List<Pair<DinoSearchResult, Int>>,
-        resistType: ResistanceType,
-    ): List<DinoListItem> {
-        val items = mutableListOf<DinoListItem>()
-        var currentBucket = Int.MIN_VALUE
-        for ((result, pct) in sorted) {
-            val bucket = (pct / 5) * 5
-            if (bucket != currentBucket) {
-                currentBucket = bucket
-                items.add(DinoListItem.Header("${resistType.displayName()} $bucket%"))
-            }
-            items.add(DinoListItem.Item(result))
-        }
-        return items
-    }
 }

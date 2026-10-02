@@ -1,40 +1,26 @@
 package com.sufficienteffort.jurassicjournal.data.game.dao
 
 import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.sufficienteffort.jurassicjournal.data.game.entity.Dino
+import com.sufficienteffort.jurassicjournal.data.model.DinoClass
+import com.sufficienteffort.jurassicjournal.data.model.HybridType
+import com.sufficienteffort.jurassicjournal.data.model.ProgressionSystem
+import com.sufficienteffort.jurassicjournal.data.model.Rarity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface DinoDao {
 
-    @Query("SELECT COUNT(*) FROM dinos")
-    suspend fun count(): Int
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(dinos: List<Dino>)
-
-    @Query("""
-        SELECT * FROM dinos
-        WHERE (:nameQuery = '' OR LOWER(name) LIKE '%' || LOWER(:nameQuery) || '%')
-        AND (:rarity = '' OR rarity = :rarity)
-        AND (:dinoClass = '' OR dinoClass = :dinoClass)
-        ORDER BY name ASC
-    """)
-    fun observeDinos(nameQuery: String, rarity: String, dinoClass: String): Flow<List<Dino>>
-
+    /** Every dino joined with each of its move names; one row per (dino, move). Filtering happens in Kotlin. */
     @Query("""
         SELECT d.*, m.name AS matchedMoveName
         FROM dinos d
         LEFT JOIN dino_moves dm ON dm.dinoId = d.id
         LEFT JOIN moves m ON m.slug = dm.moveSlug
-        WHERE (:rarity = '' OR d.rarity = :rarity)
-        AND (:dinoClass = '' OR d.dinoClass = :dinoClass)
         ORDER BY d.name ASC, m.name ASC
     """)
-    fun observeDinoMovePairs(rarity: String, dinoClass: String): Flow<List<DinoMoveRow>>
+    fun observeDinoMovePairs(): Flow<List<DinoMoveRow>>
 
     @Query("SELECT * FROM dinos WHERE id = :id")
     suspend fun getById(id: Long): Dino?
@@ -45,9 +31,6 @@ interface DinoDao {
     @Query("SELECT id, slug FROM dinos")
     suspend fun getAllSlugIds(): List<DinoSlugId>
 
-    @Query("SELECT id, name FROM dinos")
-    suspend fun getAllNameIds(): List<DinoNameId>
-
     @Query("SELECT imagePath FROM dinos")
     suspend fun getAllImagePaths(): List<String>
 }
@@ -57,15 +40,21 @@ data class DinoMoveRow(
     val slug: String,
     val name: String,
     val description: String,
-    val rarity: com.sufficienteffort.jurassicjournal.data.model.Rarity,
-    val dinoClass: com.sufficienteffort.jurassicjournal.data.model.DinoClass,
-    val hybridType: com.sufficienteffort.jurassicjournal.data.model.HybridType,
+    val rarity: Rarity,
+    val dinoClass: DinoClass,
+    val hybridType: HybridType,
     val imagePath: String,
     val isHybrid: Boolean,
     val sanctuaryEligible: Boolean,
-    val progressionSystem: com.sufficienteffort.jurassicjournal.data.model.ProgressionSystem,
+    val progressionSystem: ProgressionSystem,
     val matchedMoveName: String?,
-)
+) {
+    fun toDino(): Dino = Dino(
+        id = id, slug = slug, name = name, description = description,
+        rarity = rarity, dinoClass = dinoClass, hybridType = hybridType,
+        imagePath = imagePath, isHybrid = isHybrid,
+        sanctuaryEligible = sanctuaryEligible, progressionSystem = progressionSystem,
+    )
+}
 
 data class DinoSlugId(val id: Long, val slug: String)
-data class DinoNameId(val id: Long, val name: String)

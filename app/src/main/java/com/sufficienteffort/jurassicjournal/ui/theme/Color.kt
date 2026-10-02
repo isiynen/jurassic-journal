@@ -23,3 +23,16 @@ val ClassCunning = Color(0xFF1976D2)
 val ClassFierce = Color(0xFFD32F2F)
 val ClassResilient = Color(0xFF388E3C)
 val ClassWildCard = Color(0xFFCE93D8)
+
+// Semantic accents used across screens
+val SuccessGreen = Color(0xFF4CAF50)        // full resistance, max level reached
+val SuccessGreenDark = Color(0xFF1B5E20)    // max-level card tint, unlock badge
+val CoinGold = Color(0xFFFFD700)            // coin amounts
+val SecureGreen = Color(0xFF2E7D32)         // "Secure" move variant label
+val ThreatenedRed = Color(0xFFC62828)       // "Threatened" move variant label
+
+// Move badges
+val BadgePriorityBg = Color(0xFF1565C0)
+val BadgeLastBg = Color(0xFF616161)
+val BadgeUnlockBg = SuccessGreenDark
+val BadgeUnlockFg = Color(0xFFC8E6C9)

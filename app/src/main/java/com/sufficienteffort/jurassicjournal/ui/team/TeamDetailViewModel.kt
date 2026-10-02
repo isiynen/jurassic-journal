@@ -3,12 +3,13 @@ package com.sufficienteffort.jurassicjournal.ui.team
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import com.sufficienteffort.jurassicjournal.data.game.entity.Dino
 import com.sufficienteffort.jurassicjournal.data.game.repository.DinoRepository
 import com.sufficienteffort.jurassicjournal.data.user.dao.TeamDao
 import com.sufficienteffort.jurassicjournal.data.user.dao.TeamMemberDao
 import com.sufficienteffort.jurassicjournal.data.user.entity.Team
-import com.sufficienteffort.jurassicjournal.data.user.entity.TeamMember
+import com.sufficienteffort.jurassicjournal.ui.navigation.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -32,7 +33,7 @@ class TeamDetailViewModel @Inject constructor(
     private val dinoRepository: DinoRepository,
 ) : ViewModel() {
 
-    private val teamId: Long = checkNotNull(savedStateHandle["teamId"])
+    private val teamId: Long = savedStateHandle.toRoute<Screen.TeamDetail>().teamId
 
     private val _team = MutableStateFlow<Team?>(null)
 
@@ -42,22 +43,13 @@ class TeamDetailViewModel @Inject constructor(
     ) { team, members ->
         if (team == null) return@combine TeamDetailUiState()
         val dinoIds = members.map { it.dinoId }
-        val dinos = dinoRepository.getDinosByIds(dinoIds)
-        val ordered = dinoIds.mapNotNull { id -> dinos.firstOrNull { it.id == id } }
-        TeamDetailUiState(team, ordered, isLoading = false)
+        val dinosById = dinoRepository.getDinosByIds(dinoIds).associateBy { it.id }
+        TeamDetailUiState(team, dinoIds.mapNotNull { dinosById[it] }, isLoading = false)
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), TeamDetailUiState())
 
     init {
         viewModelScope.launch {
             _team.value = teamDao.getById(teamId)
-        }
-    }
-
-    fun addDino(dinoId: Long) {
-        viewModelScope.launch {
-            val existing = teamMemberDao.getForTeam(teamId)
-            val nextSlot = (existing.maxOfOrNull { it.slotOrder } ?: -1) + 1
-            teamMemberDao.insert(TeamMember(teamId = teamId, dinoId = dinoId, slotOrder = nextSlot))
         }
     }
 

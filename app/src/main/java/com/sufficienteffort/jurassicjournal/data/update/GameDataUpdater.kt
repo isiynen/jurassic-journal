@@ -4,14 +4,13 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.util.Log
+import dagger.hilt.android.qualifiers.ApplicationContext
 import org.json.JSONArray
 import java.io.File
 import java.io.FileOutputStream
+import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
-import com.sufficienteffort.jurassicjournal.data.update.SyncPhase
-import com.sufficienteffort.jurassicjournal.data.update.SyncProgressTracker
-import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -81,8 +80,8 @@ class GameDataUpdater @Inject constructor(
                 val tag = release.optString("tag_name")
                 if (tag.isEmpty()) continue
                 // isNewer enforces the SCHEMA guard: same major, higher patch than current.
-                if (!isNewer(tag, currentVersion)) continue
-                if (bestTag != null && !isNewer(tag, bestTag)) continue
+                if (!DataVersion.isNewer(tag, currentVersion)) continue
+                if (bestTag != null && !DataVersion.isNewer(tag, bestTag)) continue
 
                 val assets = release.optJSONArray("assets") ?: continue
                 var url: String? = null
@@ -169,7 +168,7 @@ class GameDataUpdater @Inject constructor(
             conn.readTimeout    = 120_000
             conn.connect()
             if (conn.responseCode != 200) {
-                throw Exception("HTTP ${conn.responseCode}")
+                throw IOException("HTTP ${conn.responseCode}")
             }
             val buffer = ByteArray(8_192)
             var pendingBytes = 0L
@@ -191,13 +190,13 @@ class GameDataUpdater @Inject constructor(
             if (pendingBytes > 0L) tracker?.advance(bytes = pendingBytes)
 
             if (expectedSize > 0L && totalBytes != expectedSize) {
-                throw Exception("Truncated download: got $totalBytes of $expectedSize bytes")
+                throw IOException("Truncated download: got $totalBytes of $expectedSize bytes")
             }
             if (!isSqliteFile(tmp)) {
-                throw Exception("Downloaded file is not a SQLite database")
+                throw IOException("Downloaded file is not a SQLite database")
             }
             if (!tmp.renameTo(dest)) {
-                throw Exception("Could not move ${tmp.name} to ${dest.name}")
+                throw IOException("Could not move ${tmp.name} to ${dest.name}")
             }
         } catch (e: Exception) {
             tmp.delete()
@@ -226,11 +225,9 @@ class GameDataUpdater @Inject constructor(
         private const val CHECK_INTERVAL_MS = 6 * 60 * 60 * 1000L   // 6h
         const val STAGED_DB_FILE      = "game_db_pending.db"
         const val DB_ASSET_NAME       = "game_database.db"
+        const val GAME_DB_NAME        = "game_database"
 
-        // Format: data-vSCHEMA.DATA  e.g. "data-v7.00"
-        // SCHEMA matches the Room GameDatabase version — only bumps with schema changes + new APK.
-        // DATA is the OTA patch counter within that schema; auto-incremented by the pipeline.
-        // Format: data-vSCHEMA.PATCH  e.g. "data-v9.00"
+        // Format: data-vSCHEMA.PATCH  e.g. "data-v9.00" — see [DataVersion].
         // SCHEMA is a compatibility marker: only OTA releases with the same SCHEMA as this APK
         // are accepted. A higher SCHEMA means the data requires a newer APK (new image format,
         // schema-breaking change, etc). Bump SCHEMA here AND in release_data.py when introducing
@@ -242,17 +239,77 @@ class GameDataUpdater @Inject constructor(
         const val RELEASES_API_URL =
             "https://api.github.com/repos/isiynen/jurassic-journal/releases?per_page=50"
 
-        fun isNewer(candidate: String, current: String): Boolean {
-            val (cMajor, cMinor) = parseVersion(candidate) ?: return false
-            val (kMajor, kMinor) = parseVersion(current)   ?: return false
-            // Only accept patches within the same SCHEMA. A higher SCHEMA requires a new APK.
-            if (cMajor != kMajor) return false
-            return cMinor > kMinor
+        /**
+         * Runs in Application.onCreate before Room opens anything:
+         *  1. swaps in a staged OTA download, if one is pending;
+         *  2. repairs a stored data version that no longer matches this APK's schema.
+         */
+        fun prepareGameDatabase(context: Context) {
+            applyPendingDbUpdate(context)
+            resetStaleDataVersion(context)
         }
 
-        private fun parseVersion(tag: String): Pair<Int, Int>? {
-            val m = Regex("""data-v(\d+)\.(\d+)""").matchEntire(tag) ?: return null
-            return m.groupValues[1].toInt() to m.groupValues[2].toInt()
+        /**
+         * If a previously downloaded DB is staged, swap it into Room's database directory.
+         */
+        private fun applyPendingDbUpdate(context: Context) {
+            val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+            val pendingVersion = prefs.getString(KEY_PENDING_VERSION, null) ?: return
+            val staged = File(context.filesDir, STAGED_DB_FILE)
+            if (!staged.exists()) {
+                prefs.edit().remove(KEY_PENDING_VERSION).apply()
+                return
+            }
+            Log.d(TAG, "Applying staged update to $pendingVersion …")
+            try {
+                val dbFile = context.getDatabasePath(GAME_DB_NAME)
+                dbFile.parentFile?.mkdirs()
+                // Copy to a temp file first so an interrupted copy never leaves the
+                // live db file partially written; only rename() swaps it into place.
+                val tmpDbFile = File(dbFile.parentFile, "${dbFile.name}.tmp")
+                staged.copyTo(tmpDbFile, overwrite = true)
+                // WAL artifacts must go BEFORE the rename: a crash after the rename
+                // with the old -wal still present would make SQLite "recover" the new
+                // file with stale WAL pages. The reverse failure (rename fails, old DB
+                // left without its WAL) is harmless — the game DB is read-only, so its
+                // WAL never holds meaningful pages.
+                File("${dbFile.path}-shm").delete()
+                File("${dbFile.path}-wal").delete()
+                if (!tmpDbFile.renameTo(dbFile)) {
+                    throw IOException("Failed to swap in updated database")
+                }
+                staged.delete()
+                prefs.edit()
+                    .putString(KEY_DATA_VERSION, pendingVersion)
+                    .remove(KEY_PENDING_VERSION)
+                    .commit()
+                Log.i(TAG, "Game database updated to $pendingVersion")
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to apply staged update: ${e.message}")
+                // Leave the staged file; will retry on the next launch
+            }
+        }
+
+        /**
+         * The stored data version outlives APK upgrades. After a SCHEMA bump the old
+         * value (say `data-v9.30`) would make [DataVersion.isNewer] reject every
+         * `data-v10.xx` release forever. When the stored schema differs from
+         * [BUNDLED_VERSION], drop the on-device game DB so Room re-copies the bundled
+         * asset, and reset the version to match it. An unparseable value (a locally
+         * staged test DB) only resets the version, keeping the injected DB in place.
+         */
+        private fun resetStaleDataVersion(context: Context) {
+            val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+            val stored = prefs.getString(KEY_DATA_VERSION, null) ?: return
+            if (!DataVersion.isStale(stored, BUNDLED_VERSION)) return
+
+            if (DataVersion.parse(stored) != null) {
+                Log.i(TAG, "Stored data $stored is from another schema than bundled $BUNDLED_VERSION — recreating game DB from asset")
+                context.deleteDatabase(GAME_DB_NAME)
+            } else {
+                Log.i(TAG, "Stored data version '$stored' is not a release tag — resetting to $BUNDLED_VERSION")
+            }
+            prefs.edit().putString(KEY_DATA_VERSION, BUNDLED_VERSION).apply()
         }
     }
 }

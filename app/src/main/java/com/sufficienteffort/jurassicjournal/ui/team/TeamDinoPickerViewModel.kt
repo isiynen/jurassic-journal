@@ -3,13 +3,18 @@ package com.sufficienteffort.jurassicjournal.ui.team
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import com.sufficienteffort.jurassicjournal.data.game.repository.DinoRepository
 import com.sufficienteffort.jurassicjournal.data.game.repository.DinoSearchResult
+import com.sufficienteffort.jurassicjournal.data.model.DinoClass
+import com.sufficienteffort.jurassicjournal.data.model.Rarity
 import com.sufficienteffort.jurassicjournal.data.user.dao.TeamDao
 import com.sufficienteffort.jurassicjournal.data.user.dao.TeamMemberDao
 import com.sufficienteffort.jurassicjournal.data.user.entity.TeamMember
 import com.sufficienteffort.jurassicjournal.ui.dino.FilterState
+import com.sufficienteffort.jurassicjournal.ui.navigation.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,7 +23,6 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOn
@@ -37,7 +41,7 @@ class TeamDinoPickerViewModel @Inject constructor(
     private val repository: DinoRepository,
 ) : ViewModel() {
 
-    private val teamId: Long = checkNotNull(savedStateHandle["teamId"])
+    private val teamId: Long = savedStateHandle.toRoute<Screen.TeamDinoPicker>().teamId
 
     private val _teamName = MutableStateFlow("")
     val teamName: StateFlow<String> = _teamName.asStateFlow()
@@ -71,8 +75,7 @@ class TeamDinoPickerViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             _teamName.value = teamDao.getById(teamId)?.name ?: ""
-            val members = teamMemberDao.getForTeam(teamId)
-            val ids = members.map { it.dinoId }.toSet()
+            val ids = teamMemberDao.getForTeam(teamId).map { it.dinoId }.toSet()
             _initialIds.value = ids
             _stagedIds.value = ids
         }
@@ -90,15 +93,9 @@ class TeamDinoPickerViewModel @Inject constructor(
     }
 
     fun onQueryChange(query: String) = _filters.update { it.copy(query = query) }
-    fun onRarityToggle(rarity: com.sufficienteffort.jurassicjournal.data.model.Rarity) = _filters.update { f ->
-        val updated = if (rarity in f.rarities) f.rarities - rarity else f.rarities + rarity
-        f.copy(rarities = updated)
-    }
+    fun onRarityToggle(rarity: Rarity) = _filters.update { it.toggleRarity(rarity) }
     fun onRarityClear() = _filters.update { it.copy(rarities = emptySet()) }
-    fun onClassToggle(dinoClass: com.sufficienteffort.jurassicjournal.data.model.DinoClass) = _filters.update { f ->
-        val updated = if (dinoClass in f.dinoClasses) f.dinoClasses - dinoClass else f.dinoClasses + dinoClass
-        f.copy(dinoClasses = updated)
-    }
+    fun onClassToggle(dinoClass: DinoClass) = _filters.update { it.toggleClass(dinoClass) }
     fun onClassClear() = _filters.update { it.copy(dinoClasses = emptySet()) }
     fun onNewOnlyFilter(enabled: Boolean) = _filters.update { it.copy(newOnly = enabled) }
 
@@ -114,9 +111,9 @@ class TeamDinoPickerViewModel @Inject constructor(
             if (toAdd.isNotEmpty()) {
                 val existing = teamMemberDao.getForTeam(teamId)
                 var nextSlot = (existing.maxOfOrNull { it.slotOrder } ?: -1) + 1
-                for (id in toAdd) {
-                    teamMemberDao.insert(TeamMember(teamId = teamId, dinoId = id, slotOrder = nextSlot++))
-                }
+                teamMemberDao.insertAll(toAdd.map { id ->
+                    TeamMember(teamId = teamId, dinoId = id, slotOrder = nextSlot++)
+                })
             }
 
             _initialIds.value = staged

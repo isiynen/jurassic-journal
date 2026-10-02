@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -80,7 +81,7 @@ fun TeamDinoPickerScreen(
             title = { Text("Unsaved Changes") },
             text = { Text("You have unsaved membership changes. What would you like to do?") },
             confirmButton = {
-                androidx.compose.foundation.layout.Row {
+                Row {
                     TextButton(onClick = { showDiscardDialog = false }) { Text("Cancel") }
                     TextButton(onClick = { showDiscardDialog = false; onBack() }) { Text("Discard") }
                     TextButton(onClick = { showDiscardDialog = false; viewModel.save() }) { Text("Save") }

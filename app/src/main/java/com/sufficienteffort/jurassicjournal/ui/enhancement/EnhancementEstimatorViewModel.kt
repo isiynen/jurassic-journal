@@ -3,9 +3,11 @@ package com.sufficienteffort.jurassicjournal.ui.enhancement
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import com.sufficienteffort.jurassicjournal.data.game.dao.DinoDao
 import com.sufficienteffort.jurassicjournal.data.game.entity.Dino
 import com.sufficienteffort.jurassicjournal.data.model.Rarity
+import com.sufficienteffort.jurassicjournal.ui.navigation.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -13,6 +15,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+const val MAX_ENHANCEMENT_TIER = 5
 
 data class EnhancementEstimatorUiState(
     val isLoading: Boolean = true,
@@ -37,8 +41,9 @@ class EnhancementEstimatorViewModel @Inject constructor(
     private val dinoDao: DinoDao,
 ) : ViewModel() {
 
-    private val dinoId: Long = checkNotNull(savedStateHandle["dinoId"])
-    private val initialEnhancement: Int = savedStateHandle["currentEnhancement"] ?: 0
+    private val route = savedStateHandle.toRoute<Screen.EnhancementEstimator>()
+    private val dinoId: Long = route.dinoId
+    private val initialEnhancement: Int = route.currentEnhancement
 
     private val _uiState = MutableStateFlow(EnhancementEstimatorUiState())
     val uiState: StateFlow<EnhancementEstimatorUiState> = _uiState.asStateFlow()
@@ -47,8 +52,8 @@ class EnhancementEstimatorViewModel @Inject constructor(
         viewModelScope.launch {
             val dino = dinoDao.getById(dinoId) ?: return@launch
             val isApex = dino.rarity == Rarity.APEX
-            val current = initialEnhancement.coerceIn(0, 4)
-            val target = (current + 1).coerceIn(1, 5)
+            val current = initialEnhancement.coerceIn(0, MAX_ENHANCEMENT_TIER - 1)
+            val target = (current + 1).coerceIn(1, MAX_ENHANCEMENT_TIER)
             _uiState.update {
                 it.copy(
                     isLoading = false,
@@ -65,13 +70,13 @@ class EnhancementEstimatorViewModel @Inject constructor(
     fun setIsApex(apex: Boolean) = updateAndCompute { it.copy(isApex = apex) }
 
     fun setCurrent(value: Int) = updateAndCompute { state ->
-        val clamped = value.coerceIn(0, 4)
-        val newTarget = maxOf(state.target, clamped + 1).coerceIn(1, 5)
+        val clamped = value.coerceIn(0, MAX_ENHANCEMENT_TIER - 1)
+        val newTarget = maxOf(state.target, clamped + 1).coerceIn(1, MAX_ENHANCEMENT_TIER)
         state.copy(current = clamped, target = newTarget)
     }
 
     fun setTarget(value: Int) = updateAndCompute { state ->
-        state.copy(target = value.coerceIn(state.current + 1, 5))
+        state.copy(target = value.coerceIn(state.current + 1, MAX_ENHANCEMENT_TIER))
     }
 
     private fun updateAndCompute(transform: (EnhancementEstimatorUiState) -> EnhancementEstimatorUiState) {
@@ -95,6 +100,8 @@ class EnhancementEstimatorViewModel @Inject constructor(
     private data class TierCost(val bronze: Int, val silver: Int, val gold: Int, val coins: Int, val dna: Int)
 
     companion object {
+        // Per-tier catalyst/coin/DNA costs. The game DB's catalyst tables exist but
+        // are unpopulated; these hardcoded tables are the source of truth for now.
         private val UNIQUE_COSTS = listOf(
             TierCost(bronze = 360,  silver = 0,    gold = 0,    coins = 100_000, dna = 200),
             TierCost(bronze = 1620, silver = 270,  gold = 0,    coins = 150_000, dna = 250),

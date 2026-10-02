@@ -3,10 +3,14 @@ package com.sufficienteffort.jurassicjournal.ui.dino
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import com.sufficienteffort.jurassicjournal.data.game.dao.EnhancementDao
 import com.sufficienteffort.jurassicjournal.data.game.entity.EnhancementStatBonus
 import com.sufficienteffort.jurassicjournal.data.game.repository.DinoDetailRepository
 import com.sufficienteffort.jurassicjournal.data.game.repository.DinoFullDetail
+import com.sufficienteffort.jurassicjournal.data.model.BoostStat
+import com.sufficienteffort.jurassicjournal.data.model.BoostState
+import com.sufficienteffort.jurassicjournal.data.model.OmegaStat
 import com.sufficienteffort.jurassicjournal.data.model.ProgressionSystem
 import com.sufficienteffort.jurassicjournal.data.model.Rarity
 import com.sufficienteffort.jurassicjournal.data.model.defaultLevel
@@ -19,17 +23,16 @@ import com.sufficienteffort.jurassicjournal.data.user.dao.UserDinoDao
 import com.sufficienteffort.jurassicjournal.data.user.dao.UserDinoEnhancementDao
 import com.sufficienteffort.jurassicjournal.data.user.dao.UserDnaInventoryDao
 import com.sufficienteffort.jurassicjournal.data.user.entity.OmegaTrainingAllocation
-import com.sufficienteffort.jurassicjournal.data.user.entity.UserBoost
 import com.sufficienteffort.jurassicjournal.data.user.entity.UserDino
 import com.sufficienteffort.jurassicjournal.data.user.entity.UserDinoEnhancement
 import com.sufficienteffort.jurassicjournal.data.user.entity.UserDnaInventory
-import kotlinx.coroutines.flow.first
+import com.sufficienteffort.jurassicjournal.ui.navigation.Screen
 import com.sufficienteffort.jurassicjournal.util.StatCalculator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.combine
@@ -37,15 +40,9 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-private val OMEGA_STAT_KEYS = listOf("health", "attack", "speed", "armor", "crit_chance", "crit_multiplier")
-
-data class BoostState(
-    val health: Int = 0,
-    val attack: Int = 0,
-    val speed: Int = 0,
-) {
-    val total get() = health + attack + speed
-}
+/** Enhancement stat-bonus key that raises the total boost cap. */
+private const val BONUS_MAX_BOOSTS = "max_boosts"
+private const val ENHANCEMENT_UNLOCK_LEVEL = 30
 
 data class ComputedStats(
     val health: Int,
@@ -84,13 +81,8 @@ data class DinoDetailUiState(
     val maxTotalBoosts: Int = 0,
 )
 
-private data class MutableInputs(
-    val level: Int,
-    val boosts: BoostState,
-    val omegaPoints: Map<String, Int>,
-)
-
-private data class SavedInputs(
+/** The user-editable trio; kept twice (current + last saved) to derive hasUnsavedChanges. */
+private data class Inputs(
     val level: Int,
     val boosts: BoostState,
     val omegaPoints: Map<String, Int>,
@@ -103,6 +95,12 @@ private data class StoredEnhancement(
     val statBonuses: List<EnhancementStatBonus>,
     val isUnlocked: Boolean,
 )
+
+private fun List<StoredEnhancement>.boostCapBonus(): Int =
+    filter { it.isUnlocked }
+        .flatMap { it.statBonuses }
+        .filter { it.stat == BONUS_MAX_BOOSTS && !it.isPercentage }
+        .sumOf { it.value.toInt() }
 
 @HiltViewModel
 class DinoDetailViewModel @Inject constructor(
@@ -118,7 +116,7 @@ class DinoDetailViewModel @Inject constructor(
     private val userEnhancementDao: UserDinoEnhancementDao,
 ) : ViewModel() {
 
-    private val dinoId: Long = checkNotNull(savedStateHandle["dinoId"])
+    private val dinoId: Long = savedStateHandle.toRoute<Screen.DinoDetail>().dinoId
     private var profileId: Long = 1L
 
     private val _detail      = MutableStateFlow<DinoFullDetail?>(null)
@@ -137,18 +135,19 @@ class DinoDetailViewModel @Inject constructor(
     private val _saveEvents = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
     val saveEvents: SharedFlow<Unit> = _saveEvents.asSharedFlow()
 
+    private val isOmega: Boolean
+        get() = _detail.value?.dino?.progressionSystem == ProgressionSystem.TRAINING_POINT
+
     val uiState: StateFlow<DinoDetailUiState> = combine(
         combine(_detail, _level, _boosts, _omegaPoints) { detail, level, boosts, omega ->
-            MutableInputs(level, boosts, omega) to detail
+            detail to Inputs(level, boosts, omega)
         },
-        combine(_savedLevel, _savedBoosts, _savedOmega) { sl, sb, so ->
-            SavedInputs(sl, sb, so)
-        },
+        combine(_savedLevel, _savedBoosts, _savedOmega) { sl, sb, so -> Inputs(sl, sb, so) },
         _dnaOnHand,
         _isNew,
         _enhancementItems,
-    ) { (mutable, detail), saved, dnaOnHand, isNew, rawEnhancements ->
-        val (level, boosts, omegaPoints) = mutable
+    ) { (detail, current), saved, dnaOnHand, isNew, rawEnhancements ->
+        val (level, boosts, omegaPoints) = current
         val isOmega = detail?.dino?.progressionSystem == ProgressionSystem.TRAINING_POINT
         val hasUnsavedChanges = level != saved.level ||
             boosts != saved.boosts ||
@@ -161,20 +160,17 @@ class DinoDetailViewModel @Inject constructor(
                 tier = raw.tier,
                 description = raw.description,
                 isUnlocked = raw.isUnlocked,
-                isAvailable = level >= 30 && prevUnlocked,
+                isAvailable = level >= ENHANCEMENT_UNLOCK_LEVEL && prevUnlocked,
             )
         }
 
         val unlockedBonuses = rawEnhancements.filter { it.isUnlocked }.flatMap { it.statBonuses }
-        val boostBonus = unlockedBonuses
-            .filter { it.stat == "max_boosts" && !it.isPercentage }
-            .sumOf { it.value.toInt() }
-        val maxBoosts = StatCalculator.maxTotalBoosts(level) + boostBonus
+        val maxBoosts = StatCalculator.maxTotalBoosts(level) + rawEnhancements.boostCapBonus()
 
-        fun applyBonuses(base: Int, stat: String): Int {
+        fun applyBonuses(base: Int, stat: BoostStat): Int {
             var r = base.toDouble()
             for (b in unlockedBonuses) {
-                if (b.stat == stat) {
+                if (b.stat == stat.dbKey) {
                     r = if (b.isPercentage) r * (1.0 + b.value / 100.0) else r + b.value
                 }
             }
@@ -186,45 +182,27 @@ class DinoDetailViewModel @Inject constructor(
             if (isOmega) {
                 val cfgMap = detail.omegaTrainingConfigs.associateBy { it.stat }
                 // Training points raise the stat (capped at maxCap) first; boosts multiply the trained total.
-                fun trained(base: Int, stat: String): Int {
-                    val cfg = cfgMap[stat] ?: return base
-                    return StatCalculator.applyOmegaTraining(base, omegaPoints[stat] ?: 0, cfg.gainPerPoint, cfg.maxCap)
+                fun trained(base: Int, stat: OmegaStat): Int {
+                    val cfg = cfgMap[stat.dbKey] ?: return base
+                    return StatCalculator.applyOmegaTraining(base, omegaPoints[stat.dbKey] ?: 0, cfg.gainPerPoint, cfg.maxCap)
                 }
-                fun trainedF(base: Float, stat: String): Float {
-                    val cfg = cfgMap[stat] ?: return base
-                    return minOf(base + (omegaPoints[stat] ?: 0) * cfg.gainPerPoint, cfg.maxCap.toFloat())
+                fun trainedF(base: Float, stat: OmegaStat): Float {
+                    val cfg = cfgMap[stat.dbKey] ?: return base
+                    return minOf(base + (omegaPoints[stat.dbKey] ?: 0) * cfg.gainPerPoint, cfg.maxCap.toFloat())
                 }
                 ComputedStats(
-                    health = applyBonuses(
-                        StatCalculator.applyHealthBoost(trained(stats.baseHealth, "health"), boosts.health),
-                        "health"
-                    ),
-                    attack = applyBonuses(
-                        StatCalculator.applyAttackBoost(trained(stats.baseAttack, "attack"), boosts.attack),
-                        "attack"
-                    ),
-                    speed = applyBonuses(
-                        StatCalculator.applySpeedBoost(trained(stats.speed, "speed"), boosts.speed),
-                        "speed"
-                    ),
-                    armor          = trainedF(stats.armor, "armor"),
-                    critChance     = trainedF(stats.critChance, "crit_chance"),
-                    critMultiplier = trainedF(stats.critMultiplier, "crit_multiplier"),
+                    health = applyBonuses(StatCalculator.applyPercentBoost(trained(stats.baseHealth, OmegaStat.HEALTH), boosts.health), BoostStat.HEALTH),
+                    attack = applyBonuses(StatCalculator.applyPercentBoost(trained(stats.baseAttack, OmegaStat.ATTACK), boosts.attack), BoostStat.ATTACK),
+                    speed  = applyBonuses(StatCalculator.applySpeedBoost(trained(stats.speed, OmegaStat.SPEED), boosts.speed), BoostStat.SPEED),
+                    armor          = trainedF(stats.armor, OmegaStat.ARMOR),
+                    critChance     = trainedF(stats.critChance, OmegaStat.CRIT_CHANCE),
+                    critMultiplier = trainedF(stats.critMultiplier, OmegaStat.CRIT_MULTIPLIER),
                 )
             } else {
                 ComputedStats(
-                    health = applyBonuses(
-                        StatCalculator.applyHealthBoost(StatCalculator.scaleStat(stats.baseHealth, level), boosts.health),
-                        "health"
-                    ),
-                    attack = applyBonuses(
-                        StatCalculator.applyAttackBoost(StatCalculator.scaleStat(stats.baseAttack, level), boosts.attack),
-                        "attack"
-                    ),
-                    speed = applyBonuses(
-                        StatCalculator.applySpeedBoost(stats.speed, boosts.speed),
-                        "speed"
-                    ),
+                    health = applyBonuses(StatCalculator.applyPercentBoost(StatCalculator.scaleStat(stats.baseHealth, level), boosts.health), BoostStat.HEALTH),
+                    attack = applyBonuses(StatCalculator.applyPercentBoost(StatCalculator.scaleStat(stats.baseAttack, level), boosts.attack), BoostStat.ATTACK),
+                    speed  = applyBonuses(StatCalculator.applySpeedBoost(stats.speed, boosts.speed), BoostStat.SPEED),
                     armor          = stats.armor,
                     critChance     = stats.critChance,
                     critMultiplier = stats.critMultiplier,
@@ -249,7 +227,7 @@ class DinoDetailViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            profileId = activeProfileRepository.activeProfileId.first()
+            profileId = activeProfileRepository.requireActiveProfileId()
 
             val detail = detailRepository.getFullDetail(dinoId)
             _detail.value = detail
@@ -261,18 +239,12 @@ class DinoDetailViewModel @Inject constructor(
             _savedLevel.value = level
             _level.value = level
 
-            val savedBoostList = userBoostDao.getForDino(profileId, dinoId)
-            val boosts = BoostState(
-                health = savedBoostList.firstOrNull { it.stat == "health" }?.boostsApplied ?: 0,
-                attack = savedBoostList.firstOrNull { it.stat == "attack" }?.boostsApplied ?: 0,
-                speed  = savedBoostList.firstOrNull { it.stat == "speed"  }?.boostsApplied ?: 0,
-            )
+            val boosts = BoostState.fromRows(userBoostDao.getForDino(profileId, dinoId))
             _savedBoosts.value = boosts
             _boosts.value = boosts
 
             if (detail?.dino?.progressionSystem == ProgressionSystem.TRAINING_POINT) {
-                val saved = omegaAllocationDao.getForDino(profileId, dinoId)
-                val pts = saved.associate { it.stat to it.pointsAllocated }
+                val pts = omegaAllocationDao.getForDino(profileId, dinoId).associate { it.stat to it.pointsAllocated }
                 _savedOmega.value = pts
                 _omegaPoints.value = pts
             }
@@ -286,8 +258,8 @@ class DinoDetailViewModel @Inject constructor(
                     enhancementDao.getStatBonuses(gameEnhancements.map { it.id })
                 else emptyList()
                 val bonusMap = statBonuses.groupBy { it.enhancementId }
-                val userEnhList = userEnhancementDao.getForDino(profileId, dinoId)
-                val unlockedIds = userEnhList.filter { it.isUnlocked }.map { it.enhancementId }.toSet()
+                val unlockedIds = userEnhancementDao.getForDino(profileId, dinoId)
+                    .filter { it.isUnlocked }.map { it.enhancementId }.toSet()
                 _enhancementItems.value = gameEnhancements.map { e ->
                     StoredEnhancement(
                         id = e.id,
@@ -312,9 +284,7 @@ class DinoDetailViewModel @Inject constructor(
 
     fun clearNewStatus() {
         val slug = _detail.value?.dino?.slug ?: return
-        viewModelScope.launch {
-            newDinoDao.delete(profileId, slug)
-        }
+        viewModelScope.launch { newDinoDao.delete(profileId, slug) }
     }
 
     fun setDnaOnHand(dna: Int) {
@@ -326,39 +296,24 @@ class DinoDetailViewModel @Inject constructor(
     }
 
     fun setLevel(level: Int) {
-        val minLev = _detail.value?.dino?.rarity?.minLevel() ?: 1
-        val clamped = level.coerceIn(minLev, 35)
+        val minLev = _detail.value?.dino?.rarity?.minLevel() ?: StatCalculator.MIN_LEVEL
+        val clamped = level.coerceIn(minLev, StatCalculator.MAX_LEVEL)
         _level.value = clamped
-        val isOmega = _detail.value?.dino?.progressionSystem == ProgressionSystem.TRAINING_POINT
         if (isOmega) {
             val totalAvail = StatCalculator.maxOmegaTrainingPoints(clamped)
             val cur = _omegaPoints.value
             if (cur.values.sum() > totalAvail) _omegaPoints.value = clampOmegaPoints(cur, totalAvail)
         } else {
             val cap = currentMaxTotalBoosts()
-            val b = _boosts.value
-            if (b.total > cap) _boosts.value = clampBoosts(b, cap)
+            if (_boosts.value.total > cap) _boosts.value = _boosts.value.clampedTo(cap)
         }
     }
 
     // ── Boost setters (non-Omega dinos) ──────────────────────────────────────
 
-    fun setHealthBoosts(tiers: Int) = updateBoost { b ->
-        val max = minOf(StatCalculator.MAX_BOOST_TIERS_PER_STAT,
-            currentMaxTotalBoosts() - b.attack - b.speed)
-        b.copy(health = tiers.coerceIn(0, max))
-    }
-
-    fun setAttackBoosts(tiers: Int) = updateBoost { b ->
-        val max = minOf(StatCalculator.MAX_BOOST_TIERS_PER_STAT,
-            currentMaxTotalBoosts() - b.health - b.speed)
-        b.copy(attack = tiers.coerceIn(0, max))
-    }
-
-    fun setSpeedBoosts(tiers: Int) = updateBoost { b ->
-        val max = minOf(StatCalculator.MAX_BOOST_TIERS_PER_STAT,
-            currentMaxTotalBoosts() - b.health - b.attack)
-        b.copy(speed = tiers.coerceIn(0, max))
+    fun setBoost(stat: BoostStat, tiers: Int) {
+        val b = _boosts.value
+        _boosts.value = b.with(stat, tiers.coerceIn(0, b.maxFor(stat, currentMaxTotalBoosts())))
     }
 
     // ── Enhancement toggle ────────────────────────────────────────────────────
@@ -369,7 +324,7 @@ class DinoDetailViewModel @Inject constructor(
         if (item.isUnlocked) {
             val toUncheck = items.filter { it.isUnlocked && it.tier >= item.tier }
             val lostBoostBonus = toUncheck.flatMap { it.statBonuses }
-                .filter { it.stat == "max_boosts" && !it.isPercentage }
+                .filter { it.stat == BONUS_MAX_BOOSTS && !it.isPercentage }
                 .sumOf { it.value.toInt() }
             val newMax = currentMaxTotalBoosts() - lostBoostBonus
             val boostsTrimmed = maxOf(0, _boosts.value.total - newMax)
@@ -417,14 +372,10 @@ class DinoDetailViewModel @Inject constructor(
         val newMax = currentMaxTotalBoosts()
         val currentBoosts = _boosts.value
         if (currentBoosts.total > newMax) {
-            val trimmed = clampBoosts(currentBoosts, newMax)
+            val trimmed = currentBoosts.clampedTo(newMax)
             _boosts.value = trimmed
             _savedBoosts.value = trimmed
-            viewModelScope.launch {
-                userBoostDao.upsert(UserBoost(profileId, dinoId, "health", trimmed.health))
-                userBoostDao.upsert(UserBoost(profileId, dinoId, "attack", trimmed.attack))
-                userBoostDao.upsert(UserBoost(profileId, dinoId, "speed",  trimmed.speed))
-            }
+            viewModelScope.launch { userBoostDao.insertAll(trimmed.toRows(profileId, dinoId)) }
         }
         viewModelScope.launch {
             toUncheck.forEach { e ->
@@ -446,54 +397,33 @@ class DinoDetailViewModel @Inject constructor(
 
     // ── Reset / Save ──────────────────────────────────────────────────────────
 
+    /** Revert unsaved edits to the last saved state. */
     fun reset() {
         _level.value = _savedLevel.value
         _boosts.value = _savedBoosts.value
-        if (_detail.value?.dino?.progressionSystem == ProgressionSystem.TRAINING_POINT) {
-            _omegaPoints.value = _savedOmega.value
-        }
+        if (isOmega) _omegaPoints.value = _savedOmega.value
     }
 
+    /** Clear level, boosts and training points back to the rarity defaults (unsaved until [save]). */
     fun fullReset() {
         _level.value = _detail.value?.dino?.rarity?.defaultLevel() ?: 26
         _boosts.value = BoostState()
-        if (_detail.value?.dino?.progressionSystem == ProgressionSystem.TRAINING_POINT) {
-            _omegaPoints.value = emptyMap()
-        }
+        if (isOmega) _omegaPoints.value = emptyMap()
     }
 
-    fun save() = persist()
-
-    private fun currentMaxTotalBoosts(): Int {
-        val boostBonus = _enhancementItems.value
-            .filter { it.isUnlocked }
-            .flatMap { it.statBonuses }
-            .filter { it.stat == "max_boosts" && !it.isPercentage }
-            .sumOf { it.value.toInt() }
-        return StatCalculator.maxTotalBoosts(_level.value) + boostBonus
-    }
-
-    private fun updateBoost(transform: (BoostState) -> BoostState) {
-        _boosts.value = transform(_boosts.value)
-    }
-
-    private fun persist() {
+    fun save() {
         val level       = _level.value
         val boosts      = _boosts.value
         val omegaPoints = _omegaPoints.value
-        val isOmega     = _detail.value?.dino?.progressionSystem == ProgressionSystem.TRAINING_POINT
+        val omega       = isOmega
         viewModelScope.launch {
             userDinoDao.upsert(UserDino(profileId = profileId, dinoId = dinoId, currentLevel = level))
-            userBoostDao.upsert(UserBoost(profileId, dinoId, "health", boosts.health))
-            userBoostDao.upsert(UserBoost(profileId, dinoId, "attack", boosts.attack))
-            userBoostDao.upsert(UserBoost(profileId, dinoId, "speed",  boosts.speed))
+            userBoostDao.insertAll(boosts.toRows(profileId, dinoId))
             _savedBoosts.value = boosts
-            if (isOmega) {
-                OMEGA_STAT_KEYS.forEach { stat ->
-                    omegaAllocationDao.upsert(
-                        OmegaTrainingAllocation(profileId, dinoId, stat, omegaPoints[stat] ?: 0)
-                    )
-                }
+            if (omega) {
+                omegaAllocationDao.insertAll(OmegaStat.entries.map { stat ->
+                    OmegaTrainingAllocation(profileId, dinoId, stat.dbKey, omegaPoints[stat.dbKey] ?: 0)
+                })
                 _savedOmega.value = omegaPoints
             }
             _savedLevel.value = level
@@ -501,20 +431,15 @@ class DinoDetailViewModel @Inject constructor(
         }
     }
 
-    private fun clampBoosts(b: BoostState, cap: Int): BoostState {
-        var rem = cap
-        val h = minOf(b.health, rem).also { rem -= it }
-        val a = minOf(b.attack, rem).also { rem -= it }
-        val s = minOf(b.speed,  rem)
-        return BoostState(h, a, s)
-    }
+    private fun currentMaxTotalBoosts(): Int =
+        StatCalculator.maxTotalBoosts(_level.value) + _enhancementItems.value.boostCapBonus()
 
     private fun clampOmegaPoints(current: Map<String, Int>, totalAvail: Int): Map<String, Int> {
         var rem = totalAvail
-        return OMEGA_STAT_KEYS.associateWith { stat ->
-            val alloc = minOf(current[stat] ?: 0, rem)
+        return OmegaStat.entries.associate { stat ->
+            val alloc = minOf(current[stat.dbKey] ?: 0, rem)
             rem -= alloc
-            alloc
+            stat.dbKey to alloc
         }
     }
 }

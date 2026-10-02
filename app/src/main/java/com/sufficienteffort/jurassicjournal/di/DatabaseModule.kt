@@ -5,7 +5,6 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.sufficienteffort.jurassicjournal.data.game.GameDatabase
-import com.sufficienteffort.jurassicjournal.data.game.GameDatabaseMigrations
 import com.sufficienteffort.jurassicjournal.data.game.dao.DinoBaseStatDao
 import com.sufficienteffort.jurassicjournal.data.game.dao.DinoDao
 import com.sufficienteffort.jurassicjournal.data.game.dao.EnhancementDao
@@ -45,7 +44,6 @@ object DatabaseModule {
     fun provideGameDatabase(@ApplicationContext context: Context): GameDatabase =
         Room.databaseBuilder(context, GameDatabase::class.java, "game_database")
             .createFromAsset("game_database.db")
-            .addMigrations(GameDatabaseMigrations.MIGRATION_8_9, GameDatabaseMigrations.MIGRATION_9_10)
             .fallbackToDestructiveMigration(dropAllTables = true)
             .build()
 

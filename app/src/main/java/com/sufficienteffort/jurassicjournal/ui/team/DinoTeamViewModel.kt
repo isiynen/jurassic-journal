@@ -3,18 +3,18 @@ package com.sufficienteffort.jurassicjournal.ui.team
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import com.sufficienteffort.jurassicjournal.data.user.ActiveProfileRepository
 import com.sufficienteffort.jurassicjournal.data.user.dao.TeamDao
 import com.sufficienteffort.jurassicjournal.data.user.dao.TeamMemberDao
 import com.sufficienteffort.jurassicjournal.data.user.entity.Team
 import com.sufficienteffort.jurassicjournal.data.user.entity.TeamMember
+import com.sufficienteffort.jurassicjournal.ui.navigation.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -25,6 +25,7 @@ data class DinoTeamState(
     val memberTeamIds: Set<Long> = emptySet(),
 )
 
+/** Team membership toggles for the dino shown on [DinoDetailScreen]; scoped to that screen's back-stack entry. */
 @OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class DinoTeamViewModel @Inject constructor(
@@ -34,7 +35,7 @@ class DinoTeamViewModel @Inject constructor(
     private val teamMemberDao: TeamMemberDao,
 ) : ViewModel() {
 
-    private val dinoId: Long = checkNotNull(savedStateHandle["dinoId"])
+    private val dinoId: Long = savedStateHandle.toRoute<Screen.DinoDetail>().dinoId
 
     val state: StateFlow<DinoTeamState> = activeProfileRepository.activeProfileId
         .flatMapLatest { profileId ->

@@ -12,7 +12,4 @@ interface UserDinoEnhancementDao {
 
     @Upsert
     suspend fun upsert(enhancement: UserDinoEnhancement)
-
-    @Upsert
-    suspend fun upsertAll(enhancements: List<UserDinoEnhancement>)
 }

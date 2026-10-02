@@ -1,53 +1,21 @@
 package com.sufficienteffort.jurassicjournal.ui.navigation
 
-sealed class Screen(val route: String) {
-    data object DinoList : Screen("dino_list")
-    data class DinoDetail(val dinoId: Long, val hideTeams: Boolean = false) : Screen(
-        buildString {
-            append("dino_detail/$dinoId")
-            if (hideTeams) append("?hideTeams=true")
-        }
-    ) {
-        companion object {
-            const val ROUTE = "dino_detail/{dinoId}?hideTeams={hideTeams}"
-        }
-    }
-    data class HybridCalculator(val dinoId: Long) : Screen("hybrid_calculator/$dinoId") {
-        companion object {
-            const val ROUTE = "hybrid_calculator/{dinoId}"
-        }
-    }
-    data class SanctuaryCalculator(val dinoId: Long) : Screen("sanctuary_calculator/$dinoId") {
-        companion object {
-            const val ROUTE = "sanctuary_calculator/{dinoId}"
-        }
-    }
-    data object ManageProfiles : Screen("manage_profiles")
-    data object ManageTeams : Screen("manage_teams")
-    data class TeamDetail(val teamId: Long) : Screen("team_detail/$teamId") {
-        companion object {
-            const val ROUTE = "team_detail/{teamId}"
-        }
-    }
-    data class TeamDinoPicker(val teamId: Long) : Screen("team_dino_picker/$teamId") {
-        companion object {
-            const val ROUTE = "team_dino_picker/{teamId}"
-        }
-    }
-    data class EnhancementEstimator(val dinoId: Long, val currentEnhancement: Int) :
-        Screen("enhancement_estimator/$dinoId/$currentEnhancement") {
-        companion object {
-            const val ROUTE = "enhancement_estimator/{dinoId}/{currentEnhancement}"
-        }
-    }
-    data class LevelUpCalculator(val dinoId: Long, val currentLevel: Int? = null) : Screen(
-        buildString {
-            append("level_up_calculator/$dinoId")
-            if (currentLevel != null) append("?currentLevel=$currentLevel")
-        }
-    ) {
-        companion object {
-            const val ROUTE = "level_up_calculator/{dinoId}?currentLevel={currentLevel}"
-        }
-    }
+import kotlinx.serialization.Serializable
+
+/**
+ * Type-safe navigation routes. Arguments are the constructor properties; a
+ * ViewModel reads them with `savedStateHandle.toRoute<Screen.X>()`.
+ */
+sealed interface Screen {
+    @Serializable data object DinoList : Screen
+    @Serializable data class DinoDetail(val dinoId: Long, val hideTeams: Boolean = false) : Screen
+    @Serializable data class HybridCalculator(val dinoId: Long) : Screen
+    @Serializable data class SanctuaryCalculator(val dinoId: Long) : Screen
+    @Serializable data object ManageProfiles : Screen
+    @Serializable data object ManageTeams : Screen
+    @Serializable data class TeamDetail(val teamId: Long) : Screen
+    @Serializable data class TeamDinoPicker(val teamId: Long) : Screen
+    @Serializable data class EnhancementEstimator(val dinoId: Long, val currentEnhancement: Int) : Screen
+    /** [currentLevel] < 0 means "use the saved level". */
+    @Serializable data class LevelUpCalculator(val dinoId: Long, val currentLevel: Int = -1) : Screen
 }

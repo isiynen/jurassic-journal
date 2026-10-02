@@ -1,7 +1,6 @@
 package com.sufficienteffort.jurassicjournal.data.user.entity
 
 import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.sufficienteffort.jurassicjournal.data.model.CatalystType
 
 @Entity(

@@ -1,78 +1,47 @@
 package com.sufficienteffort.jurassicjournal.ui.sanctuary
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.foundation.gestures.awaitFirstDown
-import androidx.compose.foundation.gestures.waitForUpOrCancellation
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.text.TextRange
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.TextFieldValue
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
-import com.sufficienteffort.jurassicjournal.data.update.dinoImageModel
-import com.sufficienteffort.jurassicjournal.data.model.Rarity
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.sufficienteffort.jurassicjournal.data.model.BoostStat
+import com.sufficienteffort.jurassicjournal.data.model.BoostState
 import com.sufficienteffort.jurassicjournal.data.model.minLevel
-import com.sufficienteffort.jurassicjournal.util.StatCalculator
-import com.sufficienteffort.jurassicjournal.ui.components.RepeatingButton
-import com.sufficienteffort.jurassicjournal.ui.components.SectionHeader
+import com.sufficienteffort.jurassicjournal.ui.components.DinoHeaderCard
 import com.sufficienteffort.jurassicjournal.ui.components.HintText
-import com.sufficienteffort.jurassicjournal.ui.components.NumberInputDialog
-import com.sufficienteffort.jurassicjournal.ui.components.rarityLabel
-import com.sufficienteffort.jurassicjournal.ui.components.rarityColor
+import com.sufficienteffort.jurassicjournal.ui.components.JJCard
+import com.sufficienteffort.jurassicjournal.ui.components.NumberStepper
+import com.sufficienteffort.jurassicjournal.ui.components.SectionHeader
+import com.sufficienteffort.jurassicjournal.util.StatCalculator
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -87,8 +56,7 @@ fun SanctuaryCalculatorScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = if (uiState.dino != null) "${uiState.dino!!.name} — Sanctuary"
-                               else "Sanctuary Calculator",
+                        text = uiState.dino?.let { "${it.name} — Sanctuary" } ?: "Sanctuary Calculator",
                         style = MaterialTheme.typography.titleMedium,
                     )
                 },
@@ -112,113 +80,58 @@ fun SanctuaryCalculatorScreen(
         }
 
         val dino = uiState.dino ?: return@Scaffold
-        val minLevel = dino.rarity.minLevel()
 
         LazyColumn(
             modifier = Modifier.fillMaxSize().padding(innerPadding),
-            contentPadding = androidx.compose.foundation.layout.PaddingValues(bottom = 32.dp),
+            contentPadding = PaddingValues(bottom = 32.dp),
         ) {
-            // ── Dino header ──────────────────────────────────────────────────
-            item {
-                DinoBadgeCard(dino = dino)
-            }
+            item { DinoHeaderCard(dino = dino) }
 
-            // ── Dino configuration ───────────────────────────────────────────
             item { SectionHeader("Dino Configuration") }
             item {
                 LevelAndBoostCard(
-                    level        = uiState.level,
-                    boosts       = uiState.boosts,
-                    minLevel     = minLevel,
-                    onLevelChange       = viewModel::setLevel,
-                    onSpeedChange       = viewModel::setSpeedBoosts,
-                    onAttackChange      = viewModel::setAttackBoosts,
-                    onHealthChange      = viewModel::setHealthBoosts,
+                    level         = uiState.level,
+                    boosts        = uiState.boosts,
+                    minLevel      = dino.rarity.minLevel(),
+                    onLevelChange = viewModel::setLevel,
+                    onBoostChange = viewModel::setBoost,
                 )
             }
-            item {
-                HintText("Speed boosts have the greatest impact on sanctuary points.")
-            }
+            item { HintText("Speed boosts have the greatest impact on sanctuary points.") }
 
-            // ── SP contribution ──────────────────────────────────────────────
             item { SectionHeader("Sanctuary Points (SP) Per Interaction") }
-            item {
-                SpContributionCard(
-                    estimatedSp = uiState.estimatedSpPerAction,
-                )
-            }
-
-        }
-    }
-}
-
-// ── Dino badge ────────────────────────────────────────────────────────────────
-
-@Composable
-private fun DinoBadgeCard(dino: com.sufficienteffort.jurassicjournal.data.game.entity.Dino) {
-    Card(
-        modifier  = Modifier.padding(horizontal = 16.dp, vertical = 4.dp).fillMaxWidth(),
-        shape     = RoundedCornerShape(12.dp),
-        colors    = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-        elevation = CardDefaults.cardElevation(2.dp),
-    ) {
-        Row(
-            modifier = Modifier.padding(12.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(dinoImageModel(LocalContext.current, dino.imagePath))
-                    .crossfade(false)
-                    .build(),
-                contentDescription = dino.name,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .size(56.dp)
-                    .clip(RoundedCornerShape(8.dp))
-                    .background(MaterialTheme.colorScheme.surfaceVariant),
-            )
-            Spacer(Modifier.width(12.dp))
-            Column {
-                Text(dino.name, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-                Spacer(Modifier.height(2.dp))
-                Text(
-                    rarityLabel(dino.rarity),
-                    style      = MaterialTheme.typography.labelSmall,
-                    color      = rarityColor(dino.rarity),
-                    fontWeight = FontWeight.SemiBold,
-                )
-            }
+            item { SpContributionCard(estimatedSp = uiState.estimatedSpPerAction) }
         }
     }
 }
 
 // ── Level + boost card ────────────────────────────────────────────────────────
 
+/** Display order on this screen: speed first because it moves SP the most. */
+private val SANCTUARY_BOOST_ORDER = listOf(BoostStat.SPEED, BoostStat.ATTACK, BoostStat.HEALTH)
+
+private fun BoostStat.sanctuaryLabel(): String = when (this) {
+    BoostStat.HEALTH -> "Health boosts"
+    BoostStat.ATTACK -> "Attack boosts"
+    BoostStat.SPEED  -> "Speed boosts"
+}
+
 @Composable
 private fun LevelAndBoostCard(
     level: Int,
-    boosts: SanctuaryBoostConfig,
+    boosts: BoostState,
     minLevel: Int,
     onLevelChange: (Int) -> Unit,
-    onSpeedChange: (Int) -> Unit,
-    onAttackChange: (Int) -> Unit,
-    onHealthChange: (Int) -> Unit,
+    onBoostChange: (BoostStat, Int) -> Unit,
 ) {
-    Card(
-        modifier  = Modifier.padding(horizontal = 16.dp, vertical = 4.dp).fillMaxWidth(),
-        shape     = RoundedCornerShape(12.dp),
-        colors    = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-        elevation = CardDefaults.cardElevation(2.dp),
-    ) {
+    JJCard {
         Column(modifier = Modifier.padding(16.dp)) {
-            // Level row
             ConfigRow(label = "Level") {
                 CompactStepper(
-                    title  = "Level",
-                    value  = level,
-                    min    = minLevel,
-                    max    = 35,
+                    title = "Level",
+                    value = level,
+                    min = minLevel,
+                    max = StatCalculator.MAX_LEVEL,
                     onValueChange = onLevelChange,
                 )
             }
@@ -226,17 +139,17 @@ private fun LevelAndBoostCard(
                 modifier = Modifier.padding(vertical = 10.dp),
                 color    = MaterialTheme.colorScheme.outline.copy(alpha = 0.15f),
             )
-            // Boost rows
-            ConfigRow(label = "Health boosts") {
-                CompactStepper(title = "Health boosts", value = boosts.health, min = 0, max = 20, onValueChange = onHealthChange)
-            }
-            Spacer(Modifier.height(8.dp))
-            ConfigRow(label = "Attack boosts") {
-                CompactStepper(title = "Attack boosts", value = boosts.attack, min = 0, max = 20, onValueChange = onAttackChange)
-            }
-            Spacer(Modifier.height(8.dp))
-            ConfigRow(label = "Speed boosts") {
-                CompactStepper(title = "Speed boosts", value = boosts.speed, min = 0, max = 20, onValueChange = onSpeedChange)
+            SANCTUARY_BOOST_ORDER.forEachIndexed { i, stat ->
+                if (i > 0) Spacer(Modifier.height(8.dp))
+                ConfigRow(label = stat.sanctuaryLabel()) {
+                    CompactStepper(
+                        title = stat.sanctuaryLabel(),
+                        value = boosts[stat],
+                        min = 0,
+                        max = StatCalculator.MAX_BOOST_TIERS_PER_STAT,
+                        onValueChange = { onBoostChange(stat, it) },
+                    )
+                }
             }
             if (boosts.total > 0) {
                 Spacer(Modifier.height(10.dp))
@@ -280,62 +193,28 @@ private fun CompactStepper(
     max: Int,
     onValueChange: (Int) -> Unit,
 ) {
-    var showDialog by remember { mutableStateOf(false) }
-    if (showDialog) {
-        NumberInputDialog(
-            title     = title,
-            current   = value,
-            min       = min,
-            max       = max,
-            onConfirm = { onValueChange(it); showDialog = false },
-            onDismiss = { showDialog = false },
-        )
-    }
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        RepeatingButton(
-            onClick  = { if (value > min) onValueChange(value - 1) },
-            enabled  = value > min,
-            modifier = Modifier.size(32.dp),
-        ) { Text("−", style = MaterialTheme.typography.titleMedium) }
-        Text(
-            value.toString(),
-            style      = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.Bold,
-            modifier   = Modifier.width(36.dp).clickable { showDialog = true },
-            textAlign  = TextAlign.Center,
-        )
-        RepeatingButton(
-            onClick  = { if (value < max) onValueChange(value + 1) },
-            enabled  = value < max,
-            modifier = Modifier.size(32.dp),
-        ) { Text("+", style = MaterialTheme.typography.titleMedium) }
-    }
+    NumberStepper(
+        value = value,
+        min = min,
+        max = max,
+        onValueChange = onValueChange,
+        dialogTitle = title,
+        valueModifier = Modifier.width(36.dp),
+    )
 }
 
 // ── SP contribution card ──────────────────────────────────────────────────────
 
 @Composable
-private fun SpContributionCard(
-    estimatedSp: Int?,
-) {
-    Card(
-        modifier  = Modifier.padding(horizontal = 16.dp, vertical = 4.dp).fillMaxWidth(),
-        shape     = RoundedCornerShape(12.dp),
-        colors    = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.4f)
-        ),
-        elevation = CardDefaults.cardElevation(0.dp),
+private fun SpContributionCard(estimatedSp: Int?) {
+    JJCard(
+        containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.4f),
+        elevation = 0.dp,
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            SpResultRow(
-                label = "Your estimated SP / action",
-                value = estimatedSp,
-            )
+            SpResultRow(label = "Your estimated SP / action", value = estimatedSp)
             Spacer(Modifier.height(8.dp))
-            SpResultRow(
-                label = "Daily SP (3 interactions)",
-                value = estimatedSp?.let { it * 3 },
-            )
+            SpResultRow(label = "Daily SP (3 interactions)", value = estimatedSp?.let { it * 3 })
         }
     }
 }

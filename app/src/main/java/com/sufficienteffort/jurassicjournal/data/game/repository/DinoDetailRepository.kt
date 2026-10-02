@@ -20,37 +20,11 @@ import com.sufficienteffort.jurassicjournal.data.model.MovePriorityType
 import com.sufficienteffort.jurassicjournal.data.model.MoveTriggerType
 import com.sufficienteffort.jurassicjournal.data.model.ProgressionSystem
 import com.sufficienteffort.jurassicjournal.data.model.SpawnLocation
+import com.sufficienteffort.jurassicjournal.data.model.displayName
 import org.json.JSONArray
 import javax.inject.Inject
 import javax.inject.Singleton
 
-fun SpawnLocation.displayName(): String = when (this) {
-    SpawnLocation.LOCAL_AREA_1          -> "Zone 1"
-    SpawnLocation.LOCAL_AREA_2          -> "Zone 2"
-    SpawnLocation.LOCAL_AREA_3          -> "Zone 3"
-    SpawnLocation.LOCAL_AREA_4          -> "Zone 4"
-    SpawnLocation.PARK                  -> "Park"
-    SpawnLocation.RAID                  -> "Raid"
-    SpawnLocation.SANCTUARY             -> "Sanctuary"
-    SpawnLocation.EVERYWHERE            -> "Everywhere"
-    SpawnLocation.EVERYWHERE_MONDAY     -> "Everywhere (Monday)"
-    SpawnLocation.EVERYWHERE_TUESDAY    -> "Everywhere (Tuesday)"
-    SpawnLocation.EVERYWHERE_WEDNESDAY  -> "Everywhere (Wednesday)"
-    SpawnLocation.EVERYWHERE_THURSDAY   -> "Everywhere (Thursday)"
-    SpawnLocation.EVERYWHERE_FRIDAY     -> "Everywhere (Friday)"
-    SpawnLocation.EVERYWHERE_SATURDAY   -> "Everywhere (Saturday)"
-    SpawnLocation.EVERYWHERE_SUNDAY     -> "Everywhere (Sunday)"
-    SpawnLocation.SHORT_RANGE           -> "Short Range"
-    SpawnLocation.CONTINENT_ASIA        -> "Asia / Oceania"
-    SpawnLocation.CONTINENT_EUROPE      -> "Europe"
-    SpawnLocation.CONTINENT_AMERICAS    -> "Americas"
-    SpawnLocation.ARENA                 -> "Arena"
-    SpawnLocation.STRIKE_TOWERS         -> "Strike Towers"
-    SpawnLocation.ISLA_EVENTS           -> "Isla Events"
-    SpawnLocation.ALLIANCE_MISSIONS     -> "Alliance Missions"
-    SpawnLocation.PASS                  -> "Pass"
-    SpawnLocation.NONE                  -> ""
-}
 
 data class ParsedTarget(val target: String, val effects: List<String>)
 
