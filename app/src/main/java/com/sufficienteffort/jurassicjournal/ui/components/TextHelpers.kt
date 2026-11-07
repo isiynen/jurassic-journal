@@ -66,3 +66,17 @@ fun ResultRow(
         Text(value, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold, color = valueColor)
     }
 }
+
+private val LOWERCASE_NAME_WORDS = setOf(
+    "a", "an", "and", "as", "at", "but", "by", "for", "from", "nor", "of", "or", "per", "the", "to", "via", "vs", "with",
+)
+
+/**
+ * Display-only title casing for ability names: small connecting words ("of", "and", "the", …)
+ * are lower-case unless they start the name. "In"/"On" are left alone because they are part of
+ * game terms such as "Swap In" and "On Escape".
+ */
+fun formatAbilityName(name: String): String =
+    name.split(' ').mapIndexed { i, word ->
+        if (i > 0 && word.lowercase() in LOWERCASE_NAME_WORDS) word.lowercase() else word
+    }.joinToString(" ")

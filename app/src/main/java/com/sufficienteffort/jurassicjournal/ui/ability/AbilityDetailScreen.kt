@@ -1,5 +1,6 @@
 package com.sufficienteffort.jurassicjournal.ui.ability
 
+import com.sufficienteffort.jurassicjournal.ui.components.formatAbilityName
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -47,7 +48,7 @@ fun AbilityDetailScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(detail?.move?.name ?: "Ability") },
+                title = { Text(detail?.move?.name?.let(::formatAbilityName) ?: "Ability") },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
@@ -73,7 +74,7 @@ fun AbilityDetailScreen(
                 item(span = { GridItemSpan(maxLineSpan) }) {
                     Column(Modifier.padding(horizontal = 8.dp, vertical = 4.dp)) {
                         Text(
-                            detail.move.trigger.abilityLabel(),
+                            "Trigger: ${detail.move.trigger.abilityLabel()}",
                             style = MaterialTheme.typography.labelLarge,
                             color = MaterialTheme.colorScheme.primary,
                             modifier = Modifier.padding(bottom = 4.dp),

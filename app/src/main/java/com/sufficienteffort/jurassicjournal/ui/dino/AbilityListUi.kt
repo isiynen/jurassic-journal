@@ -1,5 +1,6 @@
 package com.sufficienteffort.jurassicjournal.ui.dino
 
+import com.sufficienteffort.jurassicjournal.ui.components.formatAbilityName
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -400,7 +401,7 @@ fun AbilityGridCell(entry: AbilityEntry, onClick: () -> Unit) {
     ) {
         BoxWithIcon(entry, overlays)
         Text(
-            text = entry.name,
+            text = formatAbilityName(entry.name),
             style = MaterialTheme.typography.labelSmall,
             textAlign = TextAlign.Center,
             maxLines = 2,

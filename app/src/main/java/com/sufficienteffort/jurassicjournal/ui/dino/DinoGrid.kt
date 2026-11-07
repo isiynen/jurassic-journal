@@ -1,5 +1,6 @@
 package com.sufficienteffort.jurassicjournal.ui.dino
 
+import com.sufficienteffort.jurassicjournal.ui.components.formatAbilityName
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
@@ -179,7 +180,7 @@ fun DinoGridCell(
 
         if (matchedMoves.isNotEmpty()) {
             Text(
-                text = matchedMoves.joinToString(" · "),
+                text = matchedMoves.joinToString(" · ") { formatAbilityName(it) },
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.tertiary,
                 textAlign = TextAlign.Center,

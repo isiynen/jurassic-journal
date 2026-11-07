@@ -1,5 +1,6 @@
 package com.sufficienteffort.jurassicjournal.ui.dino
 
+import com.sufficienteffort.jurassicjournal.ui.components.formatAbilityName
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -166,7 +167,7 @@ internal fun MoveCardContent(
                         horizontalArrangement = Arrangement.spacedBy(6.dp),
                     ) {
                         Text(
-                            move.name,
+                            formatAbilityName(move.name),
                             style = MaterialTheme.typography.titleSmall,
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier.weight(1f, fill = false),
