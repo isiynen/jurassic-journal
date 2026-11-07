@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -65,6 +66,7 @@ fun DinoListScreen(
 ) {
     val listItems by viewModel.listItems.collectAsStateWithLifecycle()
     val filters by viewModel.filters.collectAsStateWithLifecycle()
+    val dinoCount = remember(listItems) { listItems.count { it is DinoListItem.Item } }
     val newCount by viewModel.newCount.collectAsStateWithLifecycle()
     val barState by profileBarViewModel.state.collectAsStateWithLifecycle()
     val gridState = rememberLazyGridState()
@@ -122,8 +124,8 @@ fun DinoListScreen(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .height(IntrinsicSize.Min)
                     .padding(horizontal = 16.dp, vertical = 8.dp),
-                verticalAlignment = Alignment.CenterVertically,
             ) {
                 SearchBar(
                     query = filters.query,
@@ -131,13 +133,25 @@ fun DinoListScreen(
                     modifier = Modifier.weight(1f),
                 )
                 Spacer(Modifier.width(8.dp))
-                TextButton(
-                    onClick = {
-                        viewModel.resetFilters()
-                        coroutineScope.launch { gridState.scrollToItem(0) }
-                    },
+                Column(
+                    modifier = Modifier.fillMaxHeight(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    Text("Reset")
+                    TextButton(
+                        onClick = {
+                            viewModel.resetFilters()
+                            coroutineScope.launch { gridState.scrollToItem(0) }
+                        },
+                        modifier = Modifier.height(28.dp),
+                        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 0.dp),
+                    ) {
+                        Text("Reset")
+                    }
+                    Text(
+                        text = if (dinoCount == 1) "1 dino" else "$dinoCount dinos",
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                    )
                 }
             }
 

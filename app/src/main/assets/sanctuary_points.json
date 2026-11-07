@@ -475,6 +475,11 @@
     "sad": 110.6
   },
   {
+    "name": "Guidraco",
+    "slug": "guidraco",
+    "sad": 112.4
+  },
+  {
     "name": "Haast Eagle",
     "slug": "haast_eagle",
     "sad": 121.1
@@ -693,6 +698,11 @@
     "name": "Parasaurolophus",
     "slug": "parasaurolophus",
     "sad": 100.2
+  },
+  {
+    "name": "Peloroplites",
+    "slug": "peloroplites",
+    "sad": 109.8
   },
   {
     "name": "Phorusrhacos",

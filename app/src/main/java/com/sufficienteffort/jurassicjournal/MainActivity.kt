@@ -26,18 +26,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import com.sufficienteffort.jurassicjournal.data.update.AbilityIconSync
-import com.sufficienteffort.jurassicjournal.data.update.DinoImageSync
-import com.sufficienteffort.jurassicjournal.data.update.NewDinoDetector
+import com.sufficienteffort.jurassicjournal.data.update.StartupSync
 import com.sufficienteffort.jurassicjournal.data.update.SyncProgressTracker
 import com.sufficienteffort.jurassicjournal.data.update.UpdateInfo
-import com.sufficienteffort.jurassicjournal.data.user.ActiveProfileRepository
 import com.sufficienteffort.jurassicjournal.ui.calculator.HybridCalculatorScreen
 import com.sufficienteffort.jurassicjournal.ui.calculator.LevelUpCalculatorScreen
 import com.sufficienteffort.jurassicjournal.ui.dino.DinoDetailScreen
@@ -54,8 +50,6 @@ import com.sufficienteffort.jurassicjournal.ui.update.UpdateCheckViewModel
 import com.sufficienteffort.jurassicjournal.ui.update.UpdateProgressStrip
 import com.sufficienteffort.jurassicjournal.ui.update.UpdateState
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -63,26 +57,12 @@ class MainActivity : ComponentActivity() {
 
     private val updateVm: UpdateCheckViewModel by viewModels()
 
-    @Inject lateinit var newDinoDetector: NewDinoDetector
-    @Inject lateinit var dinoImageSync: DinoImageSync
-    @Inject lateinit var abilityIconSync: AbilityIconSync
+    @Inject lateinit var startupSync: StartupSync
     @Inject lateinit var syncProgressTracker: SyncProgressTracker
-    @Inject lateinit var activeProfileRepository: ActiveProfileRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // savedInstanceState guard: these must not re-fire on every rotation /
-        // theme change. Sequential on purpose — the image and icon syncs share
-        // one SyncProgressTracker, and running them concurrently lets each
-        // clobber the other's phase and reset the progress strip mid-sync.
-        if (savedInstanceState == null) {
-            lifecycleScope.launch(Dispatchers.IO) {
-                activeProfileRepository.pruneOrphanedData()
-                newDinoDetector.detect()
-                dinoImageSync.syncMissingImages()
-                abilityIconSync.syncMissingIcons()
-            }
-        }
+        startupSync.start()
         enableEdgeToEdge()
         setContent {
             JurassicJournalTheme {

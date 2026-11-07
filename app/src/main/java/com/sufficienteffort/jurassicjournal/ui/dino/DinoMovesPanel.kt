@@ -42,6 +42,8 @@ import com.sufficienteffort.jurassicjournal.ui.theme.ThreatenedRed
 import org.json.JSONArray
 import kotlin.math.roundToInt
 
+private val RevengeYellow = Color(0xFFF9A825)
+
 private val ATTACK_MULT_REGEX = Regex("""(?i)attack\s+([\d.]+)x""")
 
 // ── Icon overlay model ────────────────────────────────────────────────────────
@@ -233,22 +235,64 @@ private fun VariantBlock(
 
 @Composable
 private fun TargetsList(targets: List<ParsedTarget>, computedAttack: Int) {
+    var inRevenge = false
     targets.forEach { target ->
-        Text(
-            "Target: ${target.target}",
-            style = MaterialTheme.typography.labelMedium,
-            fontWeight = FontWeight.SemiBold,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.padding(start = 4.dp, top = 2.dp),
-        )
-        target.effects.forEach { effect ->
-            Text(
-                "  • ${enrichEffect(effect, computedAttack)}",
-                style = MaterialTheme.typography.bodySmall,
-                modifier = Modifier.padding(start = 8.dp),
-            )
+        val marker = target.effects.indexOfFirst { it.trim().startsWith("On Revenge") }
+        val before = if (marker >= 0) target.effects.take(marker) else target.effects
+        val after = if (marker >= 0) target.effects.drop(marker + 1) else emptyList()
+        if (before.isNotEmpty() || marker < 0) {
+            TargetBlock(target.target, before, computedAttack, inRevenge)
+        }
+        if (marker >= 0) {
+            inRevenge = true
+            val hasPriority = target.effects[marker].substringAfter(":", "").trim()
+                .equals("Priority", ignoreCase = true)
+            Spacer(Modifier.height(8.dp))
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(6.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    "On Revenge",
+                    style = MaterialTheme.typography.labelMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = RevengeYellow,
+                )
+                if (hasPriority) PriorityBadge(MovePriorityType.PRIORITY)
+            }
+            Spacer(Modifier.height(4.dp))
+            after.forEach { RevengeEffect(it, computedAttack) }
         }
     }
+}
+
+@Composable
+private fun TargetBlock(name: String, effects: List<String>, computedAttack: Int, revenge: Boolean) {
+    Text(
+        "Target: $name",
+        style = MaterialTheme.typography.labelMedium,
+        fontWeight = FontWeight.SemiBold,
+        color = if (revenge) RevengeYellow else MaterialTheme.colorScheme.onSurfaceVariant,
+        modifier = Modifier.padding(start = 4.dp, top = 2.dp),
+    )
+    effects.forEach { effect ->
+        Text(
+            "  • ${enrichEffect(effect, computedAttack)}",
+            style = MaterialTheme.typography.bodySmall,
+            color = if (revenge) RevengeYellow else Color.Unspecified,
+            modifier = Modifier.padding(start = 8.dp),
+        )
+    }
+}
+
+@Composable
+private fun RevengeEffect(effect: String, computedAttack: Int) {
+    Text(
+        "  • ${enrichEffect(effect, computedAttack)}",
+        style = MaterialTheme.typography.bodySmall,
+        color = RevengeYellow,
+        modifier = Modifier.padding(start = 8.dp),
+    )
 }
 
 /** Appends "(XXXX dmg)" when the effect contains an attack multiplier like "Attack 1.5X". */

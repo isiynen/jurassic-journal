@@ -57,6 +57,7 @@ import com.sufficienteffort.jurassicjournal.data.model.BoostStat
 import com.sufficienteffort.jurassicjournal.data.model.BoostState
 import com.sufficienteffort.jurassicjournal.data.model.OmegaStat
 import com.sufficienteffort.jurassicjournal.data.model.ProgressionSystem
+import com.sufficienteffort.jurassicjournal.data.model.Rarity
 import com.sufficienteffort.jurassicjournal.data.model.ResistanceType
 import com.sufficienteffort.jurassicjournal.data.model.SpawnLocation
 import com.sufficienteffort.jurassicjournal.data.model.defaultLevel
@@ -263,7 +264,7 @@ fun DinoDetailScreen(
                 }
             }
 
-            if (dino.isHybrid || detail.hybridsUsing.isNotEmpty() || uiState.enhancementItems.isNotEmpty()) {
+            if (dino.isHybrid || dino.rarity == Rarity.OMEGA || detail.hybridsUsing.isNotEmpty() || uiState.enhancementItems.isNotEmpty()) {
                 item {
                     DnaOnHandRow(
                         value = uiState.dnaOnHand,
