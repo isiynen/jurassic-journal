@@ -9,6 +9,8 @@ import kotlinx.serialization.Serializable
 sealed interface Screen {
     @Serializable data object DinoList : Screen
     @Serializable data class DinoDetail(val dinoId: Long, val hideTeams: Boolean = false) : Screen
+    /** [threatened] = the user tapped the "- Threatened" entry; that variant is listed first. */
+    @Serializable data class AbilityDetail(val slug: String, val threatened: Boolean = false) : Screen
     @Serializable data class HybridCalculator(val dinoId: Long) : Screen
     @Serializable data class SanctuaryCalculator(val dinoId: Long) : Screen
     @Serializable data object ManageProfiles : Screen

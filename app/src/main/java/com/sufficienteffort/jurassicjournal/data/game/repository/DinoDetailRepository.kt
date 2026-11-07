@@ -151,18 +151,7 @@ class DinoDetailRepository @Inject constructor(
         cooldown: Int,
         delay: Int,
         targetsJson: String,
-    ): MoveVariant {
-        val arr = JSONArray(targetsJson)
-        val targets = (0 until arr.length()).map { i ->
-            val obj = arr.getJSONObject(i)
-            val effectsArr = obj.getJSONArray("effects")
-            ParsedTarget(
-                target = obj.getString("target"),
-                effects = (0 until effectsArr.length()).map { effectsArr.getString(it) },
-            )
-        }
-        return MoveVariant(priority, cooldown, delay, targets)
-    }
+    ): MoveVariant = parseMoveVariant(priority, cooldown, delay, targetsJson)
 
     companion object {
         private val TRIGGER_ORDER = listOf(
@@ -173,4 +162,36 @@ class DinoDetailRepository @Inject constructor(
             MoveTriggerType.REACTIVE,
         )
     }
+}
+
+internal fun parseMoveVariant(
+    priority: MovePriorityType,
+    cooldown: Int,
+    delay: Int,
+    targetsJson: String,
+): MoveVariant {
+    val arr = JSONArray(targetsJson)
+    val targets = (0 until arr.length()).map { i ->
+        val obj = arr.getJSONObject(i)
+        val effectsArr = obj.getJSONArray("effects")
+        ParsedTarget(
+            target = obj.getString("target"),
+            effects = (0 until effectsArr.length()).map { effectsArr.getString(it) },
+        )
+    }
+    return MoveVariant(priority, cooldown, delay, targets)
+}
+
+/** Normal and (when present) threatened variants of a stored [Move]. */
+internal fun Move.variants(): Pair<MoveVariant, MoveVariant?> {
+    val normal = parseMoveVariant(priority, cooldown, delay, normalTargetsJson)
+    val threatened = threatenedTargetsJson?.let {
+        parseMoveVariant(
+            priority = threatenedPriority ?: priority,
+            cooldown = threatenedCooldown ?: cooldown,
+            delay = threatenedDelay ?: delay,
+            targetsJson = it,
+        )
+    }
+    return normal to threatened
 }

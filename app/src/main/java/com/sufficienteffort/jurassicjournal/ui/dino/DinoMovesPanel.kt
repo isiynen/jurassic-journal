@@ -22,8 +22,10 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import com.sufficienteffort.jurassicjournal.data.game.entity.Move
 import com.sufficienteffort.jurassicjournal.data.game.repository.DinoMoveDetail
 import com.sufficienteffort.jurassicjournal.data.game.repository.MoveVariant
 import com.sufficienteffort.jurassicjournal.data.game.repository.ParsedTarget
@@ -48,7 +50,7 @@ private val ATTACK_MULT_REGEX = Regex("""(?i)attack\s+([\d.]+)x""")
 
 // ── Icon overlay model ────────────────────────────────────────────────────────
 
-private enum class OverlayPosition(val alignment: Alignment) {
+internal enum class OverlayPosition(val alignment: Alignment) {
     TOP_LEFT(Alignment.TopStart),
     TOP_RIGHT(Alignment.TopEnd),
     BOTTOM_LEFT(Alignment.BottomStart),
@@ -65,9 +67,9 @@ private enum class OverlayPosition(val alignment: Alignment) {
     }
 }
 
-private data class IconOverlay(val rawPath: String, val position: OverlayPosition)
+internal data class IconOverlay(val rawPath: String, val position: OverlayPosition)
 
-private fun parseOverlays(json: String?): List<IconOverlay> {
+internal fun parseOverlays(json: String?): List<IconOverlay> {
     if (json.isNullOrEmpty()) return emptyList()
     return try {
         val arr = JSONArray(json)
@@ -118,10 +120,31 @@ internal fun MovesPanel(
 
 @Composable
 private fun MoveCard(detail: DinoMoveDetail, computedAttack: Int, isDimmed: Boolean = false) {
-    val overlays = remember(detail.move.overlayIconsJson) {
-        parseOverlays(detail.move.overlayIconsJson)
-    }
-    val threatened = detail.threatened
+    MoveCardContent(
+        move = detail.move,
+        secure = detail.secure,
+        threatened = detail.threatened,
+        computedAttack = computedAttack,
+        unlockLevel = if (detail.dinoMove.unlockType == MoveUnlockType.LEVEL) detail.dinoMove.unlockValue ?: "?" else null,
+        isDimmed = isDimmed,
+    )
+}
+
+/**
+ * Card for one ability. [computedAttack] <= 0 hides the "(XXXX dmg)" annotations (used on the
+ * ability detail screen, which has no dino). [threatenedFirst] lists the threatened block first.
+ */
+@Composable
+internal fun MoveCardContent(
+    move: Move,
+    secure: MoveVariant,
+    threatened: MoveVariant?,
+    computedAttack: Int,
+    unlockLevel: String? = null,
+    isDimmed: Boolean = false,
+    threatenedFirst: Boolean = false,
+) {
+    val overlays = remember(move.overlayIconsJson) { parseOverlays(move.overlayIconsJson) }
 
     JJCard(
         modifier = Modifier.fillMaxWidth().alpha(if (isDimmed) 0.5f else 1f),
@@ -136,28 +159,25 @@ private fun MoveCard(detail: DinoMoveDetail, computedAttack: Int, isDimmed: Bool
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(10.dp),
             ) {
-                AbilityIcon(mainPath = detail.move.mainIconPath, overlays = overlays)
+                AbilityIcon(mainPath = move.mainIconPath, overlays = overlays)
                 Column(modifier = Modifier.weight(1f)) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(6.dp),
                     ) {
                         Text(
-                            detail.move.name,
+                            move.name,
                             style = MaterialTheme.typography.titleSmall,
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier.weight(1f, fill = false),
                         )
-                        if (detail.dinoMove.unlockType == MoveUnlockType.LEVEL) {
-                            val lv = detail.dinoMove.unlockValue ?: "?"
-                            MoveBadge("LV$lv", BadgeUnlockBg, BadgeUnlockFg)
-                        }
+                        if (unlockLevel != null) MoveBadge("LV$unlockLevel", BadgeUnlockBg, BadgeUnlockFg)
                     }
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(4.dp),
                         modifier = Modifier.padding(top = 4.dp),
                     ) {
-                        PriorityBadge(detail.secure.priority)
+                        PriorityBadge(secure.priority)
                     }
                 }
             }
@@ -165,12 +185,17 @@ private fun MoveCard(detail: DinoMoveDetail, computedAttack: Int, isDimmed: Bool
             Spacer(Modifier.height(10.dp))
 
             if (threatened != null) {
-                VariantBlock("Secure",     detail.secure, SecureGreen,   computedAttack)
-                Spacer(Modifier.height(8.dp))
-                VariantBlock("Threatened", threatened,    ThreatenedRed, computedAttack)
+                val blocks = listOf(
+                    Triple("Secure", secure, SecureGreen),
+                    Triple("Threatened", threatened, ThreatenedRed),
+                ).let { if (threatenedFirst) it.reversed() else it }
+                blocks.forEachIndexed { i, (label, variant, color) ->
+                    if (i > 0) Spacer(Modifier.height(8.dp))
+                    VariantBlock(label, variant, color, computedAttack)
+                }
             } else {
-                TargetsList(detail.secure.targets, computedAttack)
-                CooldownDelayRow(detail.secure.cooldown, detail.secure.delay)
+                TargetsList(secure.targets, computedAttack)
+                CooldownDelayRow(secure.cooldown, secure.delay)
             }
         }
     }
@@ -179,8 +204,13 @@ private fun MoveCard(detail: DinoMoveDetail, computedAttack: Int, isDimmed: Bool
 // ── Ability icon with corner overlays ────────────────────────────────────────
 
 @Composable
-private fun AbilityIcon(mainPath: String?, overlays: List<IconOverlay>) {
-    Box(modifier = Modifier.size(48.dp)) {
+internal fun AbilityIcon(
+    mainPath: String?,
+    overlays: List<IconOverlay>,
+    size: Dp = 48.dp,
+    modifier: Modifier = Modifier,
+) {
+    Box(modifier = modifier.size(size)) {
         if (mainPath != null) {
             AsyncImage(
                 model = abilityIconRequest(mainPath),
@@ -196,7 +226,7 @@ private fun AbilityIcon(mainPath: String?, overlays: List<IconOverlay>) {
                 model = abilityIconRequest(overlay.rawPath),
                 contentDescription = null,
                 modifier = Modifier
-                    .size(18.dp)
+                    .size(size * 0.375f)
                     .align(overlay.position.alignment),
             )
         }
@@ -297,6 +327,7 @@ private fun RevengeEffect(effect: String, computedAttack: Int) {
 
 /** Appends "(XXXX dmg)" when the effect contains an attack multiplier like "Attack 1.5X". */
 internal fun enrichEffect(effect: String, computedAttack: Int): String {
+    if (computedAttack <= 0) return effect
     val match = ATTACK_MULT_REGEX.find(effect) ?: return effect
     val multiplier = match.groupValues[1].toFloatOrNull() ?: return effect
     val damage = (multiplier * computedAttack).roundToInt()

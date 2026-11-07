@@ -37,6 +37,7 @@ import com.sufficienteffort.jurassicjournal.data.update.UpdateInfo
 import com.sufficienteffort.jurassicjournal.ui.calculator.HybridCalculatorScreen
 import com.sufficienteffort.jurassicjournal.ui.calculator.LevelUpCalculatorScreen
 import com.sufficienteffort.jurassicjournal.ui.dino.DinoDetailScreen
+import com.sufficienteffort.jurassicjournal.ui.ability.AbilityDetailScreen
 import com.sufficienteffort.jurassicjournal.ui.dino.DinoListScreen
 import com.sufficienteffort.jurassicjournal.ui.enhancement.EnhancementEstimatorScreen
 import com.sufficienteffort.jurassicjournal.ui.navigation.Screen
@@ -163,9 +164,16 @@ private fun JurassicJournalNav() {
         composable<Screen.DinoList> {
             DinoListScreen(
                 onDinoClick = { dinoId -> navController.navigateSafe(Screen.DinoDetail(dinoId)) },
+                onAbilityClick = { slug, threatened -> navController.navigateSafe(Screen.AbilityDetail(slug, threatened)) },
                 onManageProfiles = { navController.navigateSafe(Screen.ManageProfiles) },
                 onManageTeams = { navController.navigateSafe(Screen.ManageTeams) },
                 onTeamClick = { teamId -> navController.navigateSafe(Screen.TeamDetail(teamId)) },
+            )
+        }
+        composable<Screen.AbilityDetail> {
+            AbilityDetailScreen(
+                onBack = { navController.popBackStackSafe() },
+                onDinoClick = { dinoId -> navController.navigateSafe(Screen.DinoDetail(dinoId)) },
             )
         }
         composable<Screen.ManageProfiles> {

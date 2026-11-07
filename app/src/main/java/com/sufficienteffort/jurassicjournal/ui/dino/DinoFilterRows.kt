@@ -21,6 +21,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
@@ -36,14 +37,20 @@ import com.sufficienteffort.jurassicjournal.ui.components.classColor
 import com.sufficienteffort.jurassicjournal.ui.components.rarityColor
 
 @Composable
-fun SearchBar(query: String, onQueryChange: (String) -> Unit, modifier: Modifier = Modifier) {
+fun SearchBar(
+    query: String,
+    onQueryChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    placeholder: String = "Search dinos or moves…",
+    leadingIcon: @Composable () -> Unit = { Icon(Icons.Default.Search, contentDescription = null) },
+) {
     val focusManager = LocalFocusManager.current
     TextField(
         value = query,
         onValueChange = onQueryChange,
         modifier = modifier,
-        placeholder = { Text("Search dinos or moves…") },
-        leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
+        placeholder = { Text(placeholder) },
+        leadingIcon = leadingIcon,
         trailingIcon = {
             if (query.isNotEmpty()) {
                 IconButton(onClick = { onQueryChange("") }) {
@@ -64,17 +71,19 @@ fun SearchBar(query: String, onQueryChange: (String) -> Unit, modifier: Modifier
 
 /** Horizontally scrolling chip strip with the list's standard padding. */
 @Composable
-private fun ChipRow(content: LazyListScope.() -> Unit) {
+internal fun ChipRow(compact: Boolean = false, content: LazyListScope.() -> Unit) {
+    val vertical = if (compact) 1.dp else 4.dp
     LazyRow(
-        contentPadding = PaddingValues(start = 8.dp, end = 0.dp, top = 4.dp, bottom = 4.dp),
+        contentPadding = PaddingValues(start = 8.dp, end = 0.dp, top = vertical, bottom = vertical),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalAlignment = Alignment.CenterVertically,
         content = content,
     )
 }
 
 /** Tinted multi-select chip: translucent [color] container when selected. */
 @Composable
-private fun TintedChip(label: String, selected: Boolean, color: Color, onClick: () -> Unit) {
+internal fun TintedChip(label: String, selected: Boolean, color: Color, onClick: () -> Unit) {
     FilterChip(
         selected = selected,
         onClick = onClick,

@@ -5,14 +5,24 @@ import androidx.lifecycle.viewModelScope
 import com.sufficienteffort.jurassicjournal.data.game.dao.DinoBaseStatDao
 import com.sufficienteffort.jurassicjournal.data.game.dao.DinoResistanceDao
 import com.sufficienteffort.jurassicjournal.data.game.dao.DinoSanctuaryPointDao
+import com.sufficienteffort.jurassicjournal.data.game.repository.AbilityAction
+import com.sufficienteffort.jurassicjournal.data.game.repository.AbilityFilterState
+import com.sufficienteffort.jurassicjournal.data.game.repository.AbilityListItem
+import com.sufficienteffort.jurassicjournal.data.game.repository.AbilityRepository
+import com.sufficienteffort.jurassicjournal.data.game.repository.AbilitySearch
+import com.sufficienteffort.jurassicjournal.data.game.repository.AbilitySortMode
+import com.sufficienteffort.jurassicjournal.data.game.repository.ActionCategory
 import com.sufficienteffort.jurassicjournal.data.game.repository.DinoRepository
 import com.sufficienteffort.jurassicjournal.data.game.repository.DinoSearchResult
 import com.sufficienteffort.jurassicjournal.data.model.BoostState
 import com.sufficienteffort.jurassicjournal.data.model.DinoClass
+import com.sufficienteffort.jurassicjournal.data.model.MovePriorityType
+import com.sufficienteffort.jurassicjournal.data.model.MoveTriggerType
 import com.sufficienteffort.jurassicjournal.data.model.Rarity
 import com.sufficienteffort.jurassicjournal.data.model.ResistanceType
 import com.sufficienteffort.jurassicjournal.data.model.SpawnLocation
 import com.sufficienteffort.jurassicjournal.data.user.ActiveProfileRepository
+import com.sufficienteffort.jurassicjournal.data.user.UiHintsRepository
 import com.sufficienteffort.jurassicjournal.data.user.dao.UserBoostDao
 import com.sufficienteffort.jurassicjournal.data.user.dao.UserDinoDao
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -48,6 +58,15 @@ data class FilterState(
     private fun <T> Set<T>.toggled(item: T): Set<T> = if (item in this) this - item else this + item
 }
 
+/** What the main list is showing. */
+enum class ListMode { DINOS, ABILITIES_ALL, ABILITIES_SCOPED }
+
+/** Chip options that actually occur in the ability data. */
+data class AbilityOptions(
+    val targets: List<String> = emptyList(),
+    val actions: Set<AbilityAction> = emptySet(),
+)
+
 @OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class DinoListViewModel @Inject constructor(
@@ -58,6 +77,8 @@ class DinoListViewModel @Inject constructor(
     private val userDinoDao: UserDinoDao,
     private val userBoostDao: UserBoostDao,
     private val activeProfileRepository: ActiveProfileRepository,
+    private val abilityRepository: AbilityRepository,
+    private val uiHints: UiHintsRepository,
 ) : ViewModel() {
 
     private val _filters = MutableStateFlow(FilterState())
@@ -106,6 +127,69 @@ class DinoListViewModel @Inject constructor(
         DinoSorter.sort(filtered, statSort, resistSort, stats, sanctuary, userData, resistances)
     }.flowOn(Dispatchers.Default)
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
+
+    // ── Ability mode ──────────────────────────────────────────────────────────
+
+    private val _mode = MutableStateFlow(ListMode.DINOS)
+    val mode: StateFlow<ListMode> = _mode.asStateFlow()
+
+    private val _abilityFilters = MutableStateFlow(AbilityFilterState())
+    val abilityFilters: StateFlow<AbilityFilterState> = _abilityFilters.asStateFlow()
+
+    private val abilityEntries = abilityRepository.observeEntries()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
+
+    val abilityOptions: StateFlow<AbilityOptions> = abilityEntries
+        .map { entries ->
+            AbilityOptions(
+                targets = entries.flatMap { it.targetNames }.distinct().sorted(),
+                actions = entries.flatMapTo(HashSet()) { it.actions },
+            )
+        }
+        .flowOn(Dispatchers.Default)
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), AbilityOptions())
+
+    /** Number of dinos the current dino filters return (the scope in [ListMode.ABILITIES_SCOPED]). */
+    val scopeDinoCount: StateFlow<Int> = results
+        .map { it.size }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), 0)
+
+    val abilityItems: StateFlow<List<AbilityListItem>> = combine(
+        abilityEntries,
+        abilityRepository.observeSlugsByDino(),
+        results,
+        _abilityFilters,
+        _mode,
+    ) { entries, slugsByDino, dinoResults, f, mode ->
+        if (mode == ListMode.DINOS) return@combine emptyList()
+        val scope = if (mode == ListMode.ABILITIES_SCOPED) {
+            dinoResults.flatMapTo(HashSet()) { slugsByDino[it.dino.id].orEmpty() }
+        } else null
+        AbilitySearch.sort(AbilitySearch.filter(entries, f, scope), f.sortMode)
+    }.flowOn(Dispatchers.Default)
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
+
+    /** True until the user has dismissed the one-time "tap the icon" tip; false while still loading. */
+    val showModeHint: StateFlow<Boolean> = uiHints.modeSwitchHintSeen
+        .map { seen -> !seen }
+        .stateIn(viewModelScope, SharingStarted.Eagerly, false)
+
+    fun dismissModeHint() {
+        viewModelScope.launch { uiHints.markModeSwitchHintSeen() }
+    }
+
+    fun setMode(mode: ListMode) { _mode.value = mode }
+    fun onAbilityQueryChange(q: String) = _abilityFilters.update { it.copy(query = q) }
+    fun onTriggerToggle(t: MoveTriggerType) = _abilityFilters.update { it.toggleTrigger(t) }
+    fun onTriggerPriorityClear() = _abilityFilters.update { it.copy(triggers = emptySet(), priorities = emptySet()) }
+    fun onTargetToggle(t: String) = _abilityFilters.update { it.toggleTarget(t) }
+    fun onTargetClear() = _abilityFilters.update { it.copy(targets = emptySet()) }
+    fun onPriorityToggle(p: MovePriorityType) = _abilityFilters.update { it.togglePriority(p) }
+    fun onActionToggle(a: AbilityAction) = _abilityFilters.update { it.toggleAction(a) }
+    fun onActionsClear(categories: List<ActionCategory>) =
+        _abilityFilters.update { f -> f.copy(actions = f.actions.filterNot { it.category in categories }.toSet()) }
+    fun onAbilitySort(mode: AbilitySortMode?) = _abilityFilters.update { it.copy(sortMode = mode) }
+    fun resetAbilityFilters() = _abilityFilters.update { AbilityFilterState() }
 
     init {
         // Auto-clear the newOnly filter when no new dinos remain for this profile
